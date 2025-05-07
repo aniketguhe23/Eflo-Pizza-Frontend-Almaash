@@ -24,12 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <style>
+      <head>
         <link
           href="https://fonts.googleapis.com/css?family=Barlow+Condensed:500,700,600|Nunito+Sans:400,600|Aclonica:400|Roboto:900|Roboto+Flex:800|Antonio:300,700|Barlow:400"
           rel="stylesheet"
         />
-      </style>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
