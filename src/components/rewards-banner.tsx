@@ -37,8 +37,8 @@ export default function RewardsBanner() {
 
       {/* Right side - Rewards info */}
       <div className="bg-gradient-to-l from-[#ffc2a0] to-white rounded-lg p-6 w-[30rem] text-black [font-family:'Antonio',Helvetica] text-2xl">
-        <h3 className="font-bold  ">JOIN ELFO'S REWARDS</h3>
-        <p className="font-bold">
+      <h3 className="font-bold">JOIN ELFO&apos;S REWARDS</h3>
+      <p className="font-bold">
           UNLOCK <span className="text-orange-600 ">FREE CHIPOTLE</span>.
         </p>
 

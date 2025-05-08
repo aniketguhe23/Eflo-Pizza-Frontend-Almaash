@@ -18,7 +18,7 @@ const features = [
   {
     title: "Quality Above All",
     description:
-      "We don’t use cheap or overprocessed ingredients. Whether it’s our signature sauce, toppings, originals fresh dough, or even the box itself, we invest in our ingredients to give you a quality pizza.",
+      "We don’t use cheap or overprocessed ingredients. Whether it’s our signature sauce, toppings, fresh dough, or even the box, we invest in ingredients to give you quality pizza.",
     image: "/list3.jpg",
   },
 ];
@@ -46,9 +46,13 @@ export default function WhyAtElfos() {
                 className="object-cover"
               />
             </div>
-            <h3 className="text-xl font-bold mb-3">{item.title}</h3>{" "}
+            <h3 className="text-2xl font-bold mb-3 [font-family:var(--font-abhaya-libre)]">
+              {item.title}
+            </h3>
             {/* Slightly larger title */}
-            <p className="text-lg mb-6 px-2 [font-family:'Barlow_Condensed',Helvetica]">{item.description}</p>
+            <p className="text-lg mb-6 px-2 [font-family:'Barlow_Condensed',Helvetica]">
+              {item.description}
+            </p>
             <button className="bg-[#fbf0ec] hover:bg-[#f9dfd6]  shadow-lg text-white text-sm font-bold px-6 py-3 rounded-full cursor-pointer transition">
               <span className="text-[#f04f04]">READ MORE</span>
             </button>

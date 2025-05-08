@@ -58,7 +58,7 @@ export default function HeroSection() {
             </button>
           </Link>
           <Link href="/build">
-            <button className="bg-[#f8a77c] hover:bg-white text-[#f47335] [font-family:'Barlow_Condensed',Helvetica] px-8 py-3 rounded-md font-bold text-2xl cursor-pointer">
+            <button className="bg-[#fbcbb2] hover:bg-white text-[#f47335] [font-family:'Barlow_Condensed',Helvetica] px-8 py-3 rounded-md font-bold text-2xl cursor-pointer">
               BUILD YOUR OWN
             </button>
           </Link>

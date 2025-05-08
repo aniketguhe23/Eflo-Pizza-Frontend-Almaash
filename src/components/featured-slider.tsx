@@ -56,7 +56,7 @@ export default function FeaturedSlider() {
 
   return (
     <div className="py-10 text-black flex justify-center">
-      <div className="w-full max-w-screen-lg text-center relative">
+      <div className="w-full max-w-[75%] text-center relative">
         <h2 className="text-4xl font-extrabold uppercase mb-10 [font-family:'Antonio',Helvetica]">
           Explore Featured Pizza’s
         </h2>
@@ -73,7 +73,7 @@ export default function FeaturedSlider() {
           {/* Slider */}
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto no-scrollbar px-12 scroll-smooth snap-x snap-mandatory"
+            className="flex gap-3 overflow-x-auto no-scrollbar px-20 scroll-smooth snap-x snap-mandatory"
           >
             {featuredItems.map((item, index) => (
               <div

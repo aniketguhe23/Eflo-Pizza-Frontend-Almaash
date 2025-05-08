@@ -17,7 +17,7 @@ export default function FoodDeliveryHero() {
         {/* Text Content */}
         <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0 [font-family:'Aclonica',Helvetica]">
           <h1 className="text-4xl text-center text-black leading-tight">
-            "Hot. Fresh. Delivered Fast."
+            &quot;Hot. Fresh. Delivered Fast.&quot;{" "}
           </h1>
           <p className="text-4xl  mt-4 text-black font-medium text-center">
             Your cravings, conquered in minutes.
@@ -28,7 +28,7 @@ export default function FoodDeliveryHero() {
         <div className=" relative flex justify-center items-end">
           <div className="w-96 h-96  bg-[#ED722E] rounded-full absolute top-20 right-25 translate-x-1/4 translate-y-1/4 z-0"></div>
           <div className="relative z-10">
-            <img
+            <Image
               src="/elephant.png"
               alt="Food delivery mascot"
               width={350}
@@ -38,9 +38,6 @@ export default function FoodDeliveryHero() {
           </div>
         </div>
       </div>
-
-      {/* Food Images at Bottom */}
-      {/* <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-transparent z-20"></div> */}
     </div>
   );
 }

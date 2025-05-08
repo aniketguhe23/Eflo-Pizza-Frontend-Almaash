@@ -1,10 +1,4 @@
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTimes,
-  FaGoogle,
-  FaYoutube,
-} from "react-icons/fa";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -12,30 +6,30 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
         {/* Contact Support */}
         <div className="space-y-4">
-          <div className="">
-            <img src="/elephant.png" alt="Elfo's Pizza" className="w-26" />
+          <div>
+            <Image src="/elephant.png" alt="Elfo's Pizza" width={104} height={104} />
           </div>
           <div className="text-gray-900">
             <h3 className="font-bold text-black [font-family:'Barlow_Condensed',Helvetica] text-2xl">CONTACT SUPPORT</h3>
-            <div className="">
-              <h4 className="font-semibold  [font-family:'Barlow_Condensed',Helvetica] text-2xl ">ADDRESS</h4>
+            <div>
+              <h4 className="font-semibold [font-family:'Barlow_Condensed',Helvetica] text-2xl">ADDRESS</h4>
               <p>Dolor Sit Amet Loren Ipsum</p>
             </div>
             <div>
-              <h4 className="font-semibold  [font-family:'Barlow_Condensed',Helvetica] text-2xl">CONTACTS</h4>
+              <h4 className="font-semibold [font-family:'Barlow_Condensed',Helvetica] text-2xl">CONTACTS</h4>
               <p>(601) 468-7817</p>
               <p>info@elfospizza.com</p>
             </div>
             <p className="text-xs pt-4">
               INDIA Limited
-              <br />© 2025 ESBY'S PIZZA
+              <br />© 2025 ESBY&apos;S PIZZA
             </p>
           </div>
         </div>
 
         {/* Quick Links */}
         <div className="space-y-2">
-          <h3 className="font-bold  [font-family:'Barlow_Condensed',Helvetica] text-2xl">QUICK LINKS</h3>
+          <h3 className="font-bold [font-family:'Barlow_Condensed',Helvetica] text-2xl">QUICK LINKS</h3>
           <ul className="space-y-1 text-gray-900">
             <li>Home</li>
             <li>Current page</li>
@@ -50,7 +44,7 @@ export default function Footer() {
 
         {/* Elfo's Menu */}
         <div className="space-y-2">
-          <h3 className="font-bold  [font-family:'Barlow_Condensed',Helvetica] text-2xl">ELFO’S MENU</h3>
+          <h3 className="font-bold [font-family:'Barlow_Condensed',Helvetica] text-2xl">ELFO&apos;S MENU</h3>
           <ul className="space-y-1 text-gray-900">
             <li>Cheese Pizza</li>
             <li>Tandoori Feast Pizza</li>
@@ -65,13 +59,13 @@ export default function Footer() {
 
         {/* Legal */}
         <div className="space-y-2">
-          <h3 className="font-bold  [font-family:'Barlow_Condensed',Helvetica] text-2xl">LEGAL</h3>
+          <h3 className="font-bold [font-family:'Barlow_Condensed',Helvetica] text-2xl">LEGAL</h3>
           <ul className="space-y-1 text-gray-900">
-            <li>Terms & Conditions</li>
+            <li>Terms &amp; Conditions</li>
             <li>Cookie Policy</li>
             <li>Privacy Policy</li>
             <li>Accessibility Statement</li>
-            <li>Applicant Privacy Noitice</li>
+            <li>Applicant Privacy Notice</li>
             <li>MP Transparency In</li>
             <li>Supply Chains Act</li>
             <li>FSSAI LICENSE</li>
@@ -82,11 +76,11 @@ export default function Footer() {
         <div className="space-y-2 flex flex-col items-center justify-center">
           <h3 className="font-bold [font-family:'Barlow_Condensed',Helvetica] text-2xl">SOCIAL LINKS</h3>
           <div className="flex gap-3 text-xl justify-center items-center">
-            <img src="/fb.png" alt="Facebook" className="w-9 h-9" />
-            <img src="/insta.png" alt="Instagram" className="w-9 h-9" />
-            <img src="/twitter.png" alt="Twitter" className="w-9 h-9" />
-            <img src="/google.png" alt="Google" className="w-9 h-9" />
-            <img src="/youtube.png" alt="YouTube" className="w-9 h-9" />
+            <Image src="/fb.png" alt="Facebook" width={36} height={36} />
+            <Image src="/insta.png" alt="Instagram" width={36} height={36} />
+            <Image src="/twitter.png" alt="Twitter" width={36} height={36} />
+            <Image src="/google.png" alt="Google" width={36} height={36} />
+            <Image src="/youtube.png" alt="YouTube" width={36} height={36} />
           </div>
         </div>
       </div>

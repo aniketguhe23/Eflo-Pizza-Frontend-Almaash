@@ -1,9 +1,11 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { CircleUserRound, MapPin, ShoppingCart, User } from "lucide-react";
-import { FaRegUserCircle } from "react-icons/fa";
+import { CircleUserRound, MapPin, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { TbBus } from "react-icons/tb";
+import { PiHandCoinsFill } from "react-icons/pi";
 
 export default function Header() {
   const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
@@ -19,7 +21,7 @@ export default function Header() {
           className="w-20 h-20"
         />
         <h1 className="text-white text-3xl font-bold [font-family:'Barlow_Condensed',Helvetica]">
-          ELFO'S PIZZA
+          ELFO&apos;S PIZZA
         </h1>
       </div>
 
@@ -54,31 +56,32 @@ export default function Header() {
         </div>
 
         <div className="flex items-center [font-family:'Barlow_Condensed',Helvetica] ml-10">
-      <button
-        onClick={() => setActiveTab("delivery")}
-        className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer ${
-          activeTab === "delivery"
-            ? "bg-white text-black"
-            : "bg-transparent text-white border border-white"
-        }`}
-      >
-        Delivery
-      </button>
-      <button
-        onClick={() => setActiveTab("pickup")}
-        className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer ${
-          activeTab === "pickup"
-            ? "bg-white text-black"
-            : "bg-transparent text-white border border-white"
-        }`}
-      >
-        Pickup/Dine in
-      </button>
-    </div>
+          <button
+            onClick={() => setActiveTab("delivery")}
+            className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+              activeTab === "delivery"
+                ? "bg-white text-black"
+                : "bg-transparent text-white border border-white"
+            }`}
+          >
+            <PiHandCoinsFill size={20} />
+            Delivery
+          </button>
+          <button
+            onClick={() => setActiveTab("pickup")}
+            className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+              activeTab === "pickup"
+                ? "bg-white text-black"
+                : "bg-transparent text-white border border-white"
+            }`}
+          >
+            <TbBus size={20} />
+            Pickup/Dine in
+          </button>
+        </div>
 
-        <div className="flex justify-end items-center gap-5  w-[20%]">
+        <div className="flex justify-end items-center gap-5  w-[15%]">
           <CircleUserRound className="text-white h-9 w-9" />
-          {/* <CircleUserRound /> */}
 
           <div className="relative">
             <ShoppingCart className="text-white h-8 w-8" />
