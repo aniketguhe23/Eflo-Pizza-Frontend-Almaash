@@ -6,22 +6,29 @@ import { CircleUserRound, MapPin, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { TbBus } from "react-icons/tb";
 import { PiHandCoinsFill } from "react-icons/pi";
+import { useHomeStore } from "@/app/store/homeStore";
 
 export default function Header() {
+  const { data } = useHomeStore();
+
   const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
 
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between px-6  md:px-12 bg-[#f47335]">
+    <header
+      className={`flex flex-col md:flex-row items-center justify-between px-6  md:px-12 ${
+        data?.nav_bg_color ? `bg-[${data?.nav_bg_color}]` : "bg-[#f47335]"
+      } `}
+    >
       <div className="flex items-center gap-4">
         <Image
-          src="/elephant.png"
+          src={data?.nav_logo_img ? data?.nav_logo_img : "/elephant.png"}
           alt="Elfo's Pizza Logo"
           width={200}
           height={200}
           className="w-20 h-20"
         />
         <h1 className="text-white text-3xl font-bold [font-family:'Barlow_Condensed',Helvetica]">
-          ELFO&apos;S PIZZA
+          {data?.nav_logo_text ? data?.nav_logo_text : <>ELFO&apos;S PIZZA</>}
         </h1>
       </div>
 

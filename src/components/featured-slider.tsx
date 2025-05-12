@@ -1,47 +1,12 @@
 "use client";
 
+import { useHomeStore } from "@/app/store/homeStore";
 import Image from "next/image";
 import { useRef } from "react";
 
-const featuredItems = [
-  {
-    title: "MOST POPULER 7 - CHEESE PIZZA",
-    price: "INR 410 / 699 / 864",
-    image: "/ps1.png",
-  },
-  {
-    title: "MUST TRY TANDOORI FEAST PIZZA",
-    price: "INR 308 / 510 / 730",
-    image: "/pizzacopy.png",
-  },
-  {
-    title: "FAN FAVOURITE STUFFED GARLIC STICKS",
-    price: "INR 200",
-    image: "/featuredPizza3.png",
-  },
-  {
-    title: "MUST TRY TANDOORI FEAST PIZZA",
-    price: "INR 308 / 510 / 730",
-    image: "/pizzacopy.png",
-  },
-  {
-    title: "FAN FAVOURITE STUFFED GARLIC STICKS",
-    price: "INR 200",
-    image: "/featuredPizza3.png",
-  },
-  {
-    title: "MUST TRY TANDOORI FEAST PIZZA",
-    price: "INR 308 / 510 / 730",
-    image: "/pizzacopy.png",
-  },
-  {
-    title: "FAN FAVOURITE STUFFED GARLIC STICKS",
-    price: "INR 200",
-    image: "/featuredPizza3.png",
-  },
-];
-
 export default function FeaturedSlider() {
+  const { menuItems } = useHomeStore();
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -53,6 +18,7 @@ export default function FeaturedSlider() {
       });
     }
   };
+
 
   return (
     <div className="py-10 text-black flex justify-center">
@@ -75,22 +41,26 @@ export default function FeaturedSlider() {
             ref={scrollRef}
             className="flex gap-3 overflow-x-auto no-scrollbar px-20 scroll-smooth snap-x snap-mandatory"
           >
-            {featuredItems.map((item, index) => (
+            {menuItems?.map((item, index) => (
               <div
                 key={index}
                 className="bg-white rounded-xl p-10 shadow-lg flex-shrink-0 snap-start flex flex-col items-center ml-5"
                 style={{ width: "350px" }}
               >
                 <h3 className="text-base font-bold uppercase mb-3 text-center">
-                  {item.title}
+                  {item.name}
                 </h3>
                 <p className="text-base text-[#f47335] mb-5 font-bold">
-                  {item.price}
+
+                  INR {" "}
+                  {item.price_large && item.price_large} \ {" "}
+                  {item.price_medium && item.price_medium} \ {" "}
+                  {item.price_small && item.price_small}
                 </p>
                 <div className="w-48 h-48 relative mb-6">
                   <Image
-                    src={item.image}
-                    alt={item.title}
+                    src={item.image_url}
+                    alt={item.name}
                     fill
                     className="object-cover rounded-md"
                   />

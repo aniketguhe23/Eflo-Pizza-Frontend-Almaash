@@ -12,10 +12,10 @@ interface SpecialtyItemProps {
 export default function SpecialtyItem({ image, title, description }: SpecialtyItemProps) {
   return (
     <div className="relative w-full h-[350px] rounded-2xl overflow-hidden shadow-md">
-      <Image
+      <img
         src={image || "/placeholder.svg"}
         alt={title}
-        fill
+        // fill
         className="object-cover w-full h-full scale-110" // zooms the image
       />
 
