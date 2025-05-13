@@ -13,6 +13,7 @@ import Footer from "@/components/footer";
 import FoodDeliveryHero from "@/components/food-delivery";
 import ProjectApiList from "./api/ProjectApiList";
 import { useHomeStore } from "./store/homeStore";
+import Loader from "@/components/loader/Loader";
 
 export default function Home() {
   const { api_getHomeData, api_getMenuItems } = ProjectApiList();
@@ -29,7 +30,7 @@ export default function Home() {
   const fetchHomeData = async () => {
     try {
       const response = await axios.get(api_getHomeData);
-      setData(response.data?.data[0]);
+      setData(response?.data?.data[0]);
     } catch (error) {
       console.error("Error fetching home data:", error);
     } finally {
@@ -56,11 +57,15 @@ export default function Home() {
     fetchMenuItems(); // fetch menu items regardless
   }, []);
 
-  if (loading) return <div className="text-center py-20">Loading...</div>;
+if (loading) return (
+  <div className="fixed inset-0 z-50 h-full w-full flex items-center justify-center bg-white">
+    <Loader />
+  </div>
+);
 
   return (
     <main
-      className="min-h-screen bg-cover bg-center bg-no-repeat"
+      className="min-h-screen bg-cover bg-center bg-no-repeat bg-white"
       style={{
         backgroundImage: "url('/elephantPointers.png')",
       }}
@@ -68,7 +73,7 @@ export default function Home() {
       <Header />
       <HeroSection />
       <RewardsBanner />
-      <PopularDishes />
+      {/* <PopularDishes /> */}
       <SpecialtiesSection />
       <FeaturedSlider />
       <WhyAtElfos />
@@ -79,3 +84,4 @@ export default function Home() {
     </main>
   );
 }
+  
