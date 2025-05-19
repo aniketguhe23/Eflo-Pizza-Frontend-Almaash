@@ -19,7 +19,6 @@ export default function FeaturedSlider() {
     }
   };
 
-
   return (
     <div className="py-10 text-black flex justify-center">
       <div className="w-full max-w-[75%] text-center relative">
@@ -51,15 +50,17 @@ export default function FeaturedSlider() {
                   {item.name}
                 </h3>
                 <p className="text-base text-[#f47335] mb-5 font-bold">
-
-                  INR {" "}
-                  {item.price_large && item.price_large} \ {" "}
-                  {item.price_medium && item.price_medium} \ {" "}
-                  {item.price_small && item.price_small}
+                  INR{" "}
+                  {item?.variants.map((data: any, idx: number) => (
+                    <span key={idx}>
+                      {data?.price}
+                      {idx !== item.variants.length - 1 && " / "}
+                    </span>
+                  ))}
                 </p>
                 <div className="w-48 h-48 relative mb-6">
                   <Image
-                    src={item.image_url}
+                    src={item.imageUrl}
                     alt={item.name}
                     fill
                     className="object-cover rounded-md"

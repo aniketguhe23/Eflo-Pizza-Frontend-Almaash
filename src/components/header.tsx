@@ -35,12 +35,18 @@ export default function Header() {
       <nav className="hidden md:flex items-center gap-8 [font-family:'Barlow_Condensed',Helvetica]  text-2xl ">
         <Link
           href="/"
-          className="text-white font-semibold border-b-2 border-white pb-1"
+          className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
         >
           HOME
         </Link>
         <Link
-          href="/build"
+          href="/pages/values"
+          className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
+        >
+          VALUES
+        </Link>
+        <Link
+          href="/pages/build"
           className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
         >
           BUILD YOUR OWN

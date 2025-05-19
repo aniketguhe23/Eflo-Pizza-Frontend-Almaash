@@ -5,7 +5,7 @@ import axios from "axios";
 import Header from "@/components/header";
 import HeroSection from "@/components/hero-section";
 import RewardsBanner from "@/components/rewards-banner";
-import PopularDishes from "@/components/popular-dishes";
+// import PopularDishes from "@/components/popular-dishes";
 import SpecialtiesSection from "@/components/specialties-section";
 import FeaturedSlider from "@/components/featured-slider";
 import WhyAtElfos from "@/components/why-ate-elfos";
@@ -16,14 +16,14 @@ import { useHomeStore } from "./store/homeStore";
 import Loader from "@/components/loader/Loader";
 
 export default function Home() {
-  const { api_getHomeData, api_getMenuItems } = ProjectApiList();
+  const { api_getHomeData, api_getHomeMenuItems } = ProjectApiList();
 
   const {
     data,
     loading,
     setData,
     setLoading,
-    menuItems,
+    // menuItems,
     setMenuItems,
   } = useHomeStore();
 
@@ -40,7 +40,7 @@ export default function Home() {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await axios.get(api_getMenuItems);
+      const response = await axios.get(api_getHomeMenuItems);
       setMenuItems(response.data?.data || []);
     } catch (error) {
       console.error("Error fetching menu items:", error);
@@ -56,12 +56,14 @@ export default function Home() {
 
     fetchMenuItems(); // fetch menu items regardless
   }, []);
+  
 
-if (loading) return (
-  <div className="fixed inset-0 z-50 h-full w-full flex items-center justify-center bg-white">
-    <Loader />
-  </div>
-);
+  if (loading)
+    return (
+      <div className="fixed inset-0 z-50 h-full w-full flex items-center justify-center bg-white">
+        <Loader />
+      </div>
+    );
 
   return (
     <main
@@ -73,7 +75,6 @@ if (loading) return (
       <Header />
       <HeroSection />
       <RewardsBanner />
-      {/* <PopularDishes /> */}
       <SpecialtiesSection />
       <FeaturedSlider />
       <WhyAtElfos />
@@ -84,4 +85,3 @@ if (loading) return (
     </main>
   );
 }
-  
