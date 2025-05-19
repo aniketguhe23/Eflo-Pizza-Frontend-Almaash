@@ -1,3 +1,4 @@
+'use client'
 import { useHomeStore } from "@/app/store/homeStore";
 import Image from "next/image";
 
