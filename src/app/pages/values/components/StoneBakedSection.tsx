@@ -1,5 +1,5 @@
 import React from "react";
-import { Flame, Microwave } from "lucide-react"; // Optional: you can replace with images if needed
+import Image from "next/image";
 
 const StoneBakedSection = () => {
   return (
@@ -8,18 +8,20 @@ const StoneBakedSection = () => {
         <div className="text-center mb-12">
           <h2 className="text-5xl  text-orange-600">BEST PIZZA NEAR ME</h2>
           <p className="text-3xl font-semibold mt-2">
-            BECAUSE...ELFO'S GIVES YOU STONE BAKED PIZZAS!
+            {`BECAUSE...ELFO'S GIVES YOU STONE BAKED PIZZAS!`}
           </p>
         </div>
 
         {/* Icons Section */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
           <div className="flex items-center gap-4">
-            {/* <Microwave className="w-10 h-10" /> */}
-            <img
-              src="/VectorNew.png" // Replace with your actual image path
+            {/* Icon Image */}
+            <Image
+              src="/VectorNew.png"
               alt="Pizza preparation"
-              className=""
+              width={40} // adjust size as needed
+              height={40}
+              priority
             />
             <p className="text-center font-medium max-w-[200px]">
               PIZZA STONE OVENS FOR
@@ -31,10 +33,12 @@ const StoneBakedSection = () => {
           <div className="w-px h-12 bg-gray-300 hidden md:block" />
 
           <div className="flex items-center gap-4">
-            <img
-              src="/Vector.png" // Replace with your actual image path
+            <Image
+              src="/Vector.png"
               alt="Pizza preparation"
-              className=""
+              width={40}
+              height={40}
+              priority
             />
             <p className="text-center font-medium max-w-[200px]">
               GAS FIRED OVENS TO GIVE
@@ -45,13 +49,16 @@ const StoneBakedSection = () => {
         </div>
 
         {/* Image and Text Content */}
-        <div className=" flex justify-center items-center gap-12 ml-30">
+        <div className=" flex justify-center items-center gap-12 ml-5">
           {/* Left Image */}
-          <div className="">
-            <img
-              src="/sauce.png" // Replace with your actual image path
+          <div>
+            <Image
+              src="/sauce.png"
               alt="Pizza preparation"
-              className="rounded-xl w-[450px] shadow-md"
+              width={550}
+              height={350} // adjust height proportionally
+              className="rounded-xl shadow-md"
+              priority
             />
           </div>
 
@@ -60,7 +67,7 @@ const StoneBakedSection = () => {
             <h3 className="text-3xl mb-4 pr-70">
               BEST PIZZA IN INDIA MEANS... HIGEST QUALITY STANDARDS
             </h3>
-            <p className="text-gray-700 text-xs font-semibold leading-relaxed [font-family:'Nunito_Sans',Helvetica] pr-30">
+            <p className="text-gray-700 text-sm font-semibold leading-relaxed [font-family:'Nunito_Sans',Helvetica] pr-30">
               Quality has to be first at Elfo’s Pizza. That is why we create
               each gourmet pizza using only the freshest ingredients - from
               Italian San Marzano tomatoes to authentic Italian dough prepared

@@ -15,15 +15,50 @@ import "./globals.css";
 
 // Google fonts as variables (all subsets: "latin" by default)
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-const barlowCondensed = Barlow_Condensed({ weight: ["500", "600", "700"], variable: "--font-barlow-condensed", subsets: ["latin"] });
-const nunitoSans = Nunito_Sans({ weight: ["400", "600"], variable: "--font-nunito-sans", subsets: ["latin"] });
-const aclonica = Aclonica({ weight: "400", variable: "--font-aclonica", subsets: ["latin"] });
-const roboto = Roboto({ weight: "900", variable: "--font-roboto", subsets: ["latin"] });
-const robotoFlex = Roboto_Flex({ weight: "800", variable: "--font-roboto-flex", subsets: ["latin"] });
-const antonio = Antonio({ weight: ["300", "700"], variable: "--font-antonio", subsets: ["latin"] });
-const barlow = Barlow({ weight: "400", variable: "--font-barlow", subsets: ["latin"] });
-const abhayaLibre = Abhaya_Libre({ weight: ["400", "700"], variable: "--font-abhaya-libre", subsets: ["latin"] });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+const barlowCondensed = Barlow_Condensed({
+  weight: ["500", "600", "700"],
+  variable: "--font-barlow-condensed",
+  subsets: ["latin"],
+});
+const nunitoSans = Nunito_Sans({
+  weight: ["400", "600"],
+  variable: "--font-nunito-sans",
+  subsets: ["latin"],
+});
+const aclonica = Aclonica({
+  weight: "400",
+  variable: "--font-aclonica",
+  subsets: ["latin"],
+});
+const roboto = Roboto({
+  weight: "900",
+  variable: "--font-roboto",
+  subsets: ["latin"],
+});
+const robotoFlex = Roboto_Flex({
+  weight: "800",
+  variable: "--font-roboto-flex",
+  subsets: ["latin"],
+});
+const antonio = Antonio({
+  weight: ["300", "700"],
+  variable: "--font-antonio",
+  subsets: ["latin"],
+});
+const barlow = Barlow({
+  weight: "400",
+  variable: "--font-barlow",
+  subsets: ["latin"],
+});
+const abhayaLibre = Abhaya_Libre({
+  weight: ["400", "700"],
+  variable: "--font-abhaya-libre",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "ELFO'S PIZZA",
@@ -37,6 +72,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css?family=Barlow+Condensed:500,700,600|Nunito+Sans:400,600|Aclonica:400|Roboto:900|Roboto+Flex:800|Antonio:300,700|Barlow:400&display=optional"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={`
           ${geistSans.variable}

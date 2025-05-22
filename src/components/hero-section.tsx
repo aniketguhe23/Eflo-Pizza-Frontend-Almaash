@@ -82,7 +82,7 @@ export default function HeroSection() {
 
       {/* Right side pizza image */}
       <div className="md:w-1/2 mt-12 md:mt-0 flex justify-center">
-        <img
+        <Image
           src={`${data?.hero_img ? data?.hero_img : "/pizzacopy.png"}`}
           alt="Delicious Pizza"
           width={600}

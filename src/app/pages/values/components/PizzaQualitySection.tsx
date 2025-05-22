@@ -6,11 +6,11 @@ const PizzaQualitySection = () => {
     <section className="bg-[#FEF6E4] py-16 px-6 md:px-12 [font-family:'Barlow_Condensed',Helvetica]">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 items-center gap-10">
         {/* Left Column: Text */}
-        <div className=" text-black">
-          <h2 className="text-4xl  font-semibold uppercase">
+        <div className="text-black">
+          <h2 className="text-4xl font-semibold uppercase">
             Best Pizza Near You Means
           </h2>
-          <h3 className="text-4xl  text-orange-500 font-semibold uppercase">
+          <h3 className="text-4xl text-orange-500 font-semibold uppercase">
             Every Ingredient is the <br /> Highest Quality.
           </h3>
 
@@ -18,7 +18,7 @@ const PizzaQualitySection = () => {
             Best Pizza In Bhopal Means…Our Pizza, Your Rules
           </p>
 
-          <p className="text-sm  text-gray-700 font-semibold leading-relaxed [font-family:'Nunito_Sans',Helvetica]">
+          <p className="text-sm text-gray-700 font-semibold leading-relaxed [font-family:'Nunito_Sans',Helvetica]">
             At Elfo’s Pizza, we pride ourselves on being the first in Bhopal to
             make full customization of your pizzas according to your taste. With
             our customized delivery near you, your dream pizza is a few steps
@@ -35,24 +35,28 @@ const PizzaQualitySection = () => {
             ORDER NOW
           </button>
 
-          <div className="relative ml-60">
-            {/* Background Image */}
-            <img
-              src="/qualitySection2.png"
-              alt="Background Decoration"
-              width={800} // ⬅️ increased from 600
-              height={800} // ⬅️ increased from 600
-              className="absolute inset-0 object-cover -ml-20 -rotate-12 scale-110 z-0"
-            />
+          <div className="relative w-[220px] h-[220px] ml-32">
+            {/* Background Image - larger & moved left */}
+            <div className="absolute top-1/2 left-1/2 w-[250px] h-[250px] -translate-x-[65%] -translate-y-1/2 z-0">
+              <Image
+                src="/qualitySection2.png"
+                alt="Background Decoration"
+                width={250}
+                height={250}
+                className="object-contain"
+              />
+            </div>
 
             {/* Foreground Image (Pizza) */}
-            <img
-              src="/pizzacopy.png"
-              alt="Specialty Pizza"
-              width={220} // ⬅️ slightly larger
-              height={220}
-              className="relative z-10 border rounded-full p-1"
-            />
+            <div className="absolute top-1/2 left-1/2 w-[190px] h-[190px] -translate-x-1/2 -translate-y-1/2 z-10 border rounded-full overflow-hidden shadow-lg">
+              <Image
+                src="/pizzacopy.png"
+                alt="Specialty Pizza"
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>

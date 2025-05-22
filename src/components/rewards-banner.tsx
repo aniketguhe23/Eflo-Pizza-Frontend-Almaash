@@ -11,7 +11,7 @@ export default function RewardsBanner() {
       {/* Left side - Pizza image with background image */}
       <div className="relative ml-60">
         {/* Background Image */}
-        <img
+        <Image
           src={`${data?.hero2_img1 ? data?.hero2_img1 : "/pizzaBW.jpg"}`}
           alt="Background Decoration"
           width={200}
@@ -20,7 +20,7 @@ export default function RewardsBanner() {
         />
 
         {/* Foreground Image (Pizza) */}
-        <img
+        <Image
           src={`${data?.hero2_img2 ? data?.hero2_img2 : "/pizza2.jpg"}`}
           alt="Specialty Pizza"
           width={250}
@@ -31,7 +31,7 @@ export default function RewardsBanner() {
 
       {/* Middle - Rewards image */}
       <div className="relative ">
-        <img
+        <Image
           src={`${data?.hero2_img3 ? data?.hero2_img3 : "/pizzatag.png"}`}
           // src="/pizzatag.png"
           alt="Rewards Dish"

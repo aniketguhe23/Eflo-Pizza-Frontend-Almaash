@@ -6,12 +6,11 @@ import { useRef } from "react";
 
 export default function FeaturedSlider() {
   const { menuItems } = useHomeStore();
-
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.clientWidth; // Snap to full card
+      const scrollAmount = scrollRef.current.clientWidth;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -40,7 +39,7 @@ export default function FeaturedSlider() {
             ref={scrollRef}
             className="flex gap-3 overflow-x-auto no-scrollbar px-20 scroll-smooth snap-x snap-mandatory"
           >
-            {menuItems?.map((item, index) => (
+            {menuItems.map((item, index) => (
               <div
                 key={index}
                 className="bg-white rounded-xl p-10 shadow-lg flex-shrink-0 snap-start flex flex-col items-center ml-5"
@@ -49,15 +48,17 @@ export default function FeaturedSlider() {
                 <h3 className="text-base font-bold uppercase mb-3 text-center">
                   {item.name}
                 </h3>
+
                 <p className="text-base text-[#f47335] mb-5 font-bold">
                   INR{" "}
-                  {item?.variants.map((data: any, idx: number) => (
+                  {item.variants.map((variant, idx) => (
                     <span key={idx}>
-                      {data?.price}
+                      {variant.price}
                       {idx !== item.variants.length - 1 && " / "}
                     </span>
                   ))}
                 </p>
+
                 <div className="w-48 h-48 relative mb-6">
                   <Image
                     src={item.imageUrl}
@@ -70,7 +71,7 @@ export default function FeaturedSlider() {
                 <button className="bg-[#f47335] hover:bg-[#f47335] text-white px-6 py-2 rounded-lg text-base font-semibold mb-4 cursor-pointer [font-family:'Antonio',Helvetica]">
                   ORDER NOW
                 </button>
-                <p className="text-lg font-semibold  [font-family:'Antonio',Helvetica]">
+                <p className="text-lg font-semibold [font-family:'Antonio',Helvetica]">
                   MAKE IT MY OWN
                 </p>
               </div>

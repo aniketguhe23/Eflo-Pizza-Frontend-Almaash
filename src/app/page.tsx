@@ -23,40 +23,38 @@ export default function Home() {
     loading,
     setData,
     setLoading,
-    // menuItems,
     setMenuItems,
   } = useHomeStore();
 
-  const fetchHomeData = async () => {
-    try {
-      const response = await axios.get(api_getHomeData);
-      setData(response?.data?.data[0]);
-    } catch (error) {
-      console.error("Error fetching home data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchMenuItems = async () => {
-    try {
-      const response = await axios.get(api_getHomeMenuItems);
-      setMenuItems(response.data?.data || []);
-    } catch (error) {
-      console.error("Error fetching menu items:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const response = await axios.get(api_getHomeData);
+        setData(response?.data?.data[0]);
+      } catch (error) {
+        console.error("Error fetching home data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchMenuItems = async () => {
+      try {
+        const response = await axios.get(api_getHomeMenuItems);
+        setMenuItems(response.data?.data || []);
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+      }
+    };
+
     if (!data) {
       fetchHomeData();
     } else {
       setLoading(false);
     }
 
-    fetchMenuItems(); // fetch menu items regardless
-  }, []);
-  
+    fetchMenuItems();
+  }, [data, api_getHomeData, api_getHomeMenuItems, setData, setMenuItems, setLoading]);
 
   if (loading)
     return (
