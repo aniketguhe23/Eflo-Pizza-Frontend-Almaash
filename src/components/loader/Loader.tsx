@@ -1,12 +1,18 @@
-// components/loader/Loader.tsx
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 const Loader = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white flex-col">
-      <img src="/loader.gif" alt="Loading..." className="w-52 h-52 object-contain" />
+      <Image
+        src="/loader.gif"
+        alt="Loading..."
+        width={208}   // Adjust to match your GIF’s width (w-52 = 13rem = 208px)
+        height={208}  // Adjust to match your GIF’s height (h-52 = 13rem = 208px)
+        className="object-contain"
+      />
     </div>
   );
 };

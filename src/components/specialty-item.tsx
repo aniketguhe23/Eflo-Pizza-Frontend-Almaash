@@ -22,7 +22,7 @@ export default function SpecialtyItem({
       }`}
     >
       <div className="relative md:w-1/2">
-        <img
+        <Image
           src={image || "/placeholder.svg"}
           alt={title}
           width={600}

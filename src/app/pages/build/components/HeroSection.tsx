@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <section className="w-full px-6 py-16 bg-white flex flex-col md:flex-row items-center justify-center gap-12 [font-family:'Barlow_Condensed',Helvetica]">
+    <section className="w-full px-6 py-16 bg-white flex flex-col md:flex-row items-center justify-center gap-12 [font-family:'Barlow_Condensed',Helvetica] shadow-md">
       {/* Left - Image with Badge */}
       <div className="relative w-1/2 flex justify-center">
         <div className="absolute -top-8 right-56 rotate-[-25deg] bg-blue-600 text-white px-3 py-1 rounded-full shadow-lg text-xl">
@@ -26,7 +26,7 @@ const HeroSection = () => {
           BUILD YOUR OWN ELFO’S PIZZA
         </h2>
         <p className="text-gray-700 text-lg font-bold leading-relaxed [font-family:'Nunito_Sans',Helvetica] pr-40">
-          Welcome to Esby's Pizza – where your pizza is as unique as your taste!
+          Welcome to Esby Pizza – where your pizza is as unique as your taste!
           Explore our customizable, hand-crafted pizzas, made fresh with premium
           ingredients and endless topping possibilities to create your perfect
           flavor combination.

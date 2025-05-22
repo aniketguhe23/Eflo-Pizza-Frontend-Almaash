@@ -45,7 +45,7 @@ export default function Header() {
         </Link>
 
         <Link
-          href="/pages/build2"
+          href="/pages/build"
           className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
         >
           BUILD YOUR OWN

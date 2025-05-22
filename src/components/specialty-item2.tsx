@@ -1,4 +1,5 @@
-import Image from "next/image"
+// import Image from "next/image"
+import Image from "next/image";
 import Link from "next/link"
 import { GoChecklist } from "react-icons/go";
 
@@ -12,12 +13,12 @@ interface SpecialtyItemProps {
 export default function SpecialtyItem({ image, title, description }: SpecialtyItemProps) {
   return (
     <div className="relative w-full h-[350px] rounded-2xl overflow-hidden shadow-md">
-      <img
-        src={image || "/placeholder.svg"}
-        alt={title}
-        // fill
-        className="object-cover w-full h-full scale-110" // zooms the image
-      />
+       <Image
+    src={image || "/placeholder.svg"}
+    alt={title}
+    fill
+    className="object-cover scale-110"
+  />
 
       {/* Gradient overlay on left */}
       <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent" />

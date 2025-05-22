@@ -39,10 +39,11 @@ export default function Header() {
         </Link>
         <Link
           href="/pages/values"
-          className="text-white font-semibold border-b-2 border-white pb-1"
+          className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
         >
           VALUES
         </Link>
+
         <Link
           href="/pages/build"
           className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"

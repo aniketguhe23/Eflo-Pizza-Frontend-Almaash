@@ -5,6 +5,7 @@ import Image from "next/image";
 export default function FoodDeliveryHero() {
   const { data } = useHomeStore();
 
+
   return (
     <div className="relative w-full min-h-[300px] bg-[#f3f3f3] overflow-hidden rounded-3xl">
       {/* Background Image */}
@@ -20,7 +21,7 @@ export default function FoodDeliveryHero() {
       {/* Hero Content Container */}
       <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between relative z-10">
         {/* Text Content */}
-        <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0 [font-family:'Aclonica',Helvetica]">
+        <div className="w-1/2 text-center md:text-left mb-8 md:mb-0 [font-family:'Aclonica',Helvetica]">
           <h1 className="text-4xl text-center text-black leading-tight">
             {data?.eleCardComp_title ? (
               data?.eleCardComp_title
@@ -41,7 +42,7 @@ export default function FoodDeliveryHero() {
         <div className=" relative flex justify-center items-end">
           <div className="w-96 h-96  bg-[#ED722E] rounded-full absolute top-20 right-25 translate-x-1/4 translate-y-1/4 z-0"></div>
           <div className="relative z-10">
-            <img
+            <Image
               src={
                 data?.eleCardComp_img2
                   ? data?.eleCardComp_img2

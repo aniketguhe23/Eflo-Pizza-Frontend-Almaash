@@ -22,13 +22,11 @@ export default function WhyAtElfos() {
           style={{ height: "500px", width: "92%" }}
         >
           <div className="w-full h-64 relative rounded-xl overflow-hidden mb-6">
-            <img
-              src={
-                data?.whyElfo_img1
-                  ? data?.whyElfo_img1
-                  : "/list1.jpg"
-              }
+            <Image
+              src={data?.whyElfo_img1 ? data?.whyElfo_img1 : "/list1.jpg"}
               alt="How We Are Better"
+              width={400} // example width
+              height={300} // example height
               className="object-cover"
             />
           </div>
@@ -40,12 +38,9 @@ export default function WhyAtElfos() {
             )}
           </h3>
           <p className="text-lg mb-6 px-2 [font-family:'Barlow_Condensed',Helvetica]">
-           
-            {
-                data?.whyElfo_desc1
-                  ? data?.whyElfo_desc1 
-                  : " Whether it is the use of fresh and authentic ingredients imported straight from Italy, or the cooking standard and technique we use, ELFO’S IS THE WAY."
-              }
+            {data?.whyElfo_desc1
+              ? data?.whyElfo_desc1
+              : " Whether it is the use of fresh and authentic ingredients imported straight from Italy, or the cooking standard and technique we use, ELFO’S IS THE WAY."}
           </p>
           <button className="bg-[#fbf0ec] hover:bg-[#f9dfd6] shadow-lg text-white text-sm font-bold px-6 py-3 rounded-full cursor-pointer transition">
             <span className="text-[#f04f04]">READ MORE</span>
@@ -58,13 +53,11 @@ export default function WhyAtElfos() {
           style={{ height: "500px", width: "92%" }}
         >
           <div className="w-full h-64 relative rounded-xl overflow-hidden mb-6">
-            <img
-              src={
-                data?.whyElfo_img2
-                  ? data?.whyElfo_img2
-                  : "/list2.jpg"
-              }
+            <Image
+              src={data?.whyElfo_img2 || "/list2.jpg"}
               alt="Our Values"
+              width={400} // set your desired width
+              height={300} // set your desired height
               className="object-cover"
             />
           </div>
@@ -72,12 +65,9 @@ export default function WhyAtElfos() {
             {data?.whyElfo_title2 ? data?.whyElfo_title2 : <> Our Values</>}
           </h3>
           <p className="text-lg mb-6 px-2 [font-family:'Barlow_Condensed',Helvetica]">
-             {
-                data?.whyElfo_desc2
-                  ? data?.whyElfo_desc2
-                  : " Here at Esby’s, we value not only food quality but value the experience we promise. Our mission is that every Indian gets to taste authenticity in pizza at standard market prices."
-              }
-            
+            {data?.whyElfo_desc2
+              ? data?.whyElfo_desc2
+              : " Here at Esby’s, we value not only food quality but value the experience we promise. Our mission is that every Indian gets to taste authenticity in pizza at standard market prices."}
           </p>
           <button className="bg-[#fbf0ec] hover:bg-[#f9dfd6] shadow-lg text-white text-sm font-bold px-6 py-3 rounded-full cursor-pointer transition">
             <span className="text-[#f04f04]">READ MORE</span>
@@ -90,13 +80,11 @@ export default function WhyAtElfos() {
           style={{ height: "500px", width: "92%" }}
         >
           <div className="w-full h-64 relative rounded-xl overflow-hidden mb-6">
-            <img
-              src={
-                data?.whyElfo_img3
-                  ? data?.whyElfo_img3
-                  : "/list3.jpg"
-              }
+            <Image
+              src={data?.whyElfo_img3 || "/list3.jpg"}
               alt="Quality Above All"
+              width={400} // adjust to your needs
+              height={300}
               className="object-cover"
             />
           </div>
@@ -108,12 +96,9 @@ export default function WhyAtElfos() {
             )}
           </h3>
           <p className="text-lg mb-6 px-2 [font-family:'Barlow_Condensed',Helvetica]">
-             {
-                data?.whyElfo_desc3
-                  ? data?.whyElfo_desc3
-                  : " We don’t use cheap or overprocessed ingredients. Whether it’s our signature sauce, toppings, fresh dough, or even the box, we invest in ingredients to give you quality pizza."
-              }
-            
+            {data?.whyElfo_desc3
+              ? data?.whyElfo_desc3
+              : " We don’t use cheap or overprocessed ingredients. Whether it’s our signature sauce, toppings, fresh dough, or even the box, we invest in ingredients to give you quality pizza."}
           </p>
           <button className="bg-[#fbf0ec] hover:bg-[#f9dfd6] shadow-lg text-white text-sm font-bold px-6 py-3 rounded-full cursor-pointer transition">
             <span className="text-[#f04f04]">READ MORE</span>
