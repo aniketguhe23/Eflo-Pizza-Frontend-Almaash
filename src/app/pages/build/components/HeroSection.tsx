@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <section className="w-full px-6 py-16 bg-white flex flex-col md:flex-row items-center justify-center gap-12 [font-family:'Barlow_Condensed',Helvetica] shadow-md">
+    <section className="w-full px-6 py-16 mt-20 bg-white flex flex-col md:flex-row items-center justify-center gap-12 [font-family:'Barlow_Condensed',Helvetica] shadow-md">
       {/* Left - Image with Badge */}
       <div className="relative w-1/2 flex justify-center">
         <div className="absolute -top-8 right-56 rotate-[-25deg] bg-blue-600 text-white px-3 py-1 rounded-full shadow-lg text-xl">

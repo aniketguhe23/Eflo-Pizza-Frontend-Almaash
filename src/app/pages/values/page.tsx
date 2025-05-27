@@ -40,7 +40,7 @@ const Page = () => {
     <div>
       <div
         className={`fixed top-0 w-full z-50 transition-transform duration-300 ${
-          showHeader ? "translate-y-0" : "-translate-y-full"
+          showHeader ? "translate-y-0" : "bg-black"
         }`}
       >
         <Header />

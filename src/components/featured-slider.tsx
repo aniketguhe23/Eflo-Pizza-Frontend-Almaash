@@ -37,12 +37,12 @@ export default function FeaturedSlider() {
           {/* Slider */}
           <div
             ref={scrollRef}
-            className="flex gap-3 overflow-x-auto no-scrollbar px-20 scroll-smooth snap-x snap-mandatory"
+            className="flex gap-3 overflow-x-auto no-scrollbar px-20 py-10 scroll-smooth snap-x snap-mandatory"
           >
             {menuItems.map((item, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl p-10 shadow-lg flex-shrink-0 snap-start flex flex-col items-center ml-5"
+                className="bg-white rounded-xl p-10 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-shadow duration-300 flex-shrink-0 snap-start flex flex-col items-center ml-5"
                 style={{ width: "350px" }}
               >
                 <h3 className="text-base font-bold uppercase mb-3 text-center">

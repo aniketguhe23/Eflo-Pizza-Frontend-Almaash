@@ -1,7 +1,8 @@
 'use client';
-import Image from "next/image";
+
 import React, { useState } from "react";
 import OrderModal from "./order-modal";
+import Image from "next/image";
 
 const sampleItems = [
   {
@@ -93,7 +94,7 @@ const MenuSearch = () => {
             </button>
           </div>
 
-          {/* {filteredItems.length > 0 && (
+          {filteredItems.length > 0 && (
             <div className="absolute w-full bg-[#fff4ee] border border-orange-200 shadow-lg rounded-md mt-2 z-30 max-h-110 overflow-auto">
               {filteredItems.map((item, index) => (
                 <div
@@ -129,7 +130,7 @@ const MenuSearch = () => {
                 </div>
               ))}
             </div>
-          )} */}
+          )}
         </div>
       </div>
 
