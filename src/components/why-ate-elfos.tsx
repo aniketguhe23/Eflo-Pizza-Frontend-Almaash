@@ -7,7 +7,11 @@ export default function WhyAtElfos() {
   const { data } = useHomeStore();
 
   return (
-    <section className="py-20 text-black">
+    <section className="py-20 text-black"
+    style={{
+        backgroundImage: "url('/whybg.png')", // ✅ Replace with your image path
+      }}
+    >
       <h2 className="text-5xl font-extrabold text-center uppercase mb-16 [font-family:'Antonio',Helvetica]">
         {data?.whyElfo_maintitle ? (
           data?.whyElfo_maintitle

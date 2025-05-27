@@ -14,6 +14,7 @@ import FoodDeliveryHero from "@/components/food-delivery";
 import ProjectApiList from "./api/ProjectApiList";
 import { useHomeStore } from "./store/homeStore";
 import Loader from "@/components/loader/Loader";
+import JoinRewardFree from "@/components/join-reward-free";
 
 export default function Home() {
   const { api_getHomeData, api_getHomeMenuItems } = ProjectApiList();
@@ -66,13 +67,14 @@ export default function Home() {
   return (
     <main
       className="min-h-screen bg-cover bg-center bg-no-repeat bg-white"
-      style={{
-        backgroundImage: "url('/elephantPointers.png')",
-      }}
+      // style={{
+      //   backgroundImage: "url('/elephantPointers.png')",
+      // }}
     >
       <Header />
       <HeroSection />
-      <RewardsBanner />
+      <JoinRewardFree />
+      {/* <RewardsBanner /> */}
       <SpecialtiesSection />
       <FeaturedSlider />
       <WhyAtElfos />
