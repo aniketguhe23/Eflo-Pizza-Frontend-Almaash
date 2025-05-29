@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import OrderModal from "./order-modal";
 import Image from "next/image";
 
+// sample Items:
 const sampleItems = [
   {
     name: "MARGHERITA (CHEESE)",
