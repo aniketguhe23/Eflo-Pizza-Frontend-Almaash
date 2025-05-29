@@ -7,9 +7,9 @@ const DiscountComponent = ({ showRight, setShowRight }: any) => {
   return (
     <div className="max-w-sm bg-[#fff6f1] h-screen p-4 border-l border-gray-200 flex flex-col">
       {/* Close Button */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-4 mt-10">
         <button onClick={() => setShowRight(false)}>
-          <IoClose size={28} className="text-orange-500" />
+          <IoClose size={28} className="text-orange-500 cursor-pointer" />
         </button>
       </div>
 

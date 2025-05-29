@@ -1,19 +1,18 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-// Type for pizza size and price variant
+// Types
 export interface Variant {
   size: string;
   price: number;
 }
 
-// Type for menu items with multiple variants
 export interface MenuItem {
   name: string;
   imageUrl: string;
   variants: Variant[];
 }
 
-// Full CMS home content type based on your data
 export interface HomeContent {
   id: number;
   hero_img: string;
@@ -68,7 +67,6 @@ export interface HomeContent {
   updated_at: string;
 }
 
-// Zustand store definition
 interface HomeState {
   data: HomeContent | null;
   loading: boolean;
@@ -78,11 +76,22 @@ interface HomeState {
   setMenuItems: (menu: MenuItem[]) => void;
 }
 
-export const useHomeStore = create<HomeState>((set) => ({
-  data: null,
-  loading: true,
-  menuItems: [],
-  setData: (data) => set({ data }),
-  setLoading: (loading) => set({ loading }),
-  setMenuItems: (menu) => set({ menuItems: menu }),
-}));
+export const useHomeStore = create<HomeState>()(
+  persist(
+    (set) => ({
+      data: null,
+      loading: true,
+      menuItems: [],
+      setData: (data) => set({ data }),
+      setLoading: (loading) => set({ loading }),
+      setMenuItems: (menu) => set({ menuItems: menu }),
+    }),
+    {
+      name: "home-store", // Storage key name
+      partialize: (state) => ({
+        data: state.data,
+        menuItems: state.menuItems,
+      }), // only persist these
+    }
+  )
+);

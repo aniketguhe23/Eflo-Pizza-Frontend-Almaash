@@ -134,7 +134,7 @@ export default function Orders({ showRight, setShowRight }: any) {
   const total = itemTotal - discount + gstAndCharges;
 
   return (
-    <div className="max-w-4xl mx-auto bg-white min-h-screen my-20">
+    <div className="max-w-4xl mx-auto bg-white min-h-screen pt-15 rounded-lg">
       {/* Header */}
       <div className="text-center py-6">
         <h1 className="text-orange-500 font-semibold text-lg">YOUR ORDER</h1>
@@ -235,7 +235,7 @@ export default function Orders({ showRight, setShowRight }: any) {
         </h2>
 
         <Button
-          className="w-full mb-6 bg-orange-200 hover:bg-orange-300 text-gray-900 font-semibold"
+          className="w-full mb-6 bg-orange-200 hover:bg-orange-300 text-gray-900 font-semibold cursor-pointer"
           onClick={() => setShowRight(true)}
         >
           <Tag className="w-4 h-4 mr-2" />
