@@ -166,10 +166,11 @@ export default function SignIn() {
               {...register("birthDate", { required: "Birth date is required" })}
               className="w-full p-2 rounded bg-white text-gray-600"
             />
-            <p className=" text-xs">
-              Double check your birth date is entered correctly, you won't be
-              able to change later.
+            <p className="text-xs">
+              Double check your birth date is entered correctly, you
+              wouldn&apos;t be able to change it later.
             </p>
+
             {errors.birthDate && (
               <p className="text-red-100 text-sm">{errors.birthDate.message}</p>
             )}

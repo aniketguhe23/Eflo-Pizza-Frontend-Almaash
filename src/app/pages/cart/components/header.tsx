@@ -21,7 +21,6 @@ export default function Header() {
     );
 
   return (
-    // <header className=" px-4  bg-[#f47335] shadow-md [font-family:'Barlow_Condensed',Helvetica]">
       <header className="fixed top-0 left-0 right-0 z-50 px-4  bg-[#f47335] shadow-md [font-family:'Barlow_Condensed',Helvetica]">
       <div className="flex items-center justify-start h-20 ">
         {/* Left: Logo and Name */}
