@@ -53,7 +53,11 @@ interface AddOnItem {
   added: boolean;
 }
 
-export default function Orders({ showRight, setShowRight }: any) {
+interface OrdersProps {
+  setShowRight: (value: boolean) => void;
+}
+
+export default function Orders({ setShowRight }: OrdersProps) {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([
     {
       id: "1",
@@ -134,7 +138,7 @@ export default function Orders({ showRight, setShowRight }: any) {
   const total = itemTotal - discount + gstAndCharges;
 
   return (
-    <div className="max-w-4xl mx-auto bg-white min-h-screen pt-15 rounded-lg">
+    <div className="max-w-4xl mx-auto bg-white min-h-screen pt-15  rounded-lg">
       {/* Header */}
       <div className="text-center py-6">
         <h1 className="text-orange-500 font-semibold text-lg">YOUR ORDER</h1>

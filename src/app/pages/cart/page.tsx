@@ -12,28 +12,28 @@ const Page = () => {
 
   return (
     <>
-        <Header />
+      <Header />
       <div className="flex h-screen overflow-hidden">
-      {/* Left Sidebar */}
-      <AccountSection showLeft={showLeft} setShowLeft={setShowLeft} />
+        {/* Left Sidebar */}
+        <AccountSection showLeft={showLeft} setShowLeft={setShowLeft} />
 
-      {/* Main Content */}
-      <div className="flex-1 relative overflow-y-auto no-scrollbar">
-        {!showLeft && (
-          <button
-            className="absolute left-0 top-4 bg-gray-100 px-2 py-1 border border-gray-300 text-sm z-10"
-            onClick={() => setShowLeft(true)}
-          >
-            Show Account
-          </button>
-        )}
+        {/* Main Content */}
+        <div className="flex-1 relative overflow-y-auto no-scrollbar">
+          {!showLeft && (
+            <button
+              className="absolute left-0 top-4 bg-gray-100 px-2 py-1 border border-gray-300 text-sm z-10"
+              onClick={() => setShowLeft(true)}
+            >
+              Show Account
+            </button>
+          )}
 
-        <Orders showRight={showRight} setShowRight={setShowRight} />
+          <Orders setShowRight={setShowRight} />
+        </div>
+
+        {/* Right Sidebar */}
+        <DiscountComponent showRight={showRight} setShowRight={setShowRight} />
       </div>
-
-      {/* Right Sidebar */}
-      <DiscountComponent showRight={showRight} setShowRight={setShowRight} />
-    </div>
     </>
   );
 };

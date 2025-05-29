@@ -1,7 +1,12 @@
 import React from "react";
 import { IoClose } from "react-icons/io5";
 
-const DiscountComponent = ({ showRight, setShowRight }: any) => {
+interface DiscountComponentProps {
+  showRight: boolean;
+  setShowRight: (value: boolean) => void;
+}
+
+const DiscountComponent: React.FC<DiscountComponentProps> = ({ showRight, setShowRight }) => {
   if (!showRight) return null;
 
   return (
@@ -36,7 +41,7 @@ const DiscountComponent = ({ showRight, setShowRight }: any) => {
         <div className="bg-[#ffe6db] p-4 rounded-xl border border-orange-300 shadow-sm">
           <h3 className="font-bold text-lg text-black mb-1">ESBYFRIST</h3>
           <p className="text-sm text-orange-500 mb-1">
-            Get flat 30% off upto rupees 200 on your first order at Esby's
+            Get flat 30% off up to ₹200 on your first order at Esby&apos;s
           </p>
           <p className="text-xs text-gray-800 font-semibold mb-2">
             Only on Order above INR 350
@@ -51,7 +56,7 @@ const DiscountComponent = ({ showRight, setShowRight }: any) => {
         <div className="bg-[#ffe6db] p-4 rounded-xl border border-orange-300 shadow-sm">
           <h3 className="font-bold text-lg text-black mb-1">ICICIFOOD</h3>
           <p className="text-sm text-orange-500 mb-1">
-            Get flat 30% off upto rupees 200
+            Get flat 30% off up to ₹200
           </p>
           <p className="text-xs text-gray-800 font-semibold mb-2">
             Only on Order above INR 350 using ICICI bank credit card

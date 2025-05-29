@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import Header from "@/components/header";
 import HeroSection from "@/components/hero-section";
-import RewardsBanner from "@/components/rewards-banner";
-// import PopularDishes from "@/components/popular-dishes";
 import SpecialtiesSection from "@/components/specialties-section";
 import FeaturedSlider from "@/components/featured-slider";
 import WhyAtElfos from "@/components/why-ate-elfos";
@@ -74,7 +72,6 @@ export default function Home() {
       <Header />
       <HeroSection />
       <JoinRewardFree />
-      {/* <RewardsBanner /> */}
       <SpecialtiesSection />
       <FeaturedSlider />
       <WhyAtElfos />
