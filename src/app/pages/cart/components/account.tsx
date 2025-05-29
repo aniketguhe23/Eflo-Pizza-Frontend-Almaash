@@ -1,23 +1,23 @@
+import Link from "next/link";
 import React from "react";
-import { IoPersonCircleSharp, IoLocationSharp, IoWalletSharp, IoCloseSharp } from "react-icons/io5";
+import {
+  IoPersonCircleSharp,
+  IoLocationSharp,
+  IoWalletSharp,
+  IoCloseSharp,
+} from "react-icons/io5";
 
 const AccountComponent = ({ showLeft, setShowLeft }: any) => {
   if (!showLeft) return null;
 
   return (
-    <div className="w-full md:w-[360px] h-screen bg-gray-300 p-4 flex flex-col gap-6 relative">
+    <div className="w-full md:w-[360px] h-screen bg-gray-300 p-4 flex flex-col gap-6 relative pt-15">
       {/* Close Button */}
-      <button
-        onClick={() => setShowLeft(false)}
-        className="absolute top-4 right-4 text-orange-500 text-2xl"
-      >
-        <IoCloseSharp />
-      </button>
 
       {/* Account Section */}
       <div className="bg-white p-4 rounded shadow flex items-start gap-4 mt-10 relative">
         <div className="rounded w-12 h-12 flex items-center justify-center mt-1">
-          <IoPersonCircleSharp size={24}  />
+          <IoPersonCircleSharp size={24} />
         </div>
 
         <div>
@@ -29,9 +29,11 @@ const AccountComponent = ({ showLeft, setShowLeft }: any) => {
             <button className="px-4 py-1 border border-orange-500 text-orange-500 text-sm font-semibold">
               LOG IN
             </button>
-            <button className="px-4 py-1 bg-orange-500 text-white text-sm font-semibold">
-              SIGN UP
-            </button>
+            <Link href="/pages/authPages/signIn">
+              <button className="px-4 py-1 bg-orange-500 text-white text-sm font-semibold  cursor-pointer">
+                SIGN UP
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -51,6 +53,14 @@ const AccountComponent = ({ showLeft, setShowLeft }: any) => {
         </div>
         <span className="text-gray-700 font-medium">Payment</span>
       </div>
+
+      <button
+        onClick={() => setShowLeft(false)}
+        className="absolute bottom-4 right-4 text-orange-500 text-xl"
+      >
+        {/* <IoCloseSharp /> */}
+        close
+      </button>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function JoinRewardFree() {
   return (
-    <div className="bg-[#eeeeee]  py-5 flex justify-between items-center text-2xl font-bold  [font-family:'Barlow_Condensed',Helvetica] m-5 px-10">
+    <div className="bg-[#eeeeee]  py-5 flex justify-between items-center text-2xl font-bold  [font-family:'Barlow_Condensed',Helvetica] px-10">
       <span className="text-black uppercase tracking-wide ">
         JOIN ELFO’S REWARDS UNLOCK FREE
       </span>

@@ -11,8 +11,9 @@ const Page = () => {
   const [showRight, setShowRight] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-        <Header/>
+    <>
+        <Header />
+      <div className="flex h-screen overflow-hidden">
       {/* Left Sidebar */}
       <AccountSection showLeft={showLeft} setShowLeft={setShowLeft} />
 
@@ -33,6 +34,7 @@ const Page = () => {
       {/* Right Sidebar */}
       <DiscountComponent showRight={showRight} setShowRight={setShowRight} />
     </div>
+    </>
   );
 };
 
