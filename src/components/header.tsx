@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 ${
+      className={`fixed top-0 left-0 w-full z-50 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 border-b border-white ${
         data?.nav_bg_color ? `bg-[${data?.nav_bg_color}]` : "bg-[#f47335]"
       }`}
     >

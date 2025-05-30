@@ -19,7 +19,7 @@ export default function FeaturedSlider() {
   };
 
   return (
-    <div className="py-10 text-black flex justify-center">
+    <div className="py-20 text-black flex justify-center ">
       <div className="w-full max-w-[75%] text-center relative">
         <h2 className="text-5xl font-extrabold uppercase mb-20 [font-family:'Antonio',Helvetica]">
           Explore Featured Pizza’s
