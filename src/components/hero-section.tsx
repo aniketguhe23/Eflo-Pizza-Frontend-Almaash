@@ -84,7 +84,7 @@ export default function HeroSection() {
 
   return (
   <section
-  className="relative px-6 py-18 mt-10 flex flex-col items-center justify-center text-center bg-cover bg-center"
+  className="relative px-6 py-30 mt-10 flex flex-col items-center justify-center text-center bg-cover bg-center"
   style={{
     backgroundImage: `url('${data?.hero_img ?? "/hearobg.png"}')`,
   }}
