@@ -7,9 +7,14 @@ export default function WhyAtElfos() {
   const { data } = useHomeStore();
 
   return (
-    <section className="py-20 text-black"
-    style={{
-        backgroundImage: "url('/whybg.png')", // ✅ Replace with your image path
+    <section
+      className="py-20 text-black"
+      style={{
+        backgroundImage: "url('/whybg.png')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover", // Makes the image cover the section fully
+        backgroundPosition: "center", // Centers the image
+        width: "100%", // Full width
       }}
     >
       <h2 className="text-5xl font-extrabold text-center uppercase mb-16 [font-family:'Antonio',Helvetica]">

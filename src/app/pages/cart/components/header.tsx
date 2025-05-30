@@ -34,9 +34,9 @@ export default function Header() {
           />
           <Link
             href="/"
-            className="text-white text-xl font-semibold hover:underline"
+            className="text-white text-xl font-semibold hover:underline uppercase"
           >
-            {data?.nav_logo_text || "ELFO'S PIZZAsssssss"}
+            {data?.nav_logo_text || "ELFO'S PIZZA"}
           </Link>
         </div>
 

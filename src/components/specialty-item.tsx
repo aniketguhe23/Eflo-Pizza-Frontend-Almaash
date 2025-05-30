@@ -29,8 +29,8 @@ export default function SpecialtyItem({
       <div
         className={`absolute inset-0 ${
           imagePosition === "right"
-            ? "bg-gradient-to-r from-[#fef6ec] via-[#fef6ec]/10 to-transparent"
-            : "bg-gradient-to-l from-[#fef6ec] via-[#fef6ec]/10 to-transparent"
+            ? "bg-gradient-to-r from-white via-[#fef6ec]/10 to-transparent"
+            : "bg-gradient-to-l from-white via-[#fef6ec]/10 to-transparent"
         }`}
       />
 
