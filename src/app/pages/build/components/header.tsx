@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 bg-[#f47335] shadow-md`}
+      className={`fixed top-0 left-0 right-0 z-50 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 bg-[#f47335] shadow-md border-b border-white`}
     >
       <div className="flex items-center gap-4">
         <Image

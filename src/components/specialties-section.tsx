@@ -6,12 +6,12 @@ export default function SpecialtiesSection() {
   const { data } = useHomeStore();
 
   return (
-    <div className="py-8 px-4 md:px-12 flex flex-col items-center text-black">
-      <h2 className="text-5xl font-bold mb-8 [font-family:'Antonio',Helvetica]">
+    <div className="py-8 px-4 md:px-12 flex flex-col items-center text-black pt-20">
+      <h2 className="text-5xl font-bold mb-15 [font-family:'Antonio',Helvetica]">
         {data?.speciality1_subtitle ? (
           data?.speciality1_subtitle
         ) : (
-          <>TIMELESS DELICIOUS PIZZA</>
+          <>SPECIALITIES</>
         )}
       </h2>
 

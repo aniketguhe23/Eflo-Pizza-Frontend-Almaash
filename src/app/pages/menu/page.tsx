@@ -47,7 +47,7 @@ const Page = () => {
       <MenuSearch />
       <ChooseFromMenu />
 
-      <div className="relative z-10 -mb-52 p-30">
+      <div className="relative z-10 -mb-52 p-40">
         <FoodDeliveryHero />
       </div>
       <Footer />
