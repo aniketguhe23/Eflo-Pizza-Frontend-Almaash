@@ -53,7 +53,7 @@ const Page = () => {
       <PizzaQualitySection />
       <PizzaDeliverySection />
       <StoneBakedSection />
-      <div className="relative z-10 -mb-52 p-40">
+      <div className="relative z-10 -mb-55 p-40">
         <FoodDeliveryHero />
       </div>
       <Footer />
