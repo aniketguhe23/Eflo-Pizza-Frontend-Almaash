@@ -7,7 +7,7 @@ export default function SpecialtiesSection() {
 
   return (
     <div className="py-8 px-4 md:px-12 flex flex-col items-center text-black pt-20">
-      <h2 className="text-5xl font-bold mb-15 [font-family:'Antonio',Helvetica]">
+      <h2 className="text-5xl font-bold mb-20 [font-family:'Antonio',Helvetica]">
         {data?.speciality1_subtitle ? (
           data?.speciality1_subtitle
         ) : (

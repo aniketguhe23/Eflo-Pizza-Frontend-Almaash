@@ -19,7 +19,7 @@ export default function FoodDeliveryHero() {
       />
 
       {/* Hero Content Container */}
-      <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between relative z-10">
+      <div className="container mx-auto px-4 py-5 flex flex-col md:flex-row items-center justify-between relative z-10">
         {/* Text Content */}
         <div className="w-1/2 text-center md:text-left mb-8 md:mb-0 [font-family:'Aclonica',Helvetica]">
           <h1 className="text-4xl text-center text-black leading-tight">

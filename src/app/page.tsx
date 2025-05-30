@@ -17,13 +17,7 @@ import JoinRewardFree from "@/components/join-reward-free";
 export default function Home() {
   const { api_getHomeData, api_getHomeMenuItems } = ProjectApiList();
 
-  const {
-    data,
-    loading,
-    setData,
-    setLoading,
-    setMenuItems,
-  } = useHomeStore();
+  const { data, loading, setData, setLoading, setMenuItems } = useHomeStore();
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -53,7 +47,14 @@ export default function Home() {
     }
 
     fetchMenuItems();
-  }, [data, api_getHomeData, api_getHomeMenuItems, setData, setMenuItems, setLoading]);
+  }, [
+    data,
+    api_getHomeData,
+    api_getHomeMenuItems,
+    setData,
+    setMenuItems,
+    setLoading,
+  ]);
 
   if (loading)
     return (
@@ -75,7 +76,7 @@ export default function Home() {
       <SpecialtiesSection />
       <FeaturedSlider />
       <WhyAtElfos />
-      <div className="relative z-10 -mb-52 p-40">
+      <div className="relative z-10 -mb-55 p-40">
         <FoodDeliveryHero />
       </div>
       <Footer />
