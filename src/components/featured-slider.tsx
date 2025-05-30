@@ -37,7 +37,7 @@ export default function FeaturedSlider() {
           {/* Slider */}
           <div
             ref={scrollRef}
-            className="flex gap-3 overflow-x-auto no-scrollbar px-35 py-10 scroll-smooth snap-x snap-mandatory" 
+            className="flex gap-3 overflow-x-auto no-scrollbar py-10" 
           >
             {menuItems?.map((item, index) => (
               <div

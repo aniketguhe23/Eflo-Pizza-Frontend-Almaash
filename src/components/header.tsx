@@ -27,7 +27,7 @@ export default function Header() {
           height={200}
           className="w-20 h-20"
         />
-        <h1 className="text-white text-3xl font-bold [font-family:'Barlow_Condensed',Helvetica]">
+        <h1 className="text-white text-3xl font-bold [font-family:'Barlow_Condensed',Helvetica] uppercase">
           {data?.nav_logo_text ? data?.nav_logo_text : <>ELFO&apos;S PIZZA</>}
         </h1>
       </div>
