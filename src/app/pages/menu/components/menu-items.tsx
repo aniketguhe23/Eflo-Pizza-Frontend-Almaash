@@ -14,6 +14,7 @@ interface MenuItem {
   name: string;
   prices: Price;
   image: string;
+  category: string;
 }
 
 interface MenuItemsProps {
@@ -43,7 +44,7 @@ export default function MenuItems({ items }: MenuItemsProps) {
       {/* Left navigation button */}
       <button
         onClick={showPrevious}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full shadow-md p-2 ${
+        className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full shadow-md p-2 cursor-pointer ${
           !showPreviousButton ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={!showPreviousButton}
@@ -68,7 +69,7 @@ export default function MenuItems({ items }: MenuItemsProps) {
       {/* Right navigation button */}
       <button
         onClick={showNext}
-        className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full shadow-md p-2 ${
+        className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full shadow-md p-2 cursor-pointer ${
           !showNextButton ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={!showNextButton}
