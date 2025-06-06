@@ -14,6 +14,7 @@ interface MenuItem {
   name: string;
   prices: Price;
   image: string;
+  category: string;
 }
 
 interface MenuItemCardProps {

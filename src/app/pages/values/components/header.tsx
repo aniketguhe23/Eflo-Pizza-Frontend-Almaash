@@ -95,10 +95,12 @@ export default function Header() {
           <CircleUserRound className="text-white h-9 w-9" />
 
           <div className="relative">
-            <ShoppingCart className="text-white h-8 w-8" />
-            <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-              0
-            </span>
+            <Link href="/pages/cart" className="relative">
+              <ShoppingCart className="text-white h-8 w-8" />
+              <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                0
+              </span>
+            </Link>
           </div>
         </div>
       </div>

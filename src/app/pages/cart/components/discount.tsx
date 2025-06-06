@@ -10,7 +10,7 @@ const DiscountComponent: React.FC<DiscountComponentProps> = ({ showRight, setSho
   if (!showRight) return null;
 
   return (
-    <div className="max-w-sm bg-[#fff6f1] h-screen p-4 border-l border-gray-200 flex flex-col">
+    <div className="max-w-sm bg-[#fff6f1] h-screen p-4 border-l border-gray-200 flex flex-col mt-10">
       {/* Close Button */}
       <div className="flex justify-end mb-4 mt-10">
         <button onClick={() => setShowRight(false)}>
