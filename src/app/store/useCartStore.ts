@@ -37,7 +37,7 @@ interface CartState {
 
 const useCartStore = create<CartState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       orderItems: [],
       addOns: [],
 

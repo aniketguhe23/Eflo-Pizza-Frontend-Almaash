@@ -92,7 +92,9 @@ export default function Header() {
         </div>
 
         <div className="flex justify-end items-center gap-5  w-[15%]">
-          <CircleUserRound className="text-white h-9 w-9" />
+          <Link href="/pages/myAccount" className="relative">
+            <CircleUserRound className="text-white h-9 w-9" />
+          </Link>
 
           <div className="relative">
             <Link href="/pages/cart" className="relative">

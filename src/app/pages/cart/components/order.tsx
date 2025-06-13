@@ -8,17 +8,41 @@ interface OrdersProps {
   setShowRight: (value: boolean) => void;
 }
 
+interface OrderItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+  size?: string;
+  dough?: string;
+  crust?: string;
+  toppings?: string[];
+}
+
+interface AddOnItem {
+  id: string;
+  name: string;
+  price: number;
+  image?: string;
+  added: boolean;
+}
+
 export default function Orders({ setShowRight }: OrdersProps) {
-  const { orderItems, addOns, updateQuantity, toggleAddOn } = useCartStore();
+  const { orderItems, addOns, updateQuantity, toggleAddOn } =
+    useCartStore() as {
+      orderItems: OrderItem[];
+      addOns: AddOnItem[];
+      updateQuantity: (id: string, change: number) => void;
+      toggleAddOn: (id: string) => void;
+    };
 
   const itemTotal =
-    orderItems.reduce(
-      (sum: any, item: any) => sum + item.price * item.quantity,
-      0
-    ) +
+    orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0) +
     addOns
-      .filter((item: any) => item.added)
-      .reduce((sum: any, item: any) => sum + item.price, 0);
+      .filter((item) => item.added)
+      .reduce((sum, item) => sum + item.price, 0);
+
   const discount = 211;
   const gstAndCharges = 33.3;
   const total = itemTotal - discount + gstAndCharges;
@@ -49,7 +73,7 @@ export default function Orders({ setShowRight }: OrdersProps) {
 
       {/* Order List */}
       <div className="px-4 space-y-4">
-        {orderItems?.map((item: any) => (
+        {orderItems.map((item) => (
           <div
             key={item.id}
             className="flex items-center justify-between py-4 border-b border-gray-100"
@@ -67,38 +91,34 @@ export default function Orders({ setShowRight }: OrdersProps) {
               <h3 className="font-semibold text-gray-900 text-base">
                 {item.name}
               </h3>
-
-              <div className="mt-1  text-sm text-gray-600">
+              <div className="mt-1 text-sm text-gray-600">
                 <p>
                   <span className="font-medium text-gray-700">Size:</span>{" "}
                   <span className="capitalize">{item.size}</span>
                 </p>
-
                 {item.dough && (
                   <p>
                     <span className="font-medium text-gray-700">Dough:</span>{" "}
                     <span className="capitalize">{item.dough}</span>
                   </p>
                 )}
-
                 {item.crust && (
                   <p>
                     <span className="font-medium text-gray-700">Crust:</span>{" "}
                     <span className="capitalize">{item.crust}</span>
                   </p>
                 )}
-
-                {item.toppings && item.toppings.length > 0 && (
+                {item.toppings?.length ? (
                   <p>
                     <span className="font-medium text-gray-700">Toppings:</span>{" "}
-                    {item.toppings.map((top: string, idx: number) => (
+                    {item.toppings.map((top, idx) => (
                       <span key={idx} className="capitalize">
                         {top}
-                        {idx !== item.toppings.length - 1 && ", "}
+                        {idx !== item.toppings!.length - 1 && ", "}
                       </span>
                     ))}
                   </p>
-                )}
+                ) : null}
               </div>
             </div>
 
@@ -118,7 +138,6 @@ export default function Orders({ setShowRight }: OrdersProps) {
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-
               <div className="text-right">
                 <p className="font-semibold">{item.price}</p>
               </div>
@@ -134,7 +153,7 @@ export default function Orders({ setShowRight }: OrdersProps) {
             Pair it with
           </h2>
           <div className="grid grid-cols-4 gap-3">
-            {addOns.map((addOn: any) => (
+            {addOns.map((addOn) => (
               <div
                 key={addOn.id}
                 className="border border-orange-200 rounded-lg shadow-sm p-3 text-center"

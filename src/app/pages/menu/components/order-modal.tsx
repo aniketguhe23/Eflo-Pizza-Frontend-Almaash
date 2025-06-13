@@ -17,7 +17,7 @@ interface MenuItem {
   name: string;
   prices: Price;
   image: string;
-  category: string;
+  category?: string;
 }
 
 interface OrderModalProps {

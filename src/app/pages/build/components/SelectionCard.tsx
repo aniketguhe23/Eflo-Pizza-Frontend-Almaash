@@ -30,7 +30,6 @@ const SelectionCardModal: React.FC<SelectionCardModalProps> = ({
   category,
   onAddToCart,
   isSelected,
-  selectedOptions,
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("Regular");
