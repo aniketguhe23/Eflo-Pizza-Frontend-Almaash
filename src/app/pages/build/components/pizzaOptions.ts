@@ -51,6 +51,22 @@ export const pizzaOptions: PizzaOptions = {
       inclusive: false,
     },
   ],
+  CRUST: [
+    {
+      name: "GARLIC",
+      description: "",
+      price: "INR 50",
+      inclusive: false,
+      //   image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
+    },
+    {
+      name: "ORIGINAL",
+      description: "",
+      price: "INR 99",
+      inclusive: false,
+      //   image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
+    },
+  ],
   SAUCE: [
     {
       name: "CREAMY ALFREDO",
@@ -164,20 +180,5 @@ export const pizzaOptions: PizzaOptions = {
       image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
     },
   ],
-  CRUST: [
-    {
-      name: "GARLIC",
-      description: "",
-      price: "INR 50",
-      inclusive: false,
-      //   image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
-    },
-    {
-      name: "ORIGINAL",
-      description: "",
-      price: "INR 99",
-      inclusive: false,
-      //   image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
-    },
-  ],
+  
 };

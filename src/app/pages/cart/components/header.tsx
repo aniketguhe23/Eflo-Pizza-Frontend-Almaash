@@ -6,12 +6,21 @@ import { useState } from "react";
 import { ShoppingCart, MapPin } from "lucide-react";
 import { useHomeStore } from "@/app/store/homeStore";
 import Loader from "@/components/loader/Loader";
+import { useUserStore } from "@/app/store/useUserStore";
+// import { useRouter } from "next/navigation";
+import AccountDropdown from "./dropDown";
 
 export default function Header() {
   const { data } = useHomeStore();
+  // const logout = useUserStore((state) => state.logout);
+  const { user } = useUserStore();
+  // const router = useRouter();
   const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
 
-  //   console.log(data,"------->")
+  // const handleLogout = () => {
+  //   logout();
+  //   router.push("/");
+  // };
 
   if (!data)
     return (
@@ -21,17 +30,21 @@ export default function Header() {
     );
 
   return (
-      <header className="fixed top-0 left-0 right-0 z-50 px-4  bg-[#f47335] shadow-md [font-family:'Barlow_Condensed',Helvetica]">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4  bg-[#f47335] shadow-md [font-family:'Barlow_Condensed',Helvetica]">
       <div className="flex items-center justify-start h-20 ">
         {/* Left: Logo and Name */}
         <div className="flex items-center gap-2  w-[23%]">
-          <Image
-            src={data?.nav_logo_img || "/elephant.png"}
-            alt="Elfo's Pizza Logo"
-            width={200}
-            height={200}
-            className="w-15 h-15"
-          />
+          <Link
+            href="/"
+          >
+            <Image
+              src={data?.nav_logo_img || "/elephant.png"}
+              alt="Elfo's Pizza Logo"
+              width={200}
+              height={200}
+              className="w-15 h-15"
+            />
+          </Link>
           <Link
             href="/"
             className="text-white text-xl font-semibold hover:underline uppercase"
@@ -76,19 +89,33 @@ export default function Header() {
 
         {/* Right: Sign In & Cart */}
         <div className="flex items-center justify-end gap-4  w-[33%]">
-          <Link
-            href="/signin"
+          {/* <Link
+            href="/pages/myAccount"
             className="text-white text-xl font-semibold hover:underline"
           >
-            SIGN IN / JOIN
-          </Link>
+            My Account
+          </Link> */}
 
-          <div className="relative cursor-pointer">
-            <ShoppingCart className="text-white h-7 w-7" />
-            <span className="absolute -top-1 -right-1 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold">
-              0
-            </span>
+          {/* <AccountDropdown/> */}
+
+          <div className="relative cursor-pointer mr-2">
+            <Link href="/pages/cart" className="relative">
+              <ShoppingCart className="text-white h-7 w-7" />
+              <span className="absolute -top-1 -right-1 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold">
+                0
+              </span>
+            </Link>
           </div>
+          {user ? (
+            <AccountDropdown />
+          ) : (
+            <Link
+              href="/pages/auth/login"
+              className="text-white text-xl font-semibold hover:underline"
+            >
+              SIGN IN / JOIN
+            </Link>
+          )}
         </div>
       </div>
     </header>

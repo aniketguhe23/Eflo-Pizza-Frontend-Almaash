@@ -1,17 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import {  useState } from "react";
 import Orders from "./components/order";
 import AccountSection from "./components/account";
 import DiscountComponent from "./components/discount";
 import Header from "./components/header";
+import { useUserStore } from "@/app/store/useUserStore";
+import UserBootstrap from "@/app/hook/UserBootstrap";
 
 const Page = () => {
+  const { user } = useUserStore();
+
   const [showLeft, setShowLeft] = useState(true);
   const [showRight, setShowRight] = useState(false);
 
+
+
   return (
     <>
+      {!user && <UserBootstrap />}
+
       <Header />
       <div className="flex h-screen overflow-hidden">
         {/* Left Sidebar */}

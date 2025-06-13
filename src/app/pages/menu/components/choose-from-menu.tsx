@@ -29,7 +29,7 @@ export default function ChooseFromMenu() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 [font-family:'Barlow_Condensed',Helvetica]">
-      <h1 className="text-4xl font-bold text-center mb-6">CHOOSE FROM MENU</h1>
+      <h1 className="text-4xl font-bold text-center mb-10">CHOOSE FROM MENU</h1>
 
       <CategoryTabs categories={categories} onTabClick={scrollToCategory} />
 
@@ -41,7 +41,7 @@ export default function ChooseFromMenu() {
               sectionRefs.current[category] = el as HTMLDivElement | null;
             }}
           >
-            <h2 className="text-3xl font-bold text-center mb-6">{category}</h2>
+            <h2 className="text-4xl font-bold text-center mb-6">{category}</h2>
             <MenuItems items={menuData[category as keyof typeof menuData]} />
           </section>
         ))}

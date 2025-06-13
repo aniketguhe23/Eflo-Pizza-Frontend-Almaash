@@ -12,6 +12,7 @@ import {
   Abhaya_Libre,
 } from "next/font/google";
 import "./globals.css";
+import UserBootstrap from "./hook/UserBootstrap";
 
 // Google fonts as variables (all subsets: "latin" by default)
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -93,6 +94,7 @@ export default function RootLayout({
           antialiased
         `}
       >
+         <UserBootstrap />
         {children}
       </body>
     </html>

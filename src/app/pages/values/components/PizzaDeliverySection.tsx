@@ -24,7 +24,7 @@ const PizzaDeliverySection = () => {
         </div>
 
         {/* Right: Image + CTA */}
-        <div className="flex items-end justify-center">
+        <div className="flex flex-col items-center justify-center">
           <Image
             src="/elephant.png"
             alt="Cute elephant mascot"

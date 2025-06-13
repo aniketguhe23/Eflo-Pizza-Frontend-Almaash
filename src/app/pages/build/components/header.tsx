@@ -93,14 +93,16 @@ export default function Header() {
         </div>
 
         <div className="flex justify-end items-center gap-5  w-[15%]">
-          <CircleUserRound className="text-white h-9 w-9" />
+          <Link href="/pages/myAccount" className="relative">
+            <CircleUserRound className="text-white h-9 w-9" />
+          </Link>
 
           <div className="relative">
-              <Link href="/pages/cart" className="relative">
-            <ShoppingCart className="text-white h-8 w-8" />
-            <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-              0
-            </span>
+            <Link href="/pages/cart" className="relative">
+              <ShoppingCart className="text-white h-8 w-8" />
+              <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                0
+              </span>
             </Link>
           </div>
         </div>

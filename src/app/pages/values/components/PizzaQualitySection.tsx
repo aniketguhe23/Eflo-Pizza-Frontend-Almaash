@@ -30,8 +30,8 @@ const PizzaQualitySection = () => {
         </div>
 
         {/* Right Column: Image & CTA */}
-        <div className="flex flex-col items-end justify-center gap-16">
-          <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded shadow transition-all duration-200 cursor-pointer">
+        <div className="flex flex-col items-center justify-center gap-16">
+          <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-8 rounded shadow transition-all duration-200 cursor-pointer ml-10">
             ORDER NOW
           </button>
 
