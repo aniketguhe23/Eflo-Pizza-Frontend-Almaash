@@ -4,6 +4,7 @@ export default function ProjectApiList() {
   const baseUrl = BackendUrl;
   const apiList = {
     api_getHomeData: `${baseUrl}/api/getall/home/all`,
+    api_getValueData: `${baseUrl}/api/getall/value/all`,
     api_getMenuItems: `${baseUrl}/api/home/get-menu-items`,
     api_getHomeMenuItems: `${baseUrl}/api/allMenu/getHomeSceenItems`,
     api_getUserProfileData: `${baseUrl}/api/otp-authRoutes/auth/profile`,

@@ -17,6 +17,7 @@ import Header from "../cart/components/header";
 import CustomEditProfileModal from "./components/editProfileSection";
 import { useUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/loader/Loader";
 
 export default function MyAccount() {
   const { user } = useUserStore();
@@ -33,12 +34,23 @@ export default function MyAccount() {
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
   ];
 
+  
   useEffect(() => {
     if (!user) {
-      router.push("/pages/auth/login");
+      const timeout = setTimeout(() => {
+        router.push("/");
+      }, 500);
+      
+      return () => clearTimeout(timeout); // cleanup
     }
   }, [user]);
-
+  
+  if (!user)
+    return (
+      <div className="fixed inset-0 z-50 h-full w-full flex items-center justify-center bg-white">
+        <Loader />
+      </div>
+    );
   return (
     <>
       <Header />

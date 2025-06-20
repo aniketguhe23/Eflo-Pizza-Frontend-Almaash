@@ -28,7 +28,7 @@ export default function ChooseFromMenu() {
   };
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8 [font-family:'Barlow_Condensed',Helvetica]">
+    <main className="max-w-6xl mx-auto px-4 py-8 [font-family:'Barlow_Condensed',Helvetica] bg-white">
       <h1 className="text-4xl font-bold text-center mb-10">CHOOSE FROM MENU</h1>
 
       <CategoryTabs categories={categories} onTabClick={scrollToCategory} />
