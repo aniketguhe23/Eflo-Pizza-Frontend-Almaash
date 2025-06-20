@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import ProjectApiList from "@/app/api/ProjectApiList";
 
@@ -47,7 +47,7 @@ export default function LoginModal({
     script.type = "text/javascript";
     script.setAttribute("data-appid", "HH4FMVL4I4B6B16IZZJH");
     // script.setAttribute("data-login_uri", "http://194.164.151.98/pages/auth/login");
-    script.setAttribute("data-login_uri", "http://194.164.151.98/pages/auth/login");
+    script.setAttribute("data-login_uri", "http://194.164.151.98/");
     script.setAttribute("data-origin", "http://194.164.151.98");
     document.body.appendChild(script);
 
@@ -65,7 +65,7 @@ export default function LoginModal({
         } else if (data.token) {
           localStorage.setItem("token", data.token);
           window.location.reload();
-          
+
           // if (pathname === "/pages/cart") {
           //   window.location.reload();
           // } else {
