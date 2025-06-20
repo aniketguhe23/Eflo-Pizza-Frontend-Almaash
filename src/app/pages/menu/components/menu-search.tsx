@@ -47,7 +47,7 @@ const MenuSearch = () => {
   };
 
   return (
-    <div className="relative z-50">
+    <div className="relative ">
       {filteredItems.length > 0 && (
         <div className="fixed inset-0 bg-black/50 z-10"></div>
       )}
