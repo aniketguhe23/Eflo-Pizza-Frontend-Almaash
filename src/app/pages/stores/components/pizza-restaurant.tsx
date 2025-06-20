@@ -1,5 +1,6 @@
 import HeaderSection from "./HeaderSection";
 import ChooseFromMenu from "../../menu/components/choose-from-menu";
+import MenuSearch from "../../menu/components/menu-search";
 
 export default function PizzaRestaurant() {
   // const featuredItems = [
@@ -76,6 +77,7 @@ export default function PizzaRestaurant() {
     <div className="min-h-screen bg-[#eeeeee] mt-20">
       <HeaderSection />
       <div className="bg-white">
+        <MenuSearch />
         <ChooseFromMenu />
       </div>
       {/* <div className=" mx-4 p-4">
