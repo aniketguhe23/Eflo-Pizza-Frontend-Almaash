@@ -3,8 +3,6 @@
 import { useState } from "react";
 import CreateAccountModal from "../createAccount/CreateAccountModal";
 import LoginModal from "./LoginModal";
-// import LoginModal from "./components/LoginManager";
-// import LoginModal from "./page";
 
 export default function LoginManager() {
   const [showLoginModal, setShowLoginModal] = useState(true); // Set to true initially to show login
