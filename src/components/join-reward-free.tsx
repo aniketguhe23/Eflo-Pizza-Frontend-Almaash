@@ -7,17 +7,27 @@ export default function JoinRewardFree() {
         JOIN ELFO’S REWARDS UNLOCK FREE
       </span>
       <div className="flex items-center gap-2 md:gap-3">
-        <Link href="/signup">
+        <Link href="/auth/createAccount">
           <span className="text-[#f47335]  cursor-pointer">
             CREATE AN ACCOUNT
           </span>
         </Link>
+        {/* <Link href="/signup">
+          <span className="text-[#f47335]  cursor-pointer">
+            CREATE AN ACCOUNT
+          </span>
+        </Link> */}
         <span className="text-black px-10">OR</span>
-        <Link href="/signin">
+        <Link href="/auth/login">
           <span className="text-[#f47335] cursor-pointer">
             SIGN IN
           </span>
         </Link>
+        {/* <Link href="/signin">
+          <span className="text-[#f47335] cursor-pointer">
+            SIGN IN
+          </span>
+        </Link> */}
       </div>
     </div>
   );
