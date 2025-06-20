@@ -47,7 +47,7 @@ export default function LoginModal({
     script.type = "text/javascript";
     script.setAttribute("data-appid", "HH4FMVL4I4B6B16IZZJH");
     // script.setAttribute("data-login_uri", "http://194.164.151.98/pages/auth/login");
-    script.setAttribute("data-login_uri", "http://194.164.151.98/");
+    script.setAttribute("data-login_uri", "http://194.164.151.98");
     script.setAttribute("data-origin", "http://194.164.151.98");
     document.body.appendChild(script);
 
