@@ -45,8 +45,8 @@ export default function LoginModal({
     script.src = "https://otpless.com/v4/auth.js";
     script.id = scriptId;
     script.type = "text/javascript";
-    script.setAttribute("data-appid", "653HM5S3MVV5RBFVRJYB");
-    // script.setAttribute("data-appid", "HH4FMVL4I4B6B16IZZJH");
+    // script.setAttribute("data-appid", "653HM5S3MVV5RBFVRJYB");
+    script.setAttribute("data-appid", "HH4FMVL4I4B6B16IZZJH");
     // script.setAttribute("data-login_uri", "http://194.164.151.98/pages/auth/login");
     script.setAttribute("data-login_uri", "http://194.164.151.98");
     script.setAttribute("data-origin", "http://194.164.151.98");
