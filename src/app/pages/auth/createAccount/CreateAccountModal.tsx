@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import Image from "next/image";
@@ -14,13 +14,25 @@ type FormValues = {
   dateOfBirth: string;
 };
 
-export default function CreateAccountPage() {
-  const { api_createUserProfile } = ProjectApiList();
+// interface CreateAccountModalProps {
+//   onClose?: () => void;
+//   waId: string;
+//   mobile: string;
+// }
 
+interface CreateAccountModalProps {
+  waId: string;
+  mobile: string;
+  onClose: () => void;
+}
+
+export default function CreateAccountModal({
+  onClose,
+  waId,
+  mobile,
+}: CreateAccountModalProps) {
+  const { api_createUserProfile } = ProjectApiList();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const waId = searchParams.get("waId");
-  const mobile = searchParams.get("mobile") || "";
 
   const {
     register,
@@ -45,14 +57,22 @@ export default function CreateAccountPage() {
     const result = await res.json();
     if (result.token) {
       localStorage.setItem("token", result.token);
-      router.push("/pages/cart");
+      window.location.reload();
+      // router.push("/pages/cart");
     }
     router.refresh();
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-orange-400 to-[#ED722E] px-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6">
+    <div className="fixed inset-0 bg-black/50 z-[1000] flex justify-center items-center px-4">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md max-h-[95vh] overflow-y-auto p-6 relative">
+        <button
+          className="absolute top-2 right-3 text-gray-500 text-md cursor-pointer hover:text-red-500"
+          onClick={onClose}
+        >
+          close
+        </button>
+
         <div className="flex flex-col items-center mb-4">
           <Image
             src="/elephant.png"
@@ -67,7 +87,6 @@ export default function CreateAccountPage() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* First Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               First Name
@@ -84,7 +103,6 @@ export default function CreateAccountPage() {
             )}
           </div>
 
-          {/* Last Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Last Name
@@ -101,7 +119,6 @@ export default function CreateAccountPage() {
             )}
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -125,7 +142,6 @@ export default function CreateAccountPage() {
             )}
           </div>
 
-          {/* Mobile */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Mobile Number
@@ -139,8 +155,7 @@ export default function CreateAccountPage() {
                   message: "Enter a valid number (10 to 15 digits)",
                 },
               })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400 outline-none bg-gray-100 cursor-not-allowed"
-              placeholder="Enter mobile number"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
               disabled
             />
             {errors.mobile && (
@@ -150,7 +165,6 @@ export default function CreateAccountPage() {
             )}
           </div>
 
-          {/* Date of Birth */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Date of Birth

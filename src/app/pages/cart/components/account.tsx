@@ -9,22 +9,35 @@ import {
 } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
 import DeliveryAddressModal from "./saveAddressModal";
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store/useUserStore";
+// import LoginModal from "../../auth/login/page";
+// import CreateAccountModal from "../../auth/createAccount/components/CreateAccountModal";
+import LoginModal from "../../auth/login/LoginModal";
+import CreateAccountModal from "../../auth/createAccount/CreateAccountModal";
 
 interface AccountComponentProps {
   showLeft: boolean;
   setShowLeft: (value: boolean) => void;
 }
 
-export default function AccountComponent({ showLeft, setShowLeft }: AccountComponentProps) {
+export default function AccountComponent({
+  showLeft,
+  setShowLeft,
+}: AccountComponentProps) {
   const { user } = useUserStore();
-  const router = useRouter();
+  // const router = useRouter();
 
   const [showSelector, setShowSelector] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
     "House 43, phase 1, Golden city, misroad Bhopal, Madhya Pradesh, 462047, INDIA (13)"
   );
+
+  // const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [createAccountData, setCreateAccountData] = useState<{
+    waId: string;
+    mobile: string;
+  } | null>(null);
 
   const [showModal, setShowModal] = useState(false);
   // Removed savedAddress state, since it's unused
@@ -38,6 +51,24 @@ export default function AccountComponent({ showLeft, setShowLeft }: AccountCompo
 
   return (
     <>
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          setShowLoginModal={setShowLoginModal}
+          onTriggerCreateAccount={(data) => {
+            setShowLoginModal(false);
+            setCreateAccountData(data);
+          }}
+        />
+      )}
+
+      {createAccountData && (
+        <CreateAccountModal
+          onClose={() => setCreateAccountData(null)}
+          waId={createAccountData.waId}
+          mobile={createAccountData.mobile}
+        />
+      )}
       <div className="w-[500px] h-screen bg-gray-300 p-4 flex flex-col gap-6 relative pt-15">
         {/* Account Section */}
         <div className="bg-white p-4 rounded shadow flex items-start gap-4 mt-10 relative">
@@ -62,12 +93,13 @@ export default function AccountComponent({ showLeft, setShowLeft }: AccountCompo
               <>
                 <h2 className="font-bold text-sm tracking-wide">ACCOUNT</h2>
                 <p className="text-sm text-gray-600 mb-3">
-                  To place your order now, log in to your existing account or sign up.
+                  To place your order now, log in to your existing account or
+                  sign up.
                 </p>
                 <div className="flex gap-2">
                   <button
                     className="px-4 py-1 bg-orange-500 text-white text-sm font-semibold cursor-pointer"
-                    onClick={() => router.push("/pages/auth/login")}
+                    onClick={() => setShowLoginModal(true)}
                   >
                     SIGN UP
                   </button>
@@ -86,10 +118,13 @@ export default function AccountComponent({ showLeft, setShowLeft }: AccountCompo
               </div>
               <div>
                 <p className="font-bold text-sm flex justify-start items-center">
-                  DELIVERY ADDRESS <TiTick className="text-orange-500 w-6 h-6" />
+                  DELIVERY ADDRESS{" "}
+                  <TiTick className="text-orange-500 w-6 h-6" />
                 </p>
                 <p className="font-semibold text-sm mt-1">HOME</p>
-                <p className="text-sm text-gray-700 mt-0.5">{selectedAddress}</p>
+                <p className="text-sm text-gray-700 mt-0.5">
+                  {selectedAddress}
+                </p>
               </div>
             </div>
             <button

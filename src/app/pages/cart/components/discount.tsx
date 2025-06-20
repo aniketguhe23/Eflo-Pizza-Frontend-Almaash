@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 
@@ -69,13 +70,18 @@ const DiscountComponent: React.FC<DiscountComponentProps> = ({
 
       {/* Coupons List */}
       <div className="overflow-y-auto no-scrollbar space-y-6 pr-2 flex-1 pb-10">
-        {coupons.map((coupon, index) => (
+        {coupons?.map((coupon, index) => (
           <div
             key={index}
             className="bg-[#FFE6DB] p-6 rounded-[20px] border-2 border-[#ED722E] shadow text-center flex flex-col items-center space-y-2"
           >
             <div className="flex justify-center items-center">
-              <img src={coupon.image} alt="Coupon Icon" className="h-10 mb-2" />
+              <Image
+                src={coupon?.image}
+                alt="Coupon Icon"
+                width={70}
+                height={70}
+              />
               <h3 className="font-extrabold text-xl text-black uppercase">
                 {coupon.code}
               </h3>

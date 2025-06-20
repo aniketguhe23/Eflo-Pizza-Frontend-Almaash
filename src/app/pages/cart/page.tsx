@@ -1,6 +1,6 @@
 "use client";
 
-import {  useState } from "react";
+import { useState } from "react";
 import Orders from "./components/order";
 import AccountSection from "./components/account";
 import DiscountComponent from "./components/discount";
@@ -15,11 +15,10 @@ const Page = () => {
   const [showRight, setShowRight] = useState(false);
 
 
-
   return (
     <>
       {!user && <UserBootstrap />}
-
+    
       <Header />
       <div className="flex h-screen overflow-hidden">
         {/* Left Sidebar */}
