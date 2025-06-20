@@ -42,7 +42,7 @@ export default function LoginModal({
     if (oldScript) oldScript.remove();
 
     const script = document.createElement("script");
-    script.src = "https://otpless.com/v4/auth.js";
+    script.src = "https://otpless.com/v3/auth.js";
     script.id = scriptId;
     script.type = "text/javascript";
     // script.setAttribute("data-appid", "653HM5S3MVV5RBFVRJYB");
