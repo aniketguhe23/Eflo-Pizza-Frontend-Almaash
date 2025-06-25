@@ -13,6 +13,8 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import UserBootstrap from "./hook/UserBootstrap";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 // Google fonts as variables (all subsets: "latin" by default)
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -92,9 +94,22 @@ export default function RootLayout({
           ${barlow.variable}
           ${abhayaLibre.variable}
           antialiased
+          
         `}
       >
-         <UserBootstrap />
+        <UserBootstrap />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         {children}
       </body>
     </html>

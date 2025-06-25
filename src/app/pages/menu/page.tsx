@@ -6,10 +6,13 @@ import FoodDeliveryHero from "@/components/food-delivery";
 import Footer from "@/components/footer";
 import ChooseFromMenu from "./components/choose-from-menu";
 import MenuSearch from "./components/menu-search";
+import BackToTopButton from "@/components/backToTop/BackToTopButton";
 
 const Page = () => {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  console.log(showHeader)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,11 +35,7 @@ const Page = () => {
 
   return (
     <div>
-      <div
-        className={`fixed top-0 w-full z-500 transition-transform duration-300 ${
-          showHeader ? "translate-y-0" : "bg-black"
-        }`}
-      >
+      <div>
         <Header />
       </div>
 
@@ -51,6 +50,9 @@ const Page = () => {
         <FoodDeliveryHero />
       </div>
       <Footer />
+      <div className="relative z-10">
+        <BackToTopButton />
+      </div>
     </div>
   );
 };

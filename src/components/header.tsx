@@ -8,13 +8,10 @@ import { TbBus } from "react-icons/tb";
 import { PiHandCoinsFill } from "react-icons/pi";
 import { useHomeStore } from "@/app/store/homeStore";
 import { useUserStore } from "@/app/store/useUserStore";
-// import LoginModal from "@/app/pages/auth/login/page";
-// import CreateAccountModal from "@/app/pages/auth/createAccount/components/CreateAccountModal"; // <-- import this
 import AccountDropdown from "@/app/pages/cart/components/dropDown";
 import LoginModal from "@/app/pages/auth/login/LoginModal";
 import CreateAccountModal from "@/app/pages/auth/createAccount/CreateAccountModal";
 import DineInModal from "./dineIn-modal";
-// import LoginModal from "@/app/pages/auth/login/LoginManager";
 
 export default function Header() {
   const { data } = useHomeStore();

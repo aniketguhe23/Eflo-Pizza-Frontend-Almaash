@@ -10,17 +10,26 @@ import { useUserStore } from "@/app/store/useUserStore";
 import AccountDropdown from "./dropDown";
 import CreateAccountModal from "../../auth/createAccount/CreateAccountModal";
 import LoginModal from "../../auth/login/LoginModal";
+import useCartStore from "@/app/store/useCartStore";
+import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 
 export default function Header() {
   const { data } = useHomeStore();
+  const { orderItems } = useCartStore();
+  const { pizzas } = useBuildYourOwnPizzaCart();
 
   const { user } = useUserStore();
   const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
   const [showLoginModal, setShowLoginModal] = useState(false);
-    const [createAccountData, setCreateAccountData] = useState<{
+  const [createAccountData, setCreateAccountData] = useState<{
     waId: string;
     mobile: string;
   } | null>(null);
+
+  // Calculate total quantity
+  const totalCartCount =
+    orderItems.reduce((sum, item) => sum + item.quantity, 0) +
+    pizzas.reduce((sum, pizza) => sum + (pizza.quantity || 1), 0);
 
   if (!data)
     return (
@@ -118,9 +127,11 @@ export default function Header() {
             <div className="relative cursor-pointer mr-2">
               <Link href="/pages/cart" className="relative">
                 <ShoppingCart className="text-white h-7 w-7" />
-                <span className="absolute -top-1 -right-1 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold">
-                  0
-                </span>
+                {totalCartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-lg font-bold">
+                    {totalCartCount}
+                  </span>
+                )}
               </Link>
             </div>
             {user ? (

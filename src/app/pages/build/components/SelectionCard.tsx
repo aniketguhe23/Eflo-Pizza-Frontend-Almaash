@@ -1,17 +1,28 @@
-"use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
-import type { PizzaOption } from "./BuildPizza";
-import { pizzaOptions } from "./pizzaOptions";
+import { PizzaOption } from "./pizza";
+// import type { PizzaOption } from "./BuildPizza";
 
-type Category = keyof typeof pizzaOptions;
+type Category =
+  | "sizes"
+  | "doughTypes"
+  | "crustTypes"
+  | "sauces"
+  | "cheeseOptions"
+  | "toppings"
+  | "extraSauces";
+
+interface Selection {
+  name: string | null;
+  size: string;
+  price: number;
+}
 
 interface SelectionCardModalProps {
   open: boolean;
   handleClose: () => void;
-  option: PizzaOption;
+  option: PizzaOption & { image_url?: string };
   category: Category;
   onAddToCart: (
     category: Category,
@@ -20,8 +31,12 @@ interface SelectionCardModalProps {
     price: number
   ) => void;
   isSelected: boolean;
-  selectedOptions: Record<string, { price: number } | null | undefined>;
+  selectedOptions: Record<Category, Selection | Selection[] | null>;
 }
+
+// Utility: Check if a category allows multiple selections
+// const isMultiSelectCategory = (category: Category) =>
+//   ["sauces", "cheeseOptions", "toppings", "extraSauces"].includes(category);
 
 const SelectionCardModal: React.FC<SelectionCardModalProps> = ({
   open,
@@ -31,31 +46,25 @@ const SelectionCardModal: React.FC<SelectionCardModalProps> = ({
   onAddToCart,
   isSelected,
 }) => {
-  const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("Regular");
-
-  const increment = () => setQuantity((prev) => prev + 1);
-  const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  const handleSizeSelect = (option: string) => {
-    setSize(option);
-  };
 
   if (!open) return null;
 
-  // Example price calculation logic (customize as needed)
   const basePrice = option.inclusive
     ? 0
-    : parseInt(option.price?.replace(/\D/g, "") || "0");
+    : parseFloat(option.price?.toString() || "0");
 
-  const totalPrice = basePrice * quantity;
+  const totalPrice = basePrice;
 
   const handleAddClick = () => {
-    if (isSelected) {
-      onAddToCart(category, null, size, 0); // Removing
-    } else {
-      onAddToCart(category, option.name, size, totalPrice); // Adding
-    }
+    const name = isSelected ? null : option.name;
+    const price = option.inclusive ? 0 : totalPrice;
+    onAddToCart(category, name, size, price);
   };
+
+  const showSizeSelector = !["sizes", "doughTypes", "crustTypes"].includes(
+    category
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 [font-family:'Barlow_Condensed',Helvetica]">
@@ -70,11 +79,10 @@ const SelectionCardModal: React.FC<SelectionCardModalProps> = ({
 
         {/* Top Section */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-4">
-          {/* Image */}
-          {option?.image && (
+          {option.image && option.image !== "/placeholder.svg" && (
             <div className="w-44 h-44 rounded-full overflow-hidden">
               <Image
-                src={option.image || "/placeholder.svg"}
+                src={option.image}
                 alt={option.name || "pizza option"}
                 width={176}
                 height={176}
@@ -83,45 +91,37 @@ const SelectionCardModal: React.FC<SelectionCardModalProps> = ({
             </div>
           )}
 
-          {/* Info */}
           <div className="text-center">
             <h2 className="text-3xl font-extrabold uppercase tracking-wide">
               {option.name.toUpperCase()}
             </h2>
             <p className="font-bold text-lg mt-2">
-              • {option.inclusive ? "INCLUSIVE" : option.price}
+              • {option.inclusive ? "INCLUSIVE" : `INR ${option.price}`}
             </p>
           </div>
         </div>
 
         {/* Size Selector */}
-        <div className="mt-8 grid grid-cols-3 gap-0 text-center text-xl font-bold rounded-lg overflow-hidden shadow-lg border border-gray-300 mx-5">
-          {["Light", "Regular", "Extra"].map((opt) => (
-            <button
-              key={opt}
-              onClick={() => handleSizeSelect(opt)}
-              className={`py-4 transition duration-200  ${
-                size === opt
-                  ? "bg-orange-500 text-white"
-                  : "bg-white text-black cursor-pointer hover:bg-orange-200 "
-              }`}
-            >
-              {opt.toUpperCase()}
-            </button>
-          ))}
-        </div>
-
-        {/* Bottom Section */}
-        <div className="mt-8 flex flex-col md:flex-row items-center justify-between bg-[#ed722e] font-bold px-6 py-4">
-          {/* Quantity */}
-          <div className="flex items-center gap-3 text-2xl mb-3 md:mb-0">
-            <span className="tracking-wide">QTY.</span>
-            <FaMinusCircle onClick={decrement} className="cursor-pointer" />
-            <span className="text-xl">{quantity}</span>
-            <FaPlusCircle onClick={increment} className="cursor-pointer" />
+        {showSizeSelector && (
+          <div className="mt-8 grid grid-cols-3 gap-0 text-center text-xl font-bold rounded-lg overflow-hidden shadow-lg border border-gray-300 mx-5">
+            {["Light", "Regular", "Extra"].map((opt) => (
+              <button
+                key={opt}
+                onClick={() => setSize(opt)}
+                className={`py-4 transition duration-200 ${
+                  size === opt
+                    ? "bg-orange-500 text-white"
+                    : "bg-white text-black hover:bg-orange-200"
+                }`}
+              >
+                {opt.toUpperCase()}
+              </button>
+            ))}
           </div>
+        )}
 
-          {/* Total Price */}
+        {/* Bottom Bar */}
+        <div className="mt-8 flex flex-col md:flex-row items-center justify-between bg-[#ed722e] font-bold px-6 py-4">
           <div className="text-xl tracking-wide pl-10">
             TOTAL:{" "}
             <span className="ml-1 font-medium">
@@ -129,7 +129,6 @@ const SelectionCardModal: React.FC<SelectionCardModalProps> = ({
             </span>
           </div>
 
-          {/* Add to Cart */}
           <button
             onClick={handleAddClick}
             className="bg-black hover:bg-gray-900 text-white px-10 py-2 text-sm tracking-wide cursor-pointer rounded-md"

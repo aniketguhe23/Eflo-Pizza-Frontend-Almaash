@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Orders from "./components/order";
 import AccountSection from "./components/account";
 import DiscountComponent from "./components/discount";
@@ -13,12 +13,14 @@ const Page = () => {
 
   const [showLeft, setShowLeft] = useState(true);
   const [showRight, setShowRight] = useState(false);
-
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  if (!hydrated) return null; // Prevent hydration mismatch
 
   return (
     <>
       {!user && <UserBootstrap />}
-    
+
       <Header />
       <div className="flex h-screen overflow-hidden">
         {/* Left Sidebar */}

@@ -7,8 +7,8 @@ interface CategoryTabsProps {
 
 export default function CategoryTabs({ categories, onTabClick }: CategoryTabsProps) {
   return (
-    <div className="flex justify-center overflow-x-auto scrollbar-hide">
-      <div className="flex space-x-14 pb-1">
+    <div className="flex justify-start overflow-x-auto scrollbar-hide">
+      <div className="flex space-x-20 pb-1">
         {categories.map((category) => (
           <button
             key={category}

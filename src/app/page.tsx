@@ -65,7 +65,7 @@ export default function Home() {
 
   return (
     <main
-      className="min-h-screen bg-cover bg-center bg-no-repeat bg-white"
+      className="min-h-screen bg-cover bg-center bg-no-repeat bg-white no-scrollbar"
       // style={{
       //   backgroundImage: "url('/elephantPointers.png')",
       // }}

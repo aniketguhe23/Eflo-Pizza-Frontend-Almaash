@@ -6,13 +6,13 @@ export default function AppSection() {
   return (
     <div className="flex-col justify-center items-center text-center space-y-6">
       <div className=" rounded-lg p-8">
-        <div className="w-20 h-20 bg-orange-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+        <div className="w-20 h-20 bg-[#f98344] rounded-lg mx-auto mb-4 flex items-center border border-black justify-center">
           <Image
-            src="/elephant-orange.png"
+            src="/elephant.png"
             alt="Download on App Store"
             width={120}
             height={40}
-            className="rounded border border-black"
+            className="rounded border"
           />
         </div>
         <h2 className="text-4xl font-bold mb-2">DOWNLOAD OUR APP NOW!</h2>

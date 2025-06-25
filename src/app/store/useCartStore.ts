@@ -10,7 +10,8 @@ export interface OrderItem {
   image: string;
   dough?: "original" | "sour";
   crust?: "original" | "garlic";
-  toppings?: string[];
+  toppings?: string[] ;
+  suggestions?: string[]; // ✅ Added field for suggestions
 }
 
 export interface AddOnItem {

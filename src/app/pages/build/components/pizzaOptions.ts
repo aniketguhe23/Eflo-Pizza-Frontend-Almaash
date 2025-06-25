@@ -7,67 +7,43 @@ type Option = {
 };
 
 type PizzaOptions = {
-  SIZES: Option[];
-  DOUGH: Option[];
-  SAUCE: Option[];
-  CHEESE: Option[];
-  TOPPING: Option[];
-  SAUCES: Option[];
-  CRUST: Option[];
+  sizes: Option[];
+  doughTypes: Option[];
+  sauces: Option[];
+  cheeseOptions: Option[];
+  toppings: Option[];
+  extraSauces: Option[];
+  crustTypes: Option[];
 };
 
 export const pizzaOptions: PizzaOptions = {
-  SIZES: [
-    {
-      name: "SMALL",
-      description: "7 INCHES",
-      price: "INR 200",
-      inclusive: false,
-    },
-    {
-      name: "MEDIUM",
-      description: "10 INCHES",
-      price: "INR 430",
-      inclusive: false,
-    },
-    {
-      name: "LARGE",
-      description: "13 INCHES",
-      price: "INR 630",
-      inclusive: false,
-    },
+  sizes: [
+    { name: "SMALL", description: "7 INCHES", price: "INR 200", inclusive: false },
+    { name: "MEDIUM", description: "10 INCHES", price: "INR 430", inclusive: false },
+    { name: "LARGE", description: "13 INCHES", price: "INR 630", inclusive: false },
   ],
-  DOUGH: [
-    {
-      name: "ESBY'S ORIGINAL",
-      description: "",
-      price: "INR 530",
-      inclusive: false,
-    },
-    {
-      name: "SOURDOUGH",
-      description: "",
-      price: "INR 630",
-      inclusive: false,
-    },
+
+  doughTypes: [
+    { name: "ESBY'S ORIGINAL", description: "", price: "INR 530", inclusive: false },
+    { name: "SOURDOUGH", description: "", price: "INR 630", inclusive: false },
   ],
-  CRUST: [
+
+  crustTypes: [
     {
       name: "GARLIC",
       description: "",
       price: "INR 50",
       inclusive: false,
-      //   image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
     },
     {
       name: "ORIGINAL",
       description: "",
       price: "INR 99",
       inclusive: false,
-      //   image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
     },
   ],
-  SAUCE: [
+
+  sauces: [
     {
       name: "CREAMY ALFREDO",
       description: "",
@@ -90,7 +66,8 @@ export const pizzaOptions: PizzaOptions = {
       image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
     },
   ],
-  CHEESE: [
+
+  cheeseOptions: [
     {
       name: "MOZZERELLA",
       description: "",
@@ -120,7 +97,8 @@ export const pizzaOptions: PizzaOptions = {
       image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
     },
   ],
-  TOPPING: [
+
+  toppings: [
     {
       name: "ONION",
       description: "",
@@ -150,7 +128,8 @@ export const pizzaOptions: PizzaOptions = {
       image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
     },
   ],
-  SAUCES: [
+
+  extraSauces: [
     {
       name: "RANCH",
       description: "",
@@ -180,5 +159,4 @@ export const pizzaOptions: PizzaOptions = {
       image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
     },
   ],
-  
 };

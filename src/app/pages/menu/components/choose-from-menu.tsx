@@ -18,30 +18,37 @@ const categories = [
 ];
 
 export default function ChooseFromMenu() {
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const headingRefs = useRef<Record<string, HTMLHeadingElement | null>>({});
 
   const scrollToCategory = (category: string) => {
-    const section = sectionRefs.current[category];
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    const heading = headingRefs.current[category];
+    if (heading) {
+      heading.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest",
+      });
     }
   };
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8 [font-family:'Barlow_Condensed',Helvetica] bg-white">
-      <h1 className="text-4xl font-bold text-center mb-10">CHOOSE FROM MENU</h1>
+    <main className="max-w-7xl mx-auto py-8 [font-family:'Barlow_Condensed',Helvetica] bg-white">
+      <h1 className="text-4xl font-bold text-center mb-15">CHOOSE FROM MENU</h1>
 
       <CategoryTabs categories={categories} onTabClick={scrollToCategory} />
 
-      <div className="mt-12 space-y-24">
+      <div className="mt-25 space-y-24">
         {categories.map((category) => (
-          <section
-            key={category}
-            ref={(el) => {
-              sectionRefs.current[category] = el as HTMLDivElement | null;
-            }}
-          >
-            <h2 className="text-4xl font-bold text-center mb-6">{category}</h2>
+          <section key={category}>
+            <h2
+              ref={(el) => {
+                headingRefs.current[category] = el;
+              }}
+              className="text-4xl font-bold text-start mb-6"
+            >
+              {category}
+            </h2>
+
             <MenuItems items={menuData[category as keyof typeof menuData]} />
           </section>
         ))}

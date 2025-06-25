@@ -15,17 +15,16 @@ import { useValuesStore } from "@/app/store/useValuesStore";
 import Loader from "@/components/loader/Loader";
 
 const Page = () => {
+  const { api_getValueData } = ProjectApiList();
 
-    const { api_getValueData } = ProjectApiList();
+  const { valueData, loading, setValueData, setLoading } = useValuesStore();
 
-      const { valueData, loading, setValueData, setLoading } = useValuesStore();
-    
-  
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  console.log(showHeader)
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchValueData = async () => {
       try {
         const response = await axios.get(api_getValueData);
@@ -42,14 +41,7 @@ const Page = () => {
     } else {
       setLoading(false);
     }
-
-  }, [
-    valueData,
-    api_getValueData,
-    setValueData,
-    setLoading
-  ]);
-
+  }, [valueData, api_getValueData, setValueData, setLoading]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,9 +63,7 @@ const Page = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-
-
-    if (loading)
+  if (loading)
     return (
       <div className="fixed inset-0 z-50 h-full w-full flex items-center justify-center bg-white">
         <Loader />
@@ -83,9 +73,9 @@ const Page = () => {
   return (
     <div>
       <div
-        className={`fixed top-0 w-full z-50 transition-transform duration-300 ${
-          showHeader ? "translate-y-0" : "bg-black"
-        }`}
+        // className={`fixed top-0 w-full z-500 transition-transform duration-300 bg-black
+        //   //  ${showHeader ? "translate-y-0" : "bg-black"}
+        //   `}
       >
         <Header />
       </div>

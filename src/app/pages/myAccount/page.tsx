@@ -54,7 +54,7 @@ export default function MyAccount() {
   return (
     <>
       <Header />
-      <div className="min-h-screen mt-25  [font-family:'Barlow_Condensed',Helvetica] shadow-md">
+      <div className="min-h-screen mt-25  [font-family:'Barlow_Condensed',Helvetica] shadow-md ">
         {/* Header */}
 
         <div className="bg-white">

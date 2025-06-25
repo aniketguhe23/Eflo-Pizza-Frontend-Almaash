@@ -122,7 +122,7 @@ export default function OrderModal({ onClose }: OrderModalProps) {
             <span className="text-orange-500 font-medium">FREE</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">GST and Restaurant Charges</span>
+            <span className="text-gray-500">GST</span>
             <span className="text-gray-700">33.3</span>
           </div>
           <div className="flex justify-between font-bold text-lg">

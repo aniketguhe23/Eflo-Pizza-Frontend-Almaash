@@ -10,6 +10,7 @@ export default function ProjectApiList() {
     api_getUserProfileData: `${baseUrl}/api/otp-authRoutes/auth/profile`,
     api_createUserProfile: `${baseUrl}/api/otp-authRoutes/auth/create-user`,
     api_otplessCallback: `${baseUrl}/api/otp-authRoutes/auth/otpless/callback`,
+    api_getBuildYourOwn: `${baseUrl}/api/build-your-own/options`,
     
     
   };

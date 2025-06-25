@@ -44,35 +44,36 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden p-4 flex flex-col items-center">
-      <h3 className="font-bold text-xl text-center mb-1">{item.name}</h3>
-      <p className="text-orange-500 mb-4 text-xl">{formatPrices()}</p>
+    <>
+      <div className="bg-white rounded-lg shadow-xl overflow-hidden p-2 flex flex-col items-center transition-all duration-300 ease-in-out hover:shadow-[0_0_16px_4px_rgba(244,120,52,0.25)] hover:scale-[1.03] group">
+        <h3 className="font-bold text-xl text-center mb-1">{item.name}</h3>
+        <p className="text-orange-500 mb-4 text-xl">{formatPrices()}</p>
 
-      <div className="w-48 h-48 relative mb-4">
-        <Image
-          src={item.image !== "" ? item.image : `/placeholder.svg`}
-          alt={item.name}
-          width={192}
-          height={192}
-          className="w-full h-full object-contain"
-          unoptimized={item.image.startsWith("http")} // Optional: to avoid errors on external images without next.config setup
-        />
+        <div className="w-32 h-32 relative mb-4">
+          <Image
+            src={item.image !== "" ? item.image : `/placeholder.svg`}
+            alt={item.name}
+            width={150}
+            height={150}
+            className="w-full h-full object-contain transition-transform duration-300 ease-in-out group-hover:scale-110"
+            unoptimized={item.image.startsWith("http")}
+          />
+        </div>
+
+        <button
+          className="bg-orange-500 text-lg hover:bg-orange-600 text-white font-semibold cursor-pointer py-1 px-6 rounded-md mb-2 w-full max-w-[130px] text-center"
+          onClick={() => setIsOpen(true)}
+        >
+          ORDER NOW
+        </button>
+
+        <p className="font-semibold text-center text-xl">MAKE IT MY OWN</p>
       </div>
-
-      <button
-        className="bg-orange-500 text-xl hover:bg-orange-600 text-white font-semibold cursor-pointer py-2 px-6 rounded-md mb-2 w-full max-w-[200px] text-center"
-        onClick={() => setIsOpen(true)}
-      >
-        ORDER NOW
-      </button>
-
-      <p className=" font-semibold text-center text-xl">MAKE IT MY OWN</p>
-
       <OrderModal
         isOpen={isOpen}
         item={item}
         onClose={() => setIsOpen(false)}
       />
-    </div>
+    </>
   );
 }
