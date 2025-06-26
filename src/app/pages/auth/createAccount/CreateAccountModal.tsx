@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import Image from "next/image";
 import ProjectApiList from "@/app/api/ProjectApiList";
+import { RxCross1 } from "react-icons/rx";
 
 type FormValues = {
   firstName: string;
@@ -70,7 +71,7 @@ export default function CreateAccountModal({
           className="absolute top-2 right-3 text-gray-500 text-md cursor-pointer hover:text-red-500"
           onClick={onClose}
         >
-          close
+          <RxCross1 className="hover:text-red-600" />
         </button>
 
         <div className="flex flex-col items-center mb-4">

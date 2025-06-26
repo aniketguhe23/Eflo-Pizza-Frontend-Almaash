@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LocateFixed, Search, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { RxCross1 } from "react-icons/rx";
 
 // City to Locality Mapping
 const cityData: { [key: string]: string[] } = {
@@ -16,7 +17,7 @@ const cityData: { [key: string]: string[] } = {
 export default function DineInModal({ onClose }: { onClose: () => void }) {
   const [isOpen, setIsOpen] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(setIsOpen)
+  console.log(setIsOpen);
 
   // Lowercased search for matching key
   const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -32,12 +33,12 @@ export default function DineInModal({ onClose }: { onClose: () => void }) {
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-500">
           <div className="bg-[#ffd7c0] w-[400px] h-[600px] p-6 shadow-lg rounded relative flex flex-col">
             {/* Close Button */}
-            <div className="flex justify-end mb-2">
+            <div className="flex justify-end mb-4">
               <button
                 onClick={onClose}
                 className="text-orange-600 hover:text-orange-800 text-xl font-bold cursor-pointer"
               >
-                X
+                <RxCross1 className="hover:text-red-600" />
               </button>
             </div>
 
@@ -53,7 +54,7 @@ export default function DineInModal({ onClose }: { onClose: () => void }) {
                 <input
                   type="text"
                   placeholder="Enter City"
-                //   placeholder="City, State, or Zip"
+                  //   placeholder="City, State, or Zip"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-white shadow-md rounded-xl py-2 px-4 pr-10 text-gray-700 placeholder:text-gray-500 focus:outline-none"

@@ -1,7 +1,7 @@
 "use client";
 
 import FoodDeliveryHero from "@/components/food-delivery";
-import Header from "./components/header";
+// import Header from "./components/header";
 import HeroSection from "./components/HeroSection";
 import Footer from "@/components/footer";
 import BuildPizza from "./components/BuildPizza";
@@ -11,6 +11,7 @@ import ProjectApiList from "@/app/api/ProjectApiList";
 import Loader from "@/components/loader/Loader";
 import useHomeDataStore from "@/app/store/useBuildYourOwnStore";
 import BackToTopButton from "@/components/backToTop/BackToTopButton";
+import Header from "@/components/header";
 
 export default function Home() {
   const { api_getBuildYourOwn } = ProjectApiList();

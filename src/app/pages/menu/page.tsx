@@ -12,8 +12,6 @@ const Page = () => {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  console.log(showHeader)
-
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;

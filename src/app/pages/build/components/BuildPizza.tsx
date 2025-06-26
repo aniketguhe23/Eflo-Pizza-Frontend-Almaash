@@ -167,7 +167,7 @@ export default function BuildPizza() {
       extraSauces: [],
     });
 
-    router.push("/pages/cart");
+       toast.success(`Items added to cart`);
   };
 
   const validateSelections = () => {

@@ -125,10 +125,10 @@ export default function Header() {
             {/* <AccountDropdown/> */}
 
             <div className="relative cursor-pointer mr-2">
-              <Link href="/pages/cart" className="relative">
-                <ShoppingCart className="text-white h-7 w-7" />
+                 <Link href="/pages/cart" className="relative">
+                <ShoppingCart className="text-white h-8 w-8" />
                 {totalCartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-lg font-bold">
+                  <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
                     {totalCartCount}
                   </span>
                 )}
