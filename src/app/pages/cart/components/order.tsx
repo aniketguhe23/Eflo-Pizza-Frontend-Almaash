@@ -16,34 +16,10 @@ export default function Orders({ setShowRight }: OrdersProps) {
   const { pizzas, updatePizzaQuantity } = useBuildYourOwnPizzaCart();
 
   const initialAddOns = [
-    {
-      id: "cookies",
-      name: "Cookies",
-      price: 75,
-      image: "/images/garlic.png",
-      added: false,
-    },
-    {
-      id: "lemonade",
-      name: "Lemonade",
-      price: 15,
-      image: "/images/garlic.png",
-      added: false,
-    },
-    {
-      id: "garlic",
-      name: "Garlic Bread",
-      price: 15,
-      image: "/images/garlic.png",
-      added: false,
-    },
-    {
-      id: "mushroom-soup",
-      name: "Mushroom Soup",
-      price: 15,
-      image: "/images/garlic.png",
-      added: false,
-    },
+    { id: "cookies", name: "Cookies", price: 75, image: "/images/garlic.png", added: false },
+    { id: "lemonade", name: "Lemonade", price: 15, image: "/images/garlic.png", added: false },
+    { id: "garlic", name: "Garlic Bread", price: 15, image: "/images/garlic.png", added: false },
+    { id: "mushroom-soup", name: "Mushroom Soup", price: 15, image: "/images/garlic.png", added: false },
   ];
 
   useEffect(() => {
@@ -63,10 +39,7 @@ export default function Orders({ setShowRight }: OrdersProps) {
     const pizzaPrice = pizza?.selections
       ? Object.values(pizza.selections).reduce((acc, option) => {
           if (Array.isArray(option)) {
-            return (
-              acc +
-              option.reduce((innerSum, o) => innerSum + (o?.price || 0), 0)
-            );
+            return acc + option.reduce((innerSum, o) => innerSum + (o?.price || 0), 0);
           }
           return acc + (option?.price || 0);
         }, 0)
@@ -109,27 +82,15 @@ export default function Orders({ setShowRight }: OrdersProps) {
 
       {isCartEmpty ? (
         <div className="flex flex-col items-center justify-center h-[40vh] text-gray-500">
-          <Image
-            src="/empty-cart.png"
-            alt="No items"
-            width={180}
-            height={180}
-            className="mb-4"
-          />
+          <Image src="/empty-cart.png" alt="No items" width={180} height={180} className="mb-4" />
           <h2 className="text-lg font-semibold">No items in cart</h2>
-          <p className="text-sm">
-            You can still select Add-ons above. Try pairing with something!
-          </p>
+          <p className="text-sm">You can still select Add-ons above. Try pairing with something!</p>
         </div>
       ) : (
         <>
-          {/* Regular Items */}
           <div className="px-4 space-y-4">
             {orderItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center justify-between py-4 border-b border-gray-100"
-              >
+              <div key={item.id} className="flex items-center justify-between py-4 border-b border-gray-100">
                 <div className="w-20 h-20 mr-5">
                   <Image
                     src={item.image || "/placeholder.svg"}
@@ -140,47 +101,20 @@ export default function Orders({ setShowRight }: OrdersProps) {
                   />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 text-base">
-                    {item.name}
-                  </h3>
-                  <div className="mt-1 text-sm text-gray-600 space-y-1">
-                    {item.size && (
-                      <p>
-                        <span className="font-medium text-gray-700">Size:</span>{" "}
-                        {item.size}
-                      </p>
-                    )}
-                    {item.dough && (
-                      <p>
-                        <span className="font-medium text-gray-700">
-                          Dough:
-                        </span>{" "}
-                        {item.dough}
-                      </p>
-                    )}
-                    {item.crust && (
-                      <p>
-                        <span className="font-medium text-gray-700">
-                          Crust:
-                        </span>{" "}
-                        {item.crust}
-                      </p>
-                    )}
+                  <h3 className="font-semibold text-gray-900 text-base">{item.name}</h3>
+                  <div className="mt-1 text-sm text-gray-600 flex flex-wrap gap-x-1 gap-y-1">
+                    {item.size && <span><span className="font-medium text-gray-700">Size:</span> {item.size},</span>}
+                    {item.dough && <span><span className="font-medium text-gray-700">Dough:</span> {item.dough},</span>}
+                    {item.crust && <span><span className="font-medium text-gray-700">Crust:</span> {item.crust},</span>}
                     {item.toppings?.length ? (
-                      <p>
-                        <span className="font-medium text-gray-700">
-                          Toppings:
-                        </span>{" "}
-                        {item.toppings.join(", ")}
-                      </p>
+                      <span>
+                        <span className="font-medium text-gray-700">Toppings:</span> {item.toppings.join(", ")},
+                      </span>
                     ) : null}
                     {item.suggestions?.length ? (
-                      <p>
-                        <span className="font-medium text-gray-700">
-                          Suggestions:
-                        </span>{" "}
-                        {item.suggestions.join(", ")}
-                      </p>
+                      <span>
+                        <span className="font-medium text-gray-700">Suggestions:</span> {item.suggestions.join(", ")},
+                      </span>
                     ) : null}
                   </div>
                 </div>
@@ -207,87 +141,59 @@ export default function Orders({ setShowRight }: OrdersProps) {
               </div>
             ))}
 
-            {/* Custom Pizza Items */}
             {pizzas.map((pizza, index) => {
-              const totalPizzaPrice = Object.values(
-                pizza.selections || {}
-              ).reduce((sum, option) => {
+              const totalPizzaPrice = Object.values(pizza.selections || {}).reduce((sum, option) => {
                 if (Array.isArray(option)) {
                   return sum + option.reduce((s, o) => s + (o?.price || 0), 0);
                 }
                 return sum + (option?.price || 0);
               }, 0);
+
               return (
-                <div
-                  key={`pizza-${index}`}
-                  className="flex items-center justify-between py-4 border-b border-gray-100"
-                >
+                <div key={`pizza-${index}`} className="flex items-center justify-between py-4 border-b border-gray-100">
                   <div className="w-20 h-20 mr-5">
-                    <Image
-                      src="/pizza.png"
-                      alt="Custom Pizza"
-                      width={90}
-                      height={90}
-                      className="rounded-full object-cover"
-                    />
+                    <Image src="/pizza.png" alt="Custom Pizza" width={90} height={90} className="rounded-full object-cover" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 text-base">
-                      Custom Pizza #{index + 1}
-                    </h3>
-                    <div className="mt-1 text-sm text-gray-600 space-y-1">
-                      {Object.entries(pizza.selections).map(([key, option]) => {
+                    <h3 className="font-semibold text-gray-900 text-base">Custom Pizza #{index + 1}</h3>
+                    <div className="mt-1 text-sm text-gray-600 flex flex-wrap gap-x-2 gap-y-1">
+                      {Object.entries(pizza.selections || {}).map(([key, option]) => {
                         if (Array.isArray(option)) {
                           return option.map(
                             (o, i) =>
                               o?.name && (
-                                <p key={`${key}-${i}`}>
+                                <span key={`${key}-${i}`}>
                                   <span className="font-medium text-gray-700">
-                                    {key
-                                      .replace(/([A-Z])/g, " $1")
-                                      .replace(/^./, (s) => s.toUpperCase())}
-                                    :
+                                    {key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}:
                                   </span>{" "}
-                                  {o.name}
-                                </p>
+                                  {o.name},
+                                </span>
                               )
                           );
                         }
-
                         return option?.name ? (
-                          <p key={key}>
+                          <span key={key}>
                             <span className="font-medium text-gray-700">
-                              {key
-                                .replace(/([A-Z])/g, " $1")
-                                .replace(/^./, (s) => s.toUpperCase())}
-                              :
+                              {key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}:
                             </span>{" "}
-                            {option.name}
-                          </p>
+                            {option.name},
+                          </span>
                         ) : null;
                       })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => updatePizzaQuantity(index, -1)}
-                        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center"
-                      >
+                      <button onClick={() => updatePizzaQuantity(index, -1)} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center">
                         <Minus className="w-4 h-4" />
                       </button>
                       <span className="w-8 text-center">{pizza.quantity}</span>
-                      <button
-                        onClick={() => updatePizzaQuantity(index, 1)}
-                        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center"
-                      >
+                      <button onClick={() => updatePizzaQuantity(index, 1)} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center">
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">
-                        ₹{pizza.quantity * totalPizzaPrice}
-                      </p>
+                      <p className="font-semibold">₹{pizza.quantity * totalPizzaPrice}</p>
                     </div>
                   </div>
                 </div>
@@ -295,41 +201,20 @@ export default function Orders({ setShowRight }: OrdersProps) {
             })}
           </div>
 
-          {/* 🍪 Add-ons Section */}
           {addOns.length > 0 && (
             <div className="px-6 py-8">
-              <h2 className="text-center font-bold text-xl text-black mb-6">
-                Pair it with
-              </h2>
+              <h2 className="text-center font-bold text-xl text-black mb-6">Pair it with</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 {addOns.map((addOn) => (
-                  <div
-                    key={addOn.id}
-                    className={`flex flex-col items-center border rounded-lg p-4 text-center shadow-sm transition-all duration-300 ${
-                      addOn.added ? "border-orange-400" : "border-orange-200"
-                    }`}
-                  >
+                  <div key={addOn.id} className={`flex flex-col items-center border rounded-lg p-4 text-center shadow-sm transition-all duration-300 ${addOn.added ? "border-orange-400" : "border-orange-200"}`}>
                     <div className="w-20 h-20 relative mb-3">
-                      <Image
-                        src={addOn.image || "/placeholder.svg"}
-                        alt={addOn.name}
-                        fill
-                        className="object-cover rounded"
-                      />
+                      <Image src={addOn.image || "/placeholder.svg"} alt={addOn.name} fill className="object-cover rounded" />
                     </div>
-                    <h4 className="font-semibold text-sm text-gray-900 mb-1 uppercase">
-                      {addOn.name}
-                    </h4>
-                    <p className="text-sm text-black font-medium mb-2">
-                      INR {addOn.price}
-                    </p>
+                    <h4 className="font-semibold text-sm text-gray-900 mb-1 uppercase">{addOn.name}</h4>
+                    <p className="text-sm text-black font-medium mb-2">INR {addOn.price}</p>
                     <button
                       onClick={() => toggleAddOn(addOn.id)}
-                      className={`w-full text-xs font-semibold px-3 py-1.5 rounded ${
-                        addOn.added
-                          ? "text-red-500 border border-red-400 bg-gray-100"
-                          : "bg-orange-500 text-white hover:bg-orange-600"
-                      }`}
+                      className={`w-full text-xs font-semibold px-3 py-1.5 rounded ${addOn.added ? "text-red-500 border border-red-400 bg-gray-100" : "bg-orange-500 text-white hover:bg-orange-600"}`}
                     >
                       {addOn.added ? "REMOVE" : "ADD"}
                     </button>
@@ -339,11 +224,8 @@ export default function Orders({ setShowRight }: OrdersProps) {
             </div>
           )}
 
-          {/* Billing Summary */}
           <div className="px-4 py-6">
-            <h2 className="text-center font-semibold text-gray-900 mb-4">
-              Bill Detail
-            </h2>
+            <h2 className="text-center font-semibold text-gray-900 mb-4">Bill Detail</h2>
 
             <button
               className="w-full mb-6 bg-orange-200 hover:bg-orange-300 text-gray-900 font-semibold px-3 py-2 rounded cursor-pointer"
@@ -368,16 +250,11 @@ export default function Orders({ setShowRight }: OrdersProps) {
               </div>
               <div className="border-t pt-3 mt-3 flex justify-between">
                 <span className="font-bold text-gray-900">TOTAL</span>
-                <span className="font-bold text-gray-900">
-                  ₹{Math.round(total)}
-                </span>
+                <span className="font-bold text-gray-900">₹{Math.round(total)}</span>
               </div>
             </div>
 
-            <button
-              onClick={handleProceedToPay}
-              className="w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white text-base font-semibold py-3 rounded"
-            >
+            <button onClick={handleProceedToPay} className="w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white text-base font-semibold py-3 rounded">
               Proceed to Pay
             </button>
           </div>

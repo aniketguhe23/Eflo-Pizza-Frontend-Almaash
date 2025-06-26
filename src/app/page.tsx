@@ -58,7 +58,7 @@ export default function Home() {
 
   if (loading)
     return (
-      <div className="fixed inset-0 z-50 h-full w-full flex items-center justify-center bg-white">
+      <div className="fixed in set-0 z-50 h-full w-full flex items-center justify-center bg-white">
         <Loader />
       </div>
     );

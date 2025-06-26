@@ -12,11 +12,15 @@ import { useUserStore } from "@/app/store/useUserStore";
 import CreateAccountModal from "../../auth/createAccount/CreateAccountModal";
 import LoginModal from "../../auth/login/LoginModal";
 import DineInModal from "@/components/dineIn-modal";
+import useCartStore from "@/app/store/useCartStore";
+import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 // import DineInModal from "./dineIn-modal"; // ✅ Import your modal
 
 export default function Header() {
   const { data } = useHomeStore();
   const { user } = useUserStore();
+  const { orderItems } = useCartStore();
+  const { pizzas } = useBuildYourOwnPizzaCart();
 
   const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -25,6 +29,11 @@ export default function Header() {
     mobile: string;
   } | null>(null);
   const [isPickupModalOpen, setIsPickupModalOpen] = useState(false); // ✅ State for modal
+
+  // Calculate total quantity
+  const totalCartCount =
+    orderItems.reduce((sum, item) => sum + item.quantity, 0) +
+    pizzas.reduce((sum, pizza) => sum + (pizza.quantity || 1), 0);
 
   return (
     <>
@@ -53,7 +62,7 @@ export default function Header() {
       )}
 
       {/* Header */}
-        <header
+      <header
         className={`fixed top-0 left-0 w-full z-50 flex flex-col md:flex-row items-center justify-between px-12 bg-black`}
       >
         {/* Logo */}
@@ -110,7 +119,7 @@ export default function Header() {
           </div>
 
           {/* Delivery / Pickup Toggle */}
-          <div className="flex items-center [font-family:'Barlow_Condensed',Helvetica] ml-3">
+          <div className="flex items-center [font-family:'Barlow_Condensed',Helvetica]">
             <button
               onClick={() => setActiveTab("delivery")}
               className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
@@ -125,7 +134,7 @@ export default function Header() {
             <button
               onClick={() => {
                 setActiveTab("pickup");
-                setIsPickupModalOpen(true); // ✅ Open modal
+                setIsPickupModalOpen(true);
               }}
               className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                 activeTab === "pickup"
@@ -143,9 +152,11 @@ export default function Header() {
             <div className="relative">
               <Link href="/pages/cart" className="relative">
                 <ShoppingCart className="text-white h-8 w-8" />
-                <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                  0
-                </span>
+                {totalCartCount > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
+                    {totalCartCount}
+                  </span>
+                )}
               </Link>
             </div>
 
@@ -154,7 +165,7 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="text-white text-base font-semibold hover:underline flex justify-center items-center gap-1"
+                className="text-white text-base font-semibold hover:underline flex justify-center items-center gap-1 cursor-pointer"
               >
                 <CircleUserRound className="text-white h-9 w-9" /> SignIn
               </button>

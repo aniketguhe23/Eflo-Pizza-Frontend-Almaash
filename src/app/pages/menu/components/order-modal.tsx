@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { RxCross1 } from "react-icons/rx";
 import useCartStore, { OrderItem } from "@/app/store/useCartStore";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import ProjectApiList from "@/app/api/ProjectApiList";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 interface Price {
   small: number;
@@ -28,15 +32,21 @@ interface OrderModalProps {
 
 const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
   const router = useRouter();
+  const { api_getToppings } = ProjectApiList();
+
   const addItem = useCartStore((state) => state?.addItem);
 
+  const [toppingData, setToppingData] = useState<Record<string, any[]> | null>(
+    null
+  );
   const [size, setSize] = useState<"small" | "medium" | "large">("medium");
   const [dough, setDough] = useState<"original" | "sour">("original");
-  const [crust, setCrust] = useState<"garlic" | "original">("garlic");
+  const [crust, setCrust] = useState<"garlic" | "original">("original");
   const [toppings, setToppings] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
-  if (!isOpen) return null;
+  const isDrink = item.category === "DRINKS";
+  const isDessert = item.category === "DESSERTS";
 
   const toggleTopping = (topping: string) => {
     setToppings((prev) =>
@@ -55,13 +65,13 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
   };
 
   const sizePrice = item.prices[size] ?? 0;
-  const doughPrice = dough === "original" ? 0 : 20;
-  const crustPrice = crust === "original" ? 0 : 30;
-  const toppingsPrice = toppings.length * 15;
-  const totalPrice = sizePrice + doughPrice + crustPrice + toppingsPrice;
+  const toppingsPrice = Array.isArray(toppingData)
+    ? toppingData
+        .filter((t) => toppings.includes(t.name))
+        .reduce((acc, curr) => acc + Number(curr.price || 0), 0)
+    : 0;
 
-  const isDrink = item.category === "DRINKS";
-  const isDessert = item.category === "DESSERTS";
+  const totalPrice = sizePrice + toppingsPrice;
 
   const handleAddToCart = () => {
     const orderDetails: OrderItem = {
@@ -79,12 +89,51 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
 
     addItem(orderDetails);
     onClose();
-    router.push("/pages/cart");
+   toast.success(`${item.name} added to cart`);
   };
+
+  useEffect(() => {
+    const fetchToppings = async () => {
+      try {
+        const response = await axios.get(api_getToppings);
+        const data = response?.data?.data || {};
+        setToppingData(data);
+      } catch (error) {
+        console.error("Error fetching topping data:", error);
+      }
+    };
+
+    fetchToppings();
+  }, [api_getToppings]);
+
+  // Place this near the top of your component
+  const toppingScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    toppingScrollRef.current?.scrollBy({ left: -200, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    toppingScrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
+  };
+
+  // Place this near the top of your component
+  const suggestionScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollSuggestionLeft = () => {
+    suggestionScrollRef.current?.scrollBy({ left: -200, behavior: "smooth" });
+  };
+
+  const scrollSuggestionRight = () => {
+    suggestionScrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
+  };
+
+  // ✅ Moved after hooks to avoid violating Rules of Hooks
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-1000 flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl h-[92vh] overflow-y-auto mx-4 md:mx-0 relative">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl h-[89vh] overflow-y-auto mx-4 md:mx-0 relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-700 hover:text-black text-2xl font-bold cursor-pointer"
@@ -228,62 +277,110 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
 
               {/* Toppings */}
               <div>
-                <p className="font-semibold mb-2 text-base">Add topping</p>
-                <div className="flex justify-between gap-2">
-                  {[
-                    { label: "Basil", src: "/basil.png" },
-                    { label: "Extra Cheese", src: "/cheese.png" },
-                    { label: "Garlic", src: "/garlic.png" },
-                  ].map(({ label, src }) => (
-                    <div
-                      key={label}
-                      className={`w-24 h-24 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
-                        toppings.includes(label)
-                          ? "border-orange-500"
-                          : "border-transparent"
-                      }`}
-                      onClick={() => toggleTopping(label)}
-                    >
-                      <Image
-                        src={src}
-                        alt={label}
-                        width={48}
-                        height={48}
-                        className="object-contain"
-                      />
-                      <p className="text-xs mt-1 font-medium">{label}</p>
-                    </div>
-                  ))}
+                <p className="font-semibold text-base">Add topping</p>
+
+                <div className="relative">
+                  {/* Scroll Left Button */}
+                  <button
+                    onClick={scrollLeft}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+                  >
+                    <IoChevronBack className="text-xl" />
+                  </button>
+
+                  {/* Scrollable List */}
+                  <div
+                    ref={toppingScrollRef}
+                    className="flex gap-2 overflow-x-auto flex-nowrap pb-2 no-scrollbar px-8"
+                  >
+                    {Array.isArray(toppingData) &&
+                      toppingData.map((topping) => (
+                        <div
+                          key={topping.id}
+                          className={`w-24 h-28 flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
+                            toppings.includes(topping.name)
+                              ? "border-orange-500"
+                              : "border-transparent"
+                          }`}
+                          onClick={() => toggleTopping(topping.name)}
+                        >
+                          <div className="w-12 h-12 relative mb-1">
+                            <Image
+                              src={topping.image_url}
+                              alt={topping.name}
+                              fill
+                              className="object-contain rounded-full"
+                            />
+                          </div>
+                          <p className="text-xs mt-1 font-medium truncate w-full">
+                            {topping.name}
+                          </p>
+                          <p className="text-[10px] text-gray-500">
+                            ₹{Number(topping.price).toFixed(0)}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+
+                  {/* Scroll Right Button */}
+                  <button
+                    onClick={scrollRight}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+                  >
+                    <IoChevronForward className="text-xl" />
+                  </button>
                 </div>
               </div>
 
-             {/* Suggestions */}
-<div>
-  <p className="font-semibold mb-2 text-base">Suggestions</p>
-  <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
-    {[
-      { label: "Jalapeños", src: "/basil.png" },
-      { label: "Mushrooms", src: "/garlic.png" },
-      { label: "Corn", src: "/basil.png" },
-      { label: "Paneer", src: "/garlic.png" },
-      { label: "Spinach", src: "/cheese.png" },
-    ].map(({ label, src }) => (
-      <div
-        key={label}
-        className={`min-w-[90px] w-[90px] flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
-          suggestions.includes(label)
-            ? "border-orange-500"
-            : "border-dashed border-gray-300"
-        }`}
-        onClick={() => toggleSuggestion(label)}
-      >
-        <Image src={src} alt={label} width={40} height={40} className="object-contain" />
-        <p className="text-xs mt-1 font-medium">{label}</p>
-      </div>
-    ))}
-  </div>
-</div>
+              {/* Suggestions */}
+              <div className="relative">
+                {/* Scroll Left Button */}
+                <p className="font-semibold mb-2 text-base">Suggestions</p>
 
+                <button
+                  onClick={scrollSuggestionLeft}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+                >
+                  <IoChevronBack className="text-xl" />
+                </button>
+
+                {/* Scrollable Suggestions */}
+                <div
+                  ref={suggestionScrollRef}
+                  className="flex gap-3 overflow-x-auto pb-1 no-scrollbar px-8"
+                >
+                  {["Jalapeños", "Mushrooms", "Corn", "Paneer", "Spinach"].map(
+                    (label, i) => (
+                      <div
+                        key={label + i}
+                        className={`min-w-[90px] w-[90px] flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
+                          suggestions.includes(label)
+                            ? "border-orange-500"
+                            : "border-dashed border-gray-300"
+                        }`}
+                        onClick={() => toggleSuggestion(label)}
+                      >
+                        <Image
+                          src="/garlic.png"
+                          alt={label}
+                          width={40}
+                          height={40}
+                          className="object-contain"
+                        />
+                        <p className="text-xs mt-1 font-medium">{label}</p>
+                      </div>
+                    )
+                  )}
+                </div>
+
+                {/* Scroll Right Button */}
+                <button
+                  onClick={scrollSuggestionRight}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+                >
+                  <IoChevronForward className="text-xl" />
+                </button>
+              </div>
 
               {/* Add to Cart */}
               <div className="flex justify-center items-center">

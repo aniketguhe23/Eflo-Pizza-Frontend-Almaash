@@ -12,10 +12,14 @@ import AccountDropdown from "@/app/pages/cart/components/dropDown";
 import LoginModal from "@/app/pages/auth/login/LoginModal";
 import CreateAccountModal from "@/app/pages/auth/createAccount/CreateAccountModal";
 import DineInModal from "./dineIn-modal";
+import useCartStore from "@/app/store/useCartStore";
+import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 
 export default function Header() {
   const { data } = useHomeStore();
   const { user } = useUserStore();
+  const { orderItems } = useCartStore();
+  const { pizzas } = useBuildYourOwnPizzaCart();
 
   const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
 
@@ -25,6 +29,11 @@ export default function Header() {
     waId: string;
     mobile: string;
   } | null>(null);
+
+    // Calculate total quantity
+  const totalCartCount =
+    orderItems.reduce((sum, item) => sum + item.quantity, 0) +
+    pizzas.reduce((sum, pizza) => sum + (pizza.quantity || 1), 0);
 
   return (
     <>
@@ -137,9 +146,11 @@ export default function Header() {
             <div className="relative">
               <Link href="/pages/cart" className="relative">
                 <ShoppingCart className="text-white h-8 w-8" />
-                <span className="absolute -top-2 -right-2 bg-white text-[#f47335] rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                  0
-                </span>
+                {totalCartCount > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
+                    {totalCartCount}
+                  </span>
+                )}
               </Link>
             </div>
 
