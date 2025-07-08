@@ -11,6 +11,9 @@ import BackToTopButton from "@/components/backToTop/BackToTopButton";
 const Page = () => {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [menuData, setMenuData] = useState<Record<string, any[]> | null>(null);
+
+  console.log(showHeader);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,10 +44,10 @@ const Page = () => {
         <HeroSection />
       </div>
 
-      <MenuSearch />
-      <ChooseFromMenu />
+      <MenuSearch menuData={menuData} />
+      <ChooseFromMenu menuData={menuData} setMenuData={setMenuData} />
 
-      <div className="relative z-10 -mb-55 p-40">
+      <div className="relative z-10 -mb-35 px-40 pb-10">
         <FoodDeliveryHero />
       </div>
       <Footer />

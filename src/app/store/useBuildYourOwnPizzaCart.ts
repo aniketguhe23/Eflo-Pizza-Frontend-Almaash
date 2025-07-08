@@ -18,10 +18,7 @@ type SelectedOption = {
 };
 
 type PizzaBuild = {
-  selections: Record<
-    Category,
-    SelectedOption | SelectedOption[] | null
-  >;
+  selections: Record<Category, SelectedOption | SelectedOption[] | null>;
   quantity: number;
 };
 
@@ -46,19 +43,19 @@ const useBuildYourOwnPizzaCart = create<PizzaCartStore>()(
           pizzas: state.pizzas.filter((_, i) => i !== index),
         })),
       updatePizzaQuantity: (index, change) =>
-  set((state) => {
-    const updated = [...state.pizzas];
-    const pizza = updated[index];
-    const newQty = pizza.quantity + change;
+        set((state) => {
+          const updated = [...state.pizzas];
+          const pizza = updated[index];
+          const newQty = pizza.quantity + change;
 
-    if (newQty <= 0) {
-      updated.splice(index, 1); // remove pizza
-    } else {
-      updated[index] = { ...pizza, quantity: newQty };
-    }
+          if (newQty <= 0) {
+            updated.splice(index, 1); // remove pizza
+          } else {
+            updated[index] = { ...pizza, quantity: newQty };
+          }
 
-    return { pizzas: updated };
-  }),
+          return { pizzas: updated };
+        }),
 
       clearPizzas: () => set({ pizzas: [] }),
     }),

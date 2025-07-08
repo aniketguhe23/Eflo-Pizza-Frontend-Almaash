@@ -1,5 +1,11 @@
 import { Search, MapPin } from "lucide-react";
 
+type City = {
+  id: string | number;
+  name: string;
+};
+
+
 type SearchBarProps = {
   searchQuery: string;
   setSearchQuery: (value: string) => void;
@@ -7,8 +13,8 @@ type SearchBarProps = {
   setSelectedCity: (value: string) => void;
   selectedLocality: string;
   setSelectedLocality: (value: string) => void;
+   cities: City[];
 };
-
 
 export default function SearchBar({
   searchQuery,
@@ -17,7 +23,10 @@ export default function SearchBar({
   setSelectedCity,
   selectedLocality,
   setSelectedLocality,
+  cities,
 }: SearchBarProps) {
+
+  // console.log(cities)
   return (
     <div className="flex-1 pt-10">
       <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
@@ -49,34 +58,34 @@ export default function SearchBar({
 
         {/* Right select group */}
         <div className="flex h-12 border border-gray-400 rounded-xl overflow-hidden text-black text-base">
-  <select
-    value={selectedCity}
-    onChange={(e) => setSelectedCity(e.target.value)}
-    className="appearance-none w-48 text-center px-4 outline-none bg-white"
-  >
-    <option value="">Select City</option>
-    <option value="indore">Indore</option>
-    <option value="bhopal">Bhopal</option>
-    <option value="dewas">Dewas</option>
-    <option value="ujjain">Ujjain</option>
-  </select>
+          <select
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            className="appearance-none w-48 text-left px-4 outline-none bg-white"
+          >
+            <option value="">Select City</option>
+            {cities?.map((city: any) => (
+              <option key={city.id} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </select>
 
-  {/* Divider */}
-  <div className="w-px bg-gray-400" />
+          {/* Divider */}
+          <div className="w-px bg-gray-400" />
 
-  <select
-    value={selectedLocality}
-    onChange={(e) => setSelectedLocality(e.target.value)}
-    className="appearance-none w-56 text-center px-4 outline-none bg-white"
-  >
-    <option value="">Select Locality</option>
-    <option value="vijay-nagar">Vijay Nagar</option>
-    <option value="golden-city">Golden City</option>
-    <option value="civil-line">Civil Line</option>
-    <option value="freeganj">Freeganj</option>
-  </select>
-</div>
-
+          <select
+            value={selectedLocality}
+            onChange={(e) => setSelectedLocality(e.target.value)}
+            className="appearance-none w-56 text-center px-4 outline-none bg-white"
+          >
+            <option value="">Select Locality</option>
+            {/* <option value="vijay-nagar">Vijay Nagar</option>
+            <option value="golden-city">Golden City</option>
+            <option value="civil-line">Civil Line</option>
+            <option value="freeganj">Freeganj</option> */}
+          </select>
+        </div>
       </div>
     </div>
   );

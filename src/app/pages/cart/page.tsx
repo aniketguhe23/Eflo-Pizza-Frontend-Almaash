@@ -8,23 +8,57 @@ import Header from "./components/header";
 import { useUserStore } from "@/app/store/useUserStore";
 import UserBootstrap from "@/app/hook/UserBootstrap";
 
+interface Coupon {
+  id: string;
+  code: string;
+  description: string;
+  minOrderAmount?: number;
+  discountAmount?: number;
+  discountPercent?: number;
+  expiresAt?: string;
+}
+
+
 const Page = () => {
   const { user } = useUserStore();
 
   const [showLeft, setShowLeft] = useState(true);
   const [showRight, setShowRight] = useState(false);
+ const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null); // ✅ Fix added
   const [hydrated, setHydrated] = useState(false);
+  const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">();
+  const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
+    null
+  );
+  const [selectedRestaurantNumber, setSelectedRestaurantNumber] = useState<string | null>(
+    null
+  );
+
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(
+    user?.address_home || null
+  );
   useEffect(() => setHydrated(true), []);
-  if (!hydrated) return null; // Prevent hydration mismatch
+  if (!hydrated) return null;
 
   return (
     <>
       {!user && <UserBootstrap />}
 
-      <Header />
+      <Header setDeliveryType={setDeliveryType} deliveryType={deliveryType} />
       <div className="flex h-screen overflow-hidden">
         {/* Left Sidebar */}
-        <AccountSection showLeft={showLeft} setShowLeft={setShowLeft} />
+        <AccountSection
+          showLeft={showLeft}
+          setShowLeft={setShowLeft}
+          deliveryType={deliveryType}
+          setDeliveryType={setDeliveryType} // ✅ FIXED: pass the missing prop
+          selectedRestaurant={selectedRestaurant}
+          setSelectedRestaurant={setSelectedRestaurant}
+          setSelectedRestaurantNumber={setSelectedRestaurantNumber}
+          selectedRestaurantNumber={selectedRestaurantNumber}
+          selectedAddress={selectedAddress}
+          setSelectedAddress={setSelectedAddress}
+        />
 
         {/* Main Content */}
         <div className="flex-1 relative overflow-y-auto no-scrollbar">
@@ -37,11 +71,25 @@ const Page = () => {
             </button>
           )}
 
-          <Orders setShowRight={setShowRight} />
+          <Orders
+            setShowRight={setShowRight}
+            appliedCoupon={appliedCoupon}
+            deliveryType={deliveryType}
+            onRemoveCoupon={() => setAppliedCoupon(null)}
+            setDeliveryType={setDeliveryType}
+            selectedRestaurant={selectedRestaurant}
+            selectedAddress={selectedAddress}
+            selectedRestaurantNumber={selectedRestaurantNumber}
+          />
         </div>
 
         {/* Right Sidebar */}
-        <DiscountComponent showRight={showRight} setShowRight={setShowRight} />
+        <DiscountComponent
+          showRight={showRight}
+          setShowRight={setShowRight}
+          appliedCoupon={appliedCoupon}
+          onApplyCoupon={(coupon) => setAppliedCoupon(coupon)}
+        />
       </div>
     </>
   );

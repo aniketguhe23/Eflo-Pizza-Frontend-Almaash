@@ -13,13 +13,21 @@ import LoginModal from "../../auth/login/LoginModal";
 import useCartStore from "@/app/store/useCartStore";
 import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 
-export default function Header() {
+interface deliveryProps {
+  deliveryType?: "delivery" | "pickup";
+  setDeliveryType: React.Dispatch<React.SetStateAction<"delivery" | "pickup" | undefined >>;
+}
+
+export default function Header({
+  setDeliveryType,
+  deliveryType,
+}: deliveryProps) {
   const { data } = useHomeStore();
   const { orderItems } = useCartStore();
   const { pizzas } = useBuildYourOwnPizzaCart();
 
   const { user } = useUserStore();
-  const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [createAccountData, setCreateAccountData] = useState<{
     waId: string;
@@ -86,8 +94,8 @@ export default function Header() {
               <label className="flex items-center gap-1 text-white font-semibold text-xl cursor-pointer">
                 <input
                   type="radio"
-                  checked={activeTab === "delivery"}
-                  onChange={() => setActiveTab("delivery")}
+                  checked={deliveryType === "delivery"}
+                  onChange={() => setDeliveryType("delivery")}
                   className="accent-black cursor-pointer"
                 />
                 Delivery
@@ -95,8 +103,8 @@ export default function Header() {
               <label className="flex items-center gap-1 text-white font-semibold text-xl cursor-pointer">
                 <input
                   type="radio"
-                  checked={activeTab === "pickup"}
-                  onChange={() => setActiveTab("pickup")}
+                  checked={deliveryType === "pickup"}
+                  onChange={() => setDeliveryType("pickup")}
                   className="accent-black cursor-pointer"
                 />
                 Pickup/Dine in
@@ -125,7 +133,7 @@ export default function Header() {
             {/* <AccountDropdown/> */}
 
             <div className="relative cursor-pointer mr-2">
-                 <Link href="/pages/cart" className="relative">
+              <Link href="/pages/cart" className="relative">
                 <ShoppingCart className="text-white h-8 w-8" />
                 {totalCartCount > 0 && (
                   <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">

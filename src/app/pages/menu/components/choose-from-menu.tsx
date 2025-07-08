@@ -6,12 +6,21 @@ import MenuItems from "./menu-items";
 import axios from "axios";
 import ProjectApiList from "@/app/api/ProjectApiList";
 import Loader from "@/components/loader/Loader";
+import { usePathname, useSearchParams } from "next/navigation";
 
-export default function ChooseFromMenu() {
-  const { api_getMainMenuItems } = ProjectApiList();
+export default function ChooseFromMenu({
+  searchResturanNo,
+  setMenuData,
+  menuData,
+  searchResturanName,
+}: any) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const restaurantNo = searchParams.get("location");
+  const { api_getMainMenuItems, api_getItemsOfResturant } = ProjectApiList();
 
   const headingRefs = useRef<Record<string, HTMLHeadingElement | null>>({});
-  const [menuData, setMenuData] = useState<Record<string, any[]> | null>(null);
+  // const [menuData, setMenuData] = useState<Record<string, any[]> | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,11 +38,18 @@ export default function ChooseFromMenu() {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await axios.get(api_getMainMenuItems);
+        const isMenuPage = pathname === "/pages/menu";
+        const apiUrl = isMenuPage
+          ? api_getMainMenuItems
+          : `${api_getItemsOfResturant}/${
+              searchResturanNo ? searchResturanNo : restaurantNo
+            }/items`;
+
+        const response = await axios.get(apiUrl);
         const data = response?.data?.data || {};
 
         setMenuData(data);
-        setCategories(Object.keys(data)); // dynamically set categories from keys
+        setCategories(Object.keys(data)); // dynamically set categories
       } catch (error) {
         console.error("Error fetching menu data:", error);
       } finally {
@@ -42,8 +58,12 @@ export default function ChooseFromMenu() {
     };
 
     fetchMenuData();
-  }, [api_getMainMenuItems]);
-
+  }, [
+    pathname,
+    api_getMainMenuItems,
+    api_getItemsOfResturant,
+    searchResturanNo,
+  ]);
 
   if (loading)
     return (
@@ -58,22 +78,31 @@ export default function ChooseFromMenu() {
 
       <CategoryTabs categories={categories} onTabClick={scrollToCategory} />
 
-      <div className="mt-25 space-y-24">
-        {categories.map((category) => (
-          <section key={category}>
-            <h2
-              ref={(el) => {
-                headingRefs.current[category] = el;
-              }}
-              className="text-4xl font-bold text-center mb-16"
-            >
-              {category}
-            </h2>
-
-            <MenuItems items={menuData?.[category] || []} />
-          </section>
-        ))}
-      </div>
+      {!menuData || categories.length === 0 ? (
+        <p className="text-center text-gray-500 text-lg mt-10">
+          No menu items available.
+        </p>
+      ) : (
+        <div className="mt-25 space-y-24">
+          {categories.map((category) => (
+            <section key={category}>
+              <h2
+                ref={(el) => {
+                  headingRefs.current[category] = el;
+                }}
+                className="text-4xl font-bold text-center mb-16"
+              >
+                {category}
+              </h2>
+              <MenuItems
+                items={menuData?.[category] || []}
+                searchResturanNo={searchResturanNo}
+                searchResturanName={searchResturanName}
+              />
+            </section>
+          ))}
+        </div>
+      )}
     </main>
   );
 }

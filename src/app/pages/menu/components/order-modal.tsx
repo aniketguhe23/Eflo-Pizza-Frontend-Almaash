@@ -5,7 +5,6 @@ import Image from "next/image";
 import { RxCross1 } from "react-icons/rx";
 import useCartStore, { OrderItem } from "@/app/store/useCartStore";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import ProjectApiList from "@/app/api/ProjectApiList";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
@@ -28,13 +27,22 @@ interface OrderModalProps {
   isOpen: boolean;
   onClose: () => void;
   item: MenuItem;
+  searchResturanNo: any;
+  searchResturanName: any;
 }
 
-const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
-  const router = useRouter();
+const OrderModal: React.FC<OrderModalProps> = ({
+  isOpen,
+  onClose,
+  item,
+  searchResturanNo,
+  searchResturanName,
+}) => {
   const { api_getToppings } = ProjectApiList();
 
   const addItem = useCartStore((state) => state?.addItem);
+  const setRestaurantNo = useCartStore((state) => state.setRestaurantNo);
+  const setRestaurantAddress = useCartStore((state) => state.setRestaurantAddress);
 
   const [toppingData, setToppingData] = useState<Record<string, any[]> | null>(
     null
@@ -86,11 +94,13 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
       toppings: !isDessert && !isDrink ? toppings : [],
       suggestions: !isDessert && !isDrink ? suggestions : [],
     };
-
+    setRestaurantNo(searchResturanNo);
+    setRestaurantAddress(searchResturanName);
     addItem(orderDetails);
     onClose();
-   toast.success(`${item.name} added to cart`);
+    toast.success(`${item.name} added to cart`);
   };
+
 
   useEffect(() => {
     const fetchToppings = async () => {

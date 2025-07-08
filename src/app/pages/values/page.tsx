@@ -19,10 +19,9 @@ const Page = () => {
 
   const { valueData, loading, setValueData, setLoading } = useValuesStore();
 
-  const [showHeader, setShowHeader] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  // const [showHeader, setShowHeader] = useState(true);
+  // const [lastScrollY, setLastScrollY] = useState(0);
 
-  console.log(showHeader)
 
   useEffect(() => {
     const fetchValueData = async () => {
@@ -43,25 +42,25 @@ const Page = () => {
     }
   }, [valueData, api_getValueData, setValueData, setLoading]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScrollY = window.scrollY;
 
-      if (currentScrollY === 0) {
-        setShowHeader(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setShowHeader(false);
-      } else if (currentScrollY < lastScrollY) {
-        setShowHeader(false);
-      }
+  //     if (currentScrollY === 0) {
+  //       setShowHeader(true);
+  //     } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+  //       setShowHeader(false);
+  //     } else if (currentScrollY < lastScrollY) {
+  //       setShowHeader(false);
+  //     }
 
-      setLastScrollY(currentScrollY);
-    };
+  //     setLastScrollY(currentScrollY);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [lastScrollY]);
 
   if (loading)
     return (
@@ -87,7 +86,7 @@ const Page = () => {
       <PizzaQualitySection />
       <PizzaDeliverySection />
       <StoneBakedSection />
-      <div className="relative z-10 -mb-55 p-40">
+     <div className="relative z-10 -mb-35 px-40 pb-10 pt-10">
         <FoodDeliveryHero />
       </div>
       <Footer />

@@ -47,7 +47,7 @@ export default function Home() {
         <Header />
         <HeroSection />
         <BuildPizza />
-        <div className="relative z-10 -mb-55 p-40">
+        <div className="relative z-10 -mb-35 px-40 pb-10">
           <FoodDeliveryHero />
         </div>
         <Footer />

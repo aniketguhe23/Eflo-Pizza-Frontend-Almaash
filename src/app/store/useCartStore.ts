@@ -10,8 +10,9 @@ export interface OrderItem {
   image: string;
   dough?: "original" | "sour";
   crust?: "original" | "garlic";
-  toppings?: string[] ;
-  suggestions?: string[]; // ✅ Added field for suggestions
+  toppings?: string[];
+  suggestions?: string[];
+  fromSuggestion?: boolean;
 }
 
 export interface AddOnItem {
@@ -25,6 +26,10 @@ export interface AddOnItem {
 interface CartState {
   orderItems: OrderItem[];
   addOns: AddOnItem[];
+  restaurantNo: string | null; // ✅ added
+  restaurantAddress: string | null; // ✅ added
+  setRestaurantNo: (no: string) => void; // ✅ added
+  setRestaurantAddress: (no: string) => void; // ✅ added
 
   setOrderItems: (items: OrderItem[]) => void;
   setAddOns: (items: AddOnItem[]) => void;
@@ -32,6 +37,13 @@ interface CartState {
   addItem: (item: OrderItem) => void;
   updateQuantity: (id: string, change: number) => void;
   toggleAddOn: (id: string) => void;
+
+  addSuggestionToOrder: (item: {
+    id: string | number;
+    name: string;
+    imageUrl: string;
+    variants?: { price: number }[];
+  }) => void;
 
   resetCart: () => void;
 }
@@ -41,6 +53,11 @@ const useCartStore = create<CartState>()(
     (set) => ({
       orderItems: [],
       addOns: [],
+      restaurantNo: null, // ✅ default null
+      restaurantAddress: null, // ✅ default null
+
+      setRestaurantNo: (no) => set({ restaurantNo: no }), // ✅ setter
+      setRestaurantAddress: (no) => set({ restaurantAddress: no }), // ✅ setter
 
       setOrderItems: (items) => set({ orderItems: items }),
       setAddOns: (items) => set({ addOns: items }),
@@ -83,7 +100,33 @@ const useCartStore = create<CartState>()(
           ),
         })),
 
-      resetCart: () => set({ orderItems: [], addOns: [] }),
+      addSuggestionToOrder: (item) =>
+        set((state) => {
+          const exists = state.orderItems.find((o) => o.id === item.id);
+          if (exists) return state;
+
+          const price = item.variants?.[0]?.price || 15;
+
+          const newItem: OrderItem = {
+            id: item.id.toString(),
+            name: item.name,
+            image: item.imageUrl,
+            price,
+            quantity: 1,
+            size: "",
+            dough: undefined,
+            crust: undefined,
+            toppings: [],
+            suggestions: [],
+            fromSuggestion: true,
+          };
+
+          return {
+            orderItems: [...state.orderItems, newItem],
+          };
+        }),
+
+      resetCart: () => set({ orderItems: [], addOns: [], restaurantNo: null }), // ✅ clear restaurantNo on reset
     }),
     {
       name: "cart-storage",
