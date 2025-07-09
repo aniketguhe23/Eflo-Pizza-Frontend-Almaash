@@ -73,7 +73,7 @@ export default function DineInModal({ onClose }: { onClose: () => void }) {
               {searchTerm && (
                 <>
                   {cities.length > 0 ? (
-                    <div className="w-full space-y-2 max-h-[26%] overflow-y-auto">
+                    <div className="w-full space-y-2 max-h-[330px] overflow-y-auto ">
                       {cities.map((city: any) => (
                         <Link
                           key={city.id}

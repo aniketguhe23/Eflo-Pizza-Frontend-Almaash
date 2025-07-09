@@ -1,19 +1,19 @@
 "use client";
+
 import Header from "./components/header";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import HeroSection from "./components/hero-section";
 import FoodDeliveryHero from "@/components/food-delivery";
 import Footer from "@/components/footer";
 import ChooseFromMenu from "./components/choose-from-menu";
 import MenuSearch from "./components/menu-search";
 import BackToTopButton from "@/components/backToTop/BackToTopButton";
+import Loader from "@/components/loader/Loader"; // use your existing loader
 
 const Page = () => {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [menuData, setMenuData] = useState<Record<string, any[]> | null>(null);
-
-  console.log(showHeader);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +45,11 @@ const Page = () => {
       </div>
 
       <MenuSearch menuData={menuData} />
-      <ChooseFromMenu menuData={menuData} setMenuData={setMenuData} />
+
+      {/* ✅ Wrap with Suspense */}
+      <Suspense fallback={<Loader />}>
+        <ChooseFromMenu menuData={menuData} setMenuData={setMenuData} />
+      </Suspense>
 
       <div className="relative z-10 -mb-35 px-40 pb-10">
         <FoodDeliveryHero />
