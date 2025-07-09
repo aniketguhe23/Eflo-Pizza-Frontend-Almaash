@@ -151,20 +151,20 @@ export default function Orders({
       total_price: Math.round(total),
     };
     
-    console.log(payload);
-    // try {
-      //   const res = await axios.post(api_createOrder, payload);
-      //   setOrderResponse(res?.data);
-    //   toast.success("✅ Order placed successfully!");
-    //   setShowConfirmModal(false);
-    //   // ✅ Empty the cart
-    //   resetCart();
-    //   clearPizzas();
-    //   setShowConfirMationModal(true);
-    // } catch (err) {
-    //   toast.error("❌ Failed to place the order. Please try again.");
-    //   console.error("Order placement failed:", err);
-    // }
+    // console.log(payload);
+    try {
+        const res = await axios.post(api_createOrder, payload);
+        setOrderResponse(res?.data);
+      toast.success("✅ Order placed successfully!");
+      setShowConfirmModal(false);
+      // ✅ Empty the cart
+      resetCart();
+      clearPizzas();
+      setShowConfirMationModal(true);
+    } catch (err) {
+      toast.error("❌ Failed to place the order. Please try again.");
+      console.error("Order placement failed:", err);
+    }
   };
 
   const handleProceedToPay = () => {
