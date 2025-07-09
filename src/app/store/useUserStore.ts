@@ -8,6 +8,9 @@ type User = {
     email: string;
     mobile: string;
     dateOfBirth: string;
+    address_home: string;
+    address_work: string;
+    address_others: string;
 };
 
 type UserStore = {

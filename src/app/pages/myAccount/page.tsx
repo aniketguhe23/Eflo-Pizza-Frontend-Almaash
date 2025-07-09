@@ -18,13 +18,17 @@ import CustomEditProfileModal from "./components/editProfileSection";
 import { useUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader/Loader";
+import SessionExpiredModal from "@/components/SessionExpiredModal";
+import { useFetchUser } from "@/app/hook/useFetchUser";
 
 export default function MyAccount() {
+  const { isSessionExpired } = useFetchUser(); // ✅ call the hook
   const { user } = useUserStore();
   const router = useRouter();
 
   const [activeSection, setActiveSection] = useState("orders");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">();
 
   const sidebarItems = [
     { id: "orders", label: "ORDERS", icon: ShoppingBag },
@@ -34,32 +38,30 @@ export default function MyAccount() {
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
   ];
 
-  
   useEffect(() => {
     if (!user) {
       const timeout = setTimeout(() => {
         router.push("/");
       }, 500);
-      
-      return () => clearTimeout(timeout); // cleanup
+      return () => clearTimeout(timeout);
     }
   }, [user]);
-  
+
+  if (isSessionExpired) return <SessionExpiredModal visible />; // ✅ modal + redirect
+
   if (!user)
     return (
       <div className="fixed inset-0 z-50 h-full w-full flex items-center justify-center bg-white">
         <Loader />
       </div>
     );
+
   return (
     <>
-      <Header />
+      <Header setDeliveryType={setDeliveryType} deliveryType={deliveryType} />
       <div className="min-h-screen mt-25  [font-family:'Barlow_Condensed',Helvetica] shadow-md ">
-        {/* Header */}
-
         <div className="bg-white">
           <div className="max-w-6xl mx-auto px-4 py-4">
-            {/* Section 1: MY ACCOUNT */}
             <div className="text-center">
               <h1 className="text-4xl font-bold text-orange-500 mb-2 italic">
                 MY ACCOUNT
@@ -68,39 +70,47 @@ export default function MyAccount() {
           </div>
 
           <div className="max-w-full mx-auto px-4 ">
-            {/* Section 2: Divider */}
             <div className="border-t-5 border-dotted border-[#ED722E] w-full my-4 "></div>
           </div>
 
-          <div className="max-w-6xl mx-auto px-4 py-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-4xl font-bold">
-                  {" "}
+          <div className="max-w-6xl mx-auto px-4 py-6">
+            <div className="flex justify-between items-start gap-10 flex-wrap">
+              {/* User Info Section */}
+              <div className="flex flex-col space-y-2 text-xl text-gray-700">
+                <h2 className="text-4xl font-bold text-black mb-2">
                   {user?.firstName} {user?.lastName}
                 </h2>
-                <p className="text-gray-600 text-xl pt-2">{user?.mobile}</p>
+                <div>
+                  <span className="font-semibold">mobile:</span> {user?.mobile}
+                </div>
+                <div>
+                  <span className="font-semibold">email:</span> {user?.email} ,<span className="font-semibold"> DOB:</span>{" "}
+                  {user?.dateOfBirth} 
+                </div>
+               
               </div>
-              <button
-                className="border border-orange-500 text-orange-500 font-semibold px-10 py-3 rounded hover:bg-orange-100 text-xl cursor-pointer"
-                onClick={() => setIsModalOpen(true)}
-              >
-                EDIT PROFILE
-              </button>
+
+              {/* Edit Button */}
+              <div className="shrink-0">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="border border-orange-500 text-orange-500 font-semibold px-8 py-3 rounded hover:bg-orange-100 text-xl"
+                >
+                  EDIT PROFILE
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="max-w-6xl mx-auto p-4 bg-[#fbdecf] rounded">
           <div className="flex gap-6">
-            {/* Sidebar */}
             <div className="w-80 h-[600px] bg-[#ED722E] rounded-lg overflow-hidden flex flex-col">
               {sidebarItems.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
                   onClick={() => setActiveSection(id)}
-                  className={`w-full p-4  text-left font-bold  cursor-pointer transition-colors ${
+                  className={`w-full p-4 text-left font-bold cursor-pointer transition-colors ${
                     activeSection === id
                       ? "bg-[#fbdecf] text-black ml-5 mt-2"
                       : "text-white"
@@ -114,7 +124,6 @@ export default function MyAccount() {
               ))}
             </div>
 
-            {/* Content Area */}
             <div className="flex-1 rounded-lg p-6">
               {activeSection === "orders" && <OrdersSection />}
               {activeSection === "app" && <AppSection />}

@@ -19,9 +19,11 @@ interface MenuItem {
 
 interface MenuItemCardProps {
   item: MenuItem;
+  searchResturanNo: any;
+  searchResturanName: any;
 }
 
-export default function MenuItemCard({ item }: MenuItemCardProps) {
+export default function MenuItemCard({ item ,searchResturanNo,searchResturanName}: MenuItemCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Format prices for display
@@ -73,6 +75,8 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
       <OrderModal
         isOpen={isOpen}
         item={item}
+        searchResturanNo={searchResturanNo}
+        searchResturanName={searchResturanName}
         onClose={() => setIsOpen(false)}
       />
     </>

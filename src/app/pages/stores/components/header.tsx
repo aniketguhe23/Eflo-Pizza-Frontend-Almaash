@@ -32,7 +32,7 @@ export default function Header() {
             </Link>
             <Link
               href="/"
-              className="text-white text-xl font-semibold hover:underline uppercase"
+              className="text-white text-xl font-semibold hover:underline uppercase "
             >
               {data?.nav_logo_text || "ELFO'S PIZZA"}
             </Link>
@@ -44,10 +44,10 @@ export default function Header() {
               <Link href="/">Home</Link>
             </div>
             <div className=" cursor-pointer mr-2 hover:underline">
-              <Link href="/">Store Locator</Link>
+              <Link href="/pages/stores">Store Locator</Link>
             </div>
             <div className=" cursor-pointer mr-2 hover:underline">
-              <Link href="/">Contact Us</Link>
+              <Link href="#">Contact Us</Link>
             </div>
           </div>
         </div>

@@ -1,53 +1,44 @@
-'use client';
+"use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderModal from "./order-modal";
 import Image from "next/image";
 
-// sample Items:
-const sampleItems = [
-  {
-    name: "MARGHERITA (CHEESE)",
-    prices: { small: 199, medium: 279, large: 499 },
-    image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
-  },
-  {
-    name: "CHEESE & TOMATO",
-    prices: { small: 189, medium: 279, large: 499 },
-    image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
-  },
-  {
-    name: "MARGHERITA (CHEESE)",
-    prices: { small: 209, medium: 279, large: 499 },
-    image: `https://res.cloudinary.com/dnkfvkyre/image/upload/v1747202665/item_images/xkfzmqpzayofb1hwmi79.png`,
-  },
-];
-
-const MenuSearch = () => {
+const MenuSearch = ({ menuData }: any) => {
   const [query, setQuery] = useState("");
-  const [filteredItems, setFilteredItems] = useState<typeof sampleItems>([]);
+  const [allItems, setAllItems] = useState<any[]>([]);
+  const [filteredItems, setFilteredItems] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<(typeof sampleItems)[number] | null>(null);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
 
+  // Flatten menuData into a single array of items
+  useEffect(() => {
+    if (menuData) {
+      const flatItems = Object.values(menuData).flat();
+      setAllItems(flatItems);
+    }
+  }, [menuData]);
+
+  // Handle search input
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
 
-    const filtered = sampleItems.filter((item) =>
+    const filtered = allItems.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredItems(value ? filtered : []);
   };
 
-  const handleSelect = (item: (typeof sampleItems)[number]) => {
-    setSelectedItem(item); // set selected item
-    setIsOpen(true);       // open modal
-    // setQuery(item.name);   // set input to item name
-    setFilteredItems([]);  // close dropdown
+  // Handle select and open modal
+  const handleSelect = (item: any) => {
+    setSelectedItem(item);
+    setIsOpen(true);
+    setFilteredItems([]);
   };
 
   return (
-    <div className="relative ">
+    <div className="relative">
       {filteredItems.length > 0 && (
         <div className="fixed inset-0 bg-black/50 z-10"></div>
       )}
@@ -58,8 +49,8 @@ const MenuSearch = () => {
         </h1>
         <p className="text-base mb-8 [font-family:'Nunito_Sans',Helvetica]">
           Welcome to Elfo’s Pizza - where passion meets flavor! Discover
-          hand-crafted, mouthwatering pizzas with unique toppings, made fresh with
-          premium ingredients and irresistible combinations.
+          hand-crafted, mouthwatering pizzas with unique toppings, made fresh
+          with premium ingredients and irresistible combinations.
         </p>
 
         <div className="relative max-w-xl mx-auto text-left">
@@ -95,6 +86,7 @@ const MenuSearch = () => {
             </button>
           </div>
 
+          {/* Search Results */}
           {filteredItems.length > 0 && (
             <div className="absolute w-full bg-[#fff4ee] border border-orange-200 shadow-lg rounded-md mt-2 z-30 max-h-110 overflow-auto">
               {filteredItems.map((item, index) => (
@@ -117,7 +109,8 @@ const MenuSearch = () => {
                       {item.name}
                     </h3>
                     <p className="text-xl font-bold mt-2 tracking-wide text-[#222] [font-family:'Nunito_Sans',Helvetica]">
-                      INR {item.prices.small} / {item.prices.medium} / {item.prices.large}
+                      INR {item.prices.small || "-"} /{" "}
+                      {item.prices.medium || "-"} / {item.prices.large || "-"}
                     </p>
                     <div className="mt-5">
                       <button
@@ -140,6 +133,8 @@ const MenuSearch = () => {
         <OrderModal
           isOpen={isOpen}
           item={selectedItem}
+          searchResturanNo={selectedItem} // ✅ already passed
+          searchResturanName={selectedItem?.name || ""} // ✅ FIX: add this line
           onClose={() => setIsOpen(false)}
         />
       )}

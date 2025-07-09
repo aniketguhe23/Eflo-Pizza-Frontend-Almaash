@@ -5,7 +5,6 @@ import Image from "next/image";
 import SelectionCardModal from "./SelectionCard";
 import useHomeDataStore from "@/app/store/useBuildYourOwnStore";
 import ConfirmModal from "./ConfirmModal";
-import { useRouter } from "next/navigation";
 import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 import { toast } from "react-toastify";
 import { PizzaOption } from "./pizza";
@@ -44,7 +43,6 @@ function isMultiSelection(
 
 export default function BuildPizza() {
   const { data } = useHomeDataStore();
-  const router = useRouter();
   const { addPizza } = useBuildYourOwnPizzaCart();
 
   const categories: Category[] = [

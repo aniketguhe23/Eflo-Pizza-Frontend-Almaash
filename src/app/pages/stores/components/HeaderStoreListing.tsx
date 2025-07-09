@@ -5,9 +5,9 @@ import SearchBar from "./SearchBar";
 import AppDownloadCard from "./AppDownloadCard";
 
 
-export default function HeaderStoreListing() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+export default function HeaderStoreListing({setSearchResturant,searchResturan,cities}:any) {
+  // const [searchQuery, setSearchQuery] = useState("");
+  // const [selectedCity, setSelectedCity] = useState("");
   const [selectedLocality, setSelectedLocality] = useState("");
 
   return (
@@ -16,12 +16,14 @@ export default function HeaderStoreListing() {
         <div className="bg-white rounded-2xl p-6 shadow-lg">
           <div className="flex gap-6">
             <SearchBar
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              selectedCity={selectedCity}
-              setSelectedCity={setSelectedCity}
+              searchQuery={searchResturan}
+              setSearchQuery={setSearchResturant}
+              selectedCity={searchResturan}
+              setSelectedCity={setSearchResturant}
               selectedLocality={selectedLocality}
               setSelectedLocality={setSelectedLocality}
+              cities={cities}
+
             />
             <AppDownloadCard />
           </div>

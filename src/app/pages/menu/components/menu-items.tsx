@@ -17,13 +17,24 @@ interface MenuItem {
 
 interface MenuItemsProps {
   items: MenuItem[];
+  searchResturanNo: any;
+  searchResturanName: any;
 }
 
-export default function MenuItems({ items }: MenuItemsProps) {
+export default function MenuItems({
+  items,
+  searchResturanNo,
+  searchResturanName,
+}: MenuItemsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-15">
       {items.map((item, index) => (
-        <MenuItemCard key={`${item.name}-${index}`} item={item} />
+        <MenuItemCard
+          key={`${item.name}-${index}`}
+          item={item}
+          searchResturanNo={searchResturanNo}
+          searchResturanName={searchResturanName}
+        />
       ))}
     </div>
   );
