@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import OrderModal from "./order-modal";
 import Image from "next/image";
 
-const MenuSearch = ({ menuData }: any ) => {
+const MenuSearch = ({ menuData }: any) => {
   const [query, setQuery] = useState("");
   const [allItems, setAllItems] = useState<any[]>([]);
   const [filteredItems, setFilteredItems] = useState<any[]>([]);
@@ -49,8 +49,8 @@ const MenuSearch = ({ menuData }: any ) => {
         </h1>
         <p className="text-base mb-8 [font-family:'Nunito_Sans',Helvetica]">
           Welcome to Elfo’s Pizza - where passion meets flavor! Discover
-          hand-crafted, mouthwatering pizzas with unique toppings, made fresh with
-          premium ingredients and irresistible combinations.
+          hand-crafted, mouthwatering pizzas with unique toppings, made fresh
+          with premium ingredients and irresistible combinations.
         </p>
 
         <div className="relative max-w-xl mx-auto text-left">
@@ -109,10 +109,8 @@ const MenuSearch = ({ menuData }: any ) => {
                       {item.name}
                     </h3>
                     <p className="text-xl font-bold mt-2 tracking-wide text-[#222] [font-family:'Nunito_Sans',Helvetica]">
-                      INR{" "}
-                      {item.prices.small || "-"} /{" "}
-                      {item.prices.medium || "-"} /{" "}
-                      {item.prices.large || "-"}
+                      INR {item.prices.small || "-"} /{" "}
+                      {item.prices.medium || "-"} / {item.prices.large || "-"}
                     </p>
                     <div className="mt-5">
                       <button
@@ -135,7 +133,8 @@ const MenuSearch = ({ menuData }: any ) => {
         <OrderModal
           isOpen={isOpen}
           item={selectedItem}
-          searchResturanNo={selectedItem}
+          searchResturanNo={selectedItem} // ✅ already passed
+          searchResturanName={selectedItem?.name || ""} // ✅ FIX: add this line
           onClose={() => setIsOpen(false)}
         />
       )}
