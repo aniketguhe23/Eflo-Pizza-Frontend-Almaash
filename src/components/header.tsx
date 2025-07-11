@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CircleUserRound, MapPin, ShoppingCart } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TbBus } from "react-icons/tb";
 import { PiHandCoinsFill } from "react-icons/pi";
 import { useHomeStore } from "@/app/store/homeStore";
@@ -14,6 +14,7 @@ import CreateAccountModal from "@/app/pages/auth/createAccount/CreateAccountModa
 import DineInModal from "./dineIn-modal";
 import useCartStore from "@/app/store/useCartStore";
 import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
+import CitySelectModal from "./modal/CitySelectModal";
 
 export default function Header() {
   const { data } = useHomeStore();
@@ -30,7 +31,21 @@ export default function Header() {
     mobile: string;
   } | null>(null);
 
-    // Calculate total quantity
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedCity = localStorage.getItem("selectedCity");
+    if (storedCity) {
+      setSelectedCity(storedCity);
+    }
+  }, []);
+
+  const handleCitySelect = (city: string) => {
+    setSelectedCity(city);
+  };
+
+  // Calculate total quantity
   const totalCartCount =
     orderItems.reduce((sum, item) => sum + item.quantity, 0) +
     pizzas.reduce((sum, pizza) => sum + (pizza.quantity || 1), 0);
@@ -58,6 +73,13 @@ export default function Header() {
 
       {isPickupModalOpen && (
         <DineInModal onClose={() => setIsPickupModalOpen(false)} />
+      )}
+
+      {isModalOpen && (
+        <CitySelectModal
+          onClose={() => setIsModalOpen(false)}
+          onCitySelect={handleCitySelect}
+        />
       )}
 
       <header
@@ -106,11 +128,16 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4 mt-4 md:mt-0 w-[50%]">
-          <div className="bg-[#c05a29] text-black rounded-md flex items-center p-2 w-[40%]">
+          <div
+            className="bg-[#c05a29] text-black rounded-md flex items-center p-2 w-[40%] cursor-pointer"
+            onClick={() => setIsModalOpen(true)}
+          >
             <MapPin className="text-black mr-2 h-6 w-6" />
             <div className="flex flex-col">
               <span className="text-[.8rem]">Delivery From</span>
-              <span className="text-[.6rem]">Select your address</span>
+              <span className="text-[.6rem]">
+                {selectedCity || "Select your address"}
+              </span>
             </div>
           </div>
 

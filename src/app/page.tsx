@@ -13,6 +13,7 @@ import ProjectApiList from "./api/ProjectApiList";
 import { useHomeStore } from "./store/homeStore";
 import Loader from "@/components/loader/Loader";
 import JoinRewardFree from "@/components/join-reward-free";
+import CitySelectGate from "@/components/modal/CitySelectGate";
 
 export default function Home() {
   const { api_getHomeData, api_getHomeMenuItems } = ProjectApiList();
@@ -64,6 +65,7 @@ export default function Home() {
     );
 
   return (
+     <CitySelectGate>
     <main
       className="min-h-screen bg-cover bg-center bg-no-repeat bg-white no-scrollbar"
       // style={{
@@ -81,5 +83,6 @@ export default function Home() {
       </div>
       <Footer />
     </main>
+    </CitySelectGate>
   );
 }

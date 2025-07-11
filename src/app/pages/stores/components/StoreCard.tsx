@@ -9,6 +9,7 @@ export interface Store {
   hours: string;
   image?: string;
   restaurants_no?: string;
+  isClosed: boolean;
 }
 
 interface StoreCardProps {
@@ -57,16 +58,21 @@ export default function StoreCard({ store }: StoreCardProps) {
                 <span className="text-black">Open from</span> {store.hours}
               </span>
             </div>
-
-            <Link
-              href={{
-                pathname: "/pages/store-menu",
-                query: { location: store.restaurants_no },
-              }}
-              className="w-full block bg-orange-500 hover:bg-orange-600 text-white py-1 cursor-pointer rounded-md text-center"
-            >
-              Dine-In
-            </Link>
+            {store?.isClosed === true ? (
+              <div className="w-full block bg-gray-500 text-white py-1 rounded-md text-center cursor-not-allowed">
+                Closed
+              </div>
+            ) : (
+              <Link
+                href={{
+                  pathname: "/pages/store-menu",
+                  query: { location: store.restaurants_no },
+                }}
+                className="w-full block bg-orange-500 hover:bg-orange-600 text-white py-1 rounded-md text-center"
+              >
+                Dine-In
+              </Link>
+            )}
           </div>
         </div>
       </div>

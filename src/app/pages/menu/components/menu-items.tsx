@@ -13,6 +13,7 @@ interface MenuItem {
   prices: Price;
   image: string;
   category: string;
+  is_available: boolean;
 }
 
 interface MenuItemsProps {

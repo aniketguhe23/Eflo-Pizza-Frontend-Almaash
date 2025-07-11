@@ -42,7 +42,9 @@ const OrderModal: React.FC<OrderModalProps> = ({
 
   const addItem = useCartStore((state) => state?.addItem);
   const setRestaurantNo = useCartStore((state) => state.setRestaurantNo);
-  const setRestaurantAddress = useCartStore((state) => state.setRestaurantAddress);
+  const setRestaurantAddress = useCartStore(
+    (state) => state.setRestaurantAddress
+  );
 
   const [toppingData, setToppingData] = useState<Record<string, any[]> | null>(
     null
@@ -100,7 +102,6 @@ const OrderModal: React.FC<OrderModalProps> = ({
     onClose();
     toast.success(`${item.name} added to cart`);
   };
-
 
   useEffect(() => {
     const fetchToppings = async () => {

@@ -5,7 +5,6 @@ type City = {
   name: string;
 };
 
-
 type SearchBarProps = {
   searchQuery: string;
   setSearchQuery: (value: string) => void;
@@ -13,7 +12,9 @@ type SearchBarProps = {
   setSelectedCity: (value: string) => void;
   selectedLocality: string;
   setSelectedLocality: (value: string) => void;
-   cities: City[];
+  cities: City[];
+  locality: any;
+  setCitieId: any;
 };
 
 export default function SearchBar({
@@ -24,8 +25,9 @@ export default function SearchBar({
   selectedLocality,
   setSelectedLocality,
   cities,
+  locality,
+  setCitieId,
 }: SearchBarProps) {
-
   // console.log(cities)
   return (
     <div className="flex-1 pt-10">
@@ -49,8 +51,11 @@ export default function SearchBar({
               className="w-full h-full pl-10 pr-4 bg-gray-200 text-black focus:outline-none"
             />
           </div>
-          <button className="bg-[#f47335] hover:bg-orange-600 text-white px-4 flex items-center justify-center">
-            <MapPin className="w-5 h-5" />
+          <button
+            className="bg-[#f47335] hover:bg-orange-600 text-white px-4 flex items-center justify-center cursor-pointer"
+            onClick={() => setSearchQuery(" ")}
+          >
+            {/* <MapPin className="w-5 h-5" /> */}Clear
           </button>
         </div>
 
@@ -60,7 +65,17 @@ export default function SearchBar({
         <div className="flex h-12 border border-gray-400 rounded-xl overflow-hidden text-black text-base">
           <select
             value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
+            onChange={(e) => {
+              const selectedCityName = e.target.value;
+              setSelectedCity(selectedCityName);
+
+              const selectedCityObj = cities.find(
+                (city) => city.name === selectedCityName
+              );
+              if (selectedCityObj) {
+                setCitieId(selectedCityObj.id);
+              }
+            }}
             className="appearance-none w-48 text-left px-4 outline-none bg-white"
           >
             <option value="">Select City</option>
@@ -80,10 +95,11 @@ export default function SearchBar({
             className="appearance-none w-56 text-center px-4 outline-none bg-white"
           >
             <option value="">Select Locality</option>
-            {/* <option value="vijay-nagar">Vijay Nagar</option>
-            <option value="golden-city">Golden City</option>
-            <option value="civil-line">Civil Line</option>
-            <option value="freeganj">Freeganj</option> */}
+            {locality?.map((locality: any) => (
+              <option key={locality.id} value={locality.name}>
+                {locality.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
