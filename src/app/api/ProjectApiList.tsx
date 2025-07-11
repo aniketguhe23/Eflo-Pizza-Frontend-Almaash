@@ -40,6 +40,7 @@ export default function ProjectApiList() {
     
     // masters
     api_getCities: `${baseUrl}/api/location/getAllcities`,
+    api_getLocality: `${baseUrl}/api/location/locality-by-city`,
 
     
   };

@@ -44,13 +44,23 @@ export default function CitySelectModal({
     fetchCities();
   }, []);
 
-  const handleSave = () => {
-    if (selected) {
-      localStorage.setItem("selectedCity", selected);
-      onCitySelect(selected);
-      onClose();
+ const handleSave = () => {
+  if (selected) {
+    const prevCity = localStorage.getItem("selectedCity");
+
+    localStorage.setItem("selectedCity", selected);
+    onCitySelect(selected); // Inform parent
+    onClose(); // Close modal
+
+    if (prevCity !== selected) {
+      // ✅ Force full reload to reflect city-based data
+      setTimeout(() => {
+        window.location.href = window.location.pathname;
+      }, 100); // Small delay ensures modal fully unmounts
     }
-  };
+  }
+};
+
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[500] [font-family:'Barlow_Condensed',Helvetica]">
@@ -75,12 +85,12 @@ export default function CitySelectModal({
         )}
 
         <div className="flex justify-end gap-4">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded">
+          <button onClick={onClose} className="px-5 py-1 bg-gray-300 rounded cursor-pointer">
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="px-4 py-2 bg-[#f47335] text-white rounded disabled:opacity-50 cursor-pointer"
+            className="px-5 py-1 bg-[#f47335] text-white rounded disabled:opacity-50 cursor-pointer"
           >
             Save
           </button>

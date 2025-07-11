@@ -141,7 +141,7 @@ export default function AccountComponent({
           addressValue: fullAddress,
         }
       );
-      
+
       if (response.data.status === "success") {
         setSelectedAddress(fullAddress);
         setShowSelector(false);
@@ -191,11 +191,10 @@ export default function AccountComponent({
     // console.log(payload)
   };
 
+  const selectedCity = localStorage.getItem("selectedCity");
+
   useEffect(() => {
-
     const fetchRestaurantList = async () => {
-      const selectedCity = localStorage.getItem("selectedCity");
-
       try {
         const res = await axios.get(
           `${api_getResturantData}?city=${selectedCity}&address=${encodeURIComponent(
@@ -210,8 +209,7 @@ export default function AccountComponent({
     };
 
     fetchRestaurantList();
-  }, [restaurantSearch]);
-
+  }, [restaurantSearch, selectedCity]);
 
   return (
     <>
@@ -415,7 +413,9 @@ export default function AccountComponent({
               </div>
 
               <div className="flex justify-between items-center">
-                <p className="text-base text-gray-700 pl-11">{restaurantAddress}</p>
+                <p className="text-base text-gray-700 pl-11">
+                  {restaurantAddress}
+                </p>
               </div>
             </div>
           ) : (
@@ -479,9 +479,17 @@ export default function AccountComponent({
                         </button>
                       ))
                     ) : (
-                      <p className="text-sm text-gray-500">
-                        No matching restaurants found.
-                      </p>
+                      <>
+                        {!selectedCity ? (
+                          <p className="text-sm text-gray-500">
+                            No City is selected
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-500">
+                            No matching restaurants found.
+                          </p>
+                        )}
+                      </>
                     )}
                   </div>
                 </>

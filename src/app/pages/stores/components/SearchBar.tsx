@@ -13,6 +13,8 @@ type SearchBarProps = {
   selectedLocality: string;
   setSelectedLocality: (value: string) => void;
   cities: City[];
+  locality: any;
+  setCitieId: any;
 };
 
 export default function SearchBar({
@@ -23,6 +25,8 @@ export default function SearchBar({
   selectedLocality,
   setSelectedLocality,
   cities,
+  locality,
+  setCitieId,
 }: SearchBarProps) {
   // console.log(cities)
   return (
@@ -61,7 +65,17 @@ export default function SearchBar({
         <div className="flex h-12 border border-gray-400 rounded-xl overflow-hidden text-black text-base">
           <select
             value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
+            onChange={(e) => {
+              const selectedCityName = e.target.value;
+              setSelectedCity(selectedCityName);
+
+              const selectedCityObj = cities.find(
+                (city) => city.name === selectedCityName
+              );
+              if (selectedCityObj) {
+                setCitieId(selectedCityObj.id);
+              }
+            }}
             className="appearance-none w-48 text-left px-4 outline-none bg-white"
           >
             <option value="">Select City</option>
@@ -81,10 +95,11 @@ export default function SearchBar({
             className="appearance-none w-56 text-center px-4 outline-none bg-white"
           >
             <option value="">Select Locality</option>
-            {/* <option value="vijay-nagar">Vijay Nagar</option>
-            <option value="golden-city">Golden City</option>
-            <option value="civil-line">Civil Line</option>
-            <option value="freeganj">Freeganj</option> */}
+            {locality?.map((locality: any) => (
+              <option key={locality.id} value={locality.name}>
+                {locality.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>

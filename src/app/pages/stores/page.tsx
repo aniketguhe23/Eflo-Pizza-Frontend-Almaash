@@ -11,15 +11,19 @@ import ProjectApiList from "@/app/api/ProjectApiList";
 import { useSearchParams } from "next/navigation";
 
 const Stores = () => {
-  const { api_getResturantData, api_getCities } = ProjectApiList();
+  const { api_getResturantData, api_getCities, api_getLocality } =
+    ProjectApiList();
   const searchParams = useSearchParams();
   const city = searchParams.get("city");
 
   const [resturantData, setResturantData] = useState<any[]>([]);
   const [searchResturan, setSearchResturant] = useState<string | null>(city);
   const [cities, setCities] = useState<any[]>([]);
+  const [citieId, setCitieId] = useState<any>("");
+  const [locality, setLocality] = useState<any[]>([]);
   const [openNow, setOpenNow] = useState<boolean | undefined>(undefined);
   const [newlyOpen, setNewlyOpen] = useState(false);
+  const [selectedLocality, setSelectedLocality] = useState(" ");
 
   useEffect(() => {
     const fetchRestaurantList = async () => {
@@ -30,9 +34,12 @@ const Stores = () => {
         if (!searchResturan && city) {
           // If city is from URL and no user search yet
           url += `city=${city}&`;
-        } else if (searchResturan) {
+        } else if (searchResturan || selectedLocality) {
           // If user searched something, only send address
-          url += `address=${encodeURIComponent(searchResturan)}&`;
+          // url += `address=${encodeURIComponent(selectedLocality)}&`;
+          url += `address=${encodeURIComponent(
+            searchResturan || selectedLocality
+          )}&`;
         }
 
         // ✅ Add openNow=true if you want to filter only open stores
@@ -49,7 +56,7 @@ const Stores = () => {
     };
 
     fetchRestaurantList();
-  }, [searchResturan, openNow, newlyOpen]);
+  }, [searchResturan, openNow, newlyOpen, selectedLocality]);
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -65,6 +72,23 @@ const Stores = () => {
     fetchCities();
   }, []); // ✅ empty deps = only run once
 
+  useEffect(() => {
+    if (!citieId) return; // ⛔ Skip if citieId is undefined, null, or empty
+
+    const fetchLocality = async () => {
+      try {
+        const res = await axios.get(`${api_getLocality}/${citieId}`);
+        const data = res.data?.data || res.data || [];
+        setLocality(data);
+      } catch (error) {
+        console.error("Error fetching localities:", error);
+      }
+    };
+
+    fetchLocality();
+  }, [citieId, api_getLocality]);
+  // ✅ empty deps = only run once
+
   return (
     <div className="bg-[#f47335]">
       <Header />
@@ -74,7 +98,11 @@ const Stores = () => {
           setSearchResturant={setSearchResturant}
           searchResturan={searchResturan}
           resturantData={resturantData}
+          setCitieId={setCitieId}
+          setSelectedLocality={setSelectedLocality}
+          selectedLocality={selectedLocality}
           cities={cities}
+          locality={locality}
         />
       </div>
       <div className="">

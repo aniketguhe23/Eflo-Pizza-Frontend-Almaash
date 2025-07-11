@@ -4,11 +4,18 @@ import { useState } from "react";
 import SearchBar from "./SearchBar";
 import AppDownloadCard from "./AppDownloadCard";
 
-
-export default function HeaderStoreListing({setSearchResturant,searchResturan,cities}:any) {
+export default function HeaderStoreListing({
+  setSearchResturant,
+  searchResturan,
+  cities,
+  locality,
+  setCitieId,
+  setSelectedLocality,
+  selectedLocality,
+}: any) {
   // const [searchQuery, setSearchQuery] = useState("");
   // const [selectedCity, setSelectedCity] = useState("");
-  const [selectedLocality, setSelectedLocality] = useState("");
+
 
   return (
     <div className=" px-4 py-12">
@@ -23,7 +30,8 @@ export default function HeaderStoreListing({setSearchResturant,searchResturan,ci
               selectedLocality={selectedLocality}
               setSelectedLocality={setSelectedLocality}
               cities={cities}
-
+              setCitieId={setCitieId}
+              locality={locality}
             />
             <AppDownloadCard />
           </div>
