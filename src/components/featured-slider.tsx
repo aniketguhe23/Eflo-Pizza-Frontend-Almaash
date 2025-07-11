@@ -1,12 +1,17 @@
 "use client";
 
+import OrderModal from "@/app/pages/menu/components/order-modal";
 import { useHomeStore } from "@/app/store/homeStore";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+// import OrderModal from "@/components/order-modal"; // ✅ Update the path as needed
 
 export default function FeaturedSlider() {
   const { menuItems } = useHomeStore();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -18,8 +23,10 @@ export default function FeaturedSlider() {
     }
   };
 
+  // console.log(selectedItem,"selectedItem================>")
+
   return (
-    <div className="py-20 text-black flex justify-center ">
+    <div className="py-20 text-black flex justify-center">
       <div className="w-full max-w-[75%] text-center relative">
         <h2 className="text-5xl font-extrabold uppercase mb-20 [font-family:'Antonio',Helvetica]">
           Explore Featured Pizza’s
@@ -37,7 +44,7 @@ export default function FeaturedSlider() {
           {/* Slider */}
           <div
             ref={scrollRef}
-            className="flex gap-3 overflow-x-auto no-scrollbar py-10" 
+            className="flex gap-3 overflow-x-auto no-scrollbar py-10"
           >
             {menuItems?.map((item, index) => (
               <div
@@ -68,9 +75,33 @@ export default function FeaturedSlider() {
                   />
                 </div>
 
-                <button className="bg-[#f47335] hover:bg-[#f47335] text-white px-6 py-2 rounded-lg text-base font-semibold mb-4 cursor-pointer [font-family:'Antonio',Helvetica]">
+                <button
+                  className="bg-[#f47335] hover:bg-[#f47335] text-white px-6 py-2 rounded-lg text-base font-semibold mb-4 cursor-pointer [font-family:'Antonio',Helvetica]"
+                  onClick={() => {
+                    const transformedItem = {
+                      name: item.name,
+                      image: item.imageUrl,
+                      category: "GENERAL", // fallback if category is missing
+                      prices: {
+                        small:
+                          Number(item.variants.find((v) => v.size === "small")
+                            ?.price ?? null),
+                        medium:
+                          Number(item.variants.find((v) => v.size === "medium")
+                            ?.price ?? null),
+                        large:
+                          Number(item.variants.find((v) => v.size === "large")
+                            ?.price ?? null),
+                      },
+                    };
+
+                    setSelectedItem(transformedItem);
+                    setIsOpen(true);
+                  }}
+                >
                   ORDER NOW
                 </button>
+
                 <p className="text-lg font-semibold [font-family:'Antonio',Helvetica]">
                   MAKE IT MY OWN
                 </p>
@@ -87,6 +118,17 @@ export default function FeaturedSlider() {
           </button>
         </div>
       </div>
+
+      {/* Modal */}
+      {selectedItem && (
+        <OrderModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          item={selectedItem}
+          searchResturanNo={null} // You can pass values if needed
+          searchResturanName={null}
+        />
+      )}
     </div>
   );
 }

@@ -107,11 +107,21 @@ export default function DeliveryAddressModal({
         <div className="p-4 space-y-4">
           <input
             type="text"
-            placeholder="Phone Number"
+            inputMode="numeric" // shows numeric keyboard on mobile
+            pattern="[0-9]*" // restricts to digits
+            placeholder="Phone Number (Optional)"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Optional: Enforce numeric-only characters
+              if (/^\d{0,15}$/.test(value)) {
+                setPhoneNumber(value);
+              }
+            }}
+            maxLength={15}
             className="w-full p-3 border border-orange-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
+
           <input
             type="text"
             placeholder="Door / Flat No./ House"

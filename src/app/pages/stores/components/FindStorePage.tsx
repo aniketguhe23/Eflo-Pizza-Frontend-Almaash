@@ -12,6 +12,7 @@ export interface Store {
   hours: string;
   image?: string;
   restaurants_no?: string;
+  isClosed: boolean;
 }
 
 interface RawRestaurant {
@@ -22,13 +23,24 @@ interface RawRestaurant {
   closing_time: string;
   logo?: string;
   restaurants_no?: string;
+  isClosed: boolean;
 }
 
 interface FindStorePageProps {
   resturantData: RawRestaurant[] | RawRestaurant | null | undefined;
+  setOpenNow: any;
+  openNow: any;
+  setNewlyOpen:any,
+  newlyOpen:any,
 }
 
-export default function FindStorePage({ resturantData }: FindStorePageProps) {
+export default function FindStorePage({
+  resturantData,
+  setOpenNow,
+  openNow,
+  setNewlyOpen,
+  newlyOpen,
+}: FindStorePageProps) {
   let restaurantsArray: Store[] = [];
 
   // console.log(resturantData)
@@ -43,6 +55,7 @@ export default function FindStorePage({ resturantData }: FindStorePageProps) {
         hours: `${store.opening_time} AM to ${store.closing_time} PM`,
         image: store.logo,
         restaurants_no: store.restaurants_no,
+        isClosed: store.isClosed ?? true,
       }));
   } else if (resturantData && resturantData.id) {
     restaurantsArray = [
@@ -53,14 +66,20 @@ export default function FindStorePage({ resturantData }: FindStorePageProps) {
         hours: `${resturantData.opening_time} AM to ${resturantData.closing_time} PM`,
         image: resturantData.logo,
         restaurants_no: resturantData.restaurants_no,
+        isClosed: resturantData.isClosed ?? true,
       },
     ];
   }
 
   return (
     <div className="min-h-screen bg-gray-100 pt-35">
-      <FilterButtons />
-      <div className="mx-auto pb-8 bg-white px-55 pt-5">
+      <div className="mx-auto pb-8 bg-white px-55 pt-5 relative z-10">
+        <FilterButtons
+          setOpenNow={setOpenNow}
+          openNow={openNow}
+          setNewlyOpen={setNewlyOpen}
+          newlyOpen={newlyOpen}
+        />
         <h2 className="text-2xl text-gray-900 mb-6">
           Available for Dine-In Order
         </h2>
@@ -73,7 +92,7 @@ export default function FindStorePage({ resturantData }: FindStorePageProps) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {restaurantsArray.map((store) => (
+            {restaurantsArray?.map((store) => (
               <StoreCard key={store.id} store={store} />
             ))}
           </div>

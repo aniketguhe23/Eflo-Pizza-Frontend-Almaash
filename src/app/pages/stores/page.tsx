@@ -8,33 +8,48 @@ import Footer from "@/components/footer";
 import FindStorePage from "./components/FindStorePage";
 import HeaderStoreListing from "./components/HeaderStoreListing";
 import ProjectApiList from "@/app/api/ProjectApiList";
-
+import { useSearchParams } from "next/navigation";
 
 const Stores = () => {
   const { api_getResturantData, api_getCities } = ProjectApiList();
+  const searchParams = useSearchParams();
+  const city = searchParams.get("city");
 
   const [resturantData, setResturantData] = useState<any[]>([]);
-  const [searchResturan, setSearchResturant] = useState<string>("");
+  const [searchResturan, setSearchResturant] = useState<string | null>(city);
   const [cities, setCities] = useState<any[]>([]);
+  const [openNow, setOpenNow] = useState<boolean | undefined>(undefined);
+  const [newlyOpen, setNewlyOpen] = useState(false);
 
   useEffect(() => {
     const fetchRestaurantList = async () => {
       try {
-        const res = await axios.get(
-          `${api_getResturantData}?search=${encodeURIComponent(
-            searchResturan || searchResturan
-          )}`
-        );
+        // Build dynamic query
+        let url = `${api_getResturantData}?`;
+
+        if (!searchResturan && city) {
+          // If city is from URL and no user search yet
+          url += `city=${city}&`;
+        } else if (searchResturan) {
+          // If user searched something, only send address
+          url += `address=${encodeURIComponent(searchResturan)}&`;
+        }
+
+        // ✅ Add openNow=true if you want to filter only open stores
+        // ✅ Append query params
+        if (openNow) url += `openNow=true&`;
+        if (newlyOpen) url += `newlyOpen=true&`;
+
+        const res = await axios.get(url);
         const fetched = res.data.data || [];
         setResturantData(fetched);
-        // console.log("Fetched Restaurants:", fetched);
       } catch (error) {
         console.error("Error fetching restaurants:", error);
       }
     };
 
     fetchRestaurantList();
-  }, [searchResturan]);
+  }, [searchResturan, openNow, newlyOpen]);
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -62,8 +77,15 @@ const Stores = () => {
           cities={cities}
         />
       </div>
-
-      <FindStorePage resturantData={resturantData} />
+      <div className="">
+        <FindStorePage
+          resturantData={resturantData}
+          setOpenNow={setOpenNow}
+          openNow={openNow}
+          setNewlyOpen={setNewlyOpen}
+          newlyOpen={newlyOpen}
+        />
+      </div>
 
       <Footer />
     </div>

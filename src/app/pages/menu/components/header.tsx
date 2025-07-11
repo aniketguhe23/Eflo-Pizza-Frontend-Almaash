@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CircleUserRound, MapPin, ShoppingCart } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TbBus } from "react-icons/tb";
 import { PiHandCoinsFill } from "react-icons/pi";
 import { useHomeStore } from "@/app/store/homeStore";
@@ -14,6 +14,7 @@ import LoginModal from "../../auth/login/LoginModal";
 import DineInModal from "@/components/dineIn-modal";
 import useCartStore from "@/app/store/useCartStore";
 import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
+import CitySelectModal from "@/components/modal/CitySelectModal";
 // import DineInModal from "./dineIn-modal"; // ✅ Import your modal
 
 export default function Header() {
@@ -29,6 +30,19 @@ export default function Header() {
     mobile: string;
   } | null>(null);
   const [isPickupModalOpen, setIsPickupModalOpen] = useState(false); // ✅ State for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedCity = localStorage.getItem("selectedCity");
+    if (storedCity) {
+      setSelectedCity(storedCity);
+    }
+  }, []);
+
+  const handleCitySelect = (city: string) => {
+    setSelectedCity(city);
+  };
 
   // Calculate total quantity
   const totalCartCount =
@@ -59,6 +73,13 @@ export default function Header() {
 
       {isPickupModalOpen && (
         <DineInModal onClose={() => setIsPickupModalOpen(false)} />
+      )}
+
+      {isModalOpen && (
+        <CitySelectModal
+          onClose={() => setIsModalOpen(false)}
+          onCitySelect={handleCitySelect}
+        />
       )}
 
       {/* Header */}
@@ -110,11 +131,24 @@ export default function Header() {
         {/* Right Section */}
         <div className="flex items-center gap-4 mt-4 md:mt-0 w-[50%]">
           {/* Location Info */}
-          <div className="bg-[#f4f4f4] opacity-70 text-black rounded-md flex items-center p-2 w-[40%]">
+          {/* <div className="">
             <MapPin className="text-black mr-2 h-6 w-6" />
             <div className="flex flex-col">
               <span className="text-[.8rem]">Delivery From</span>
               <span className="text-[.6rem]">Select your address</span>
+            </div>
+          </div> */}
+
+          <div
+            className="bg-[#f4f4f4] opacity-70 text-black rounded-md flex items-center p-2 w-[40%]"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <MapPin className="text-black mr-2 h-6 w-6" />
+            <div className="flex flex-col">
+              <span className="text-[.8rem]">Delivery From</span>
+              <span className="text-[.6rem]">
+                {selectedCity || "Select your address"}
+              </span>
             </div>
           </div>
 

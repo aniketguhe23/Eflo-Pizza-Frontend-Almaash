@@ -141,11 +141,12 @@ export default function AccountComponent({
           addressValue: fullAddress,
         }
       );
-
-      if (response.data.status === "success ") {
+      
+      if (response.data.status === "success") {
         setSelectedAddress(fullAddress);
         setShowSelector(false);
         setEditAddressData(null);
+        window.location.reload();
       }
     } catch (error) {
       console.error("Axios error:", error);
@@ -191,10 +192,13 @@ export default function AccountComponent({
   };
 
   useEffect(() => {
+
     const fetchRestaurantList = async () => {
+      const selectedCity = localStorage.getItem("selectedCity");
+
       try {
         const res = await axios.get(
-          `${api_getResturantData}?search=${encodeURIComponent(
+          `${api_getResturantData}?city=${selectedCity}&address=${encodeURIComponent(
             restaurantSearch
           )}`
         );

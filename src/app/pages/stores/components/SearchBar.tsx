@@ -5,7 +5,6 @@ type City = {
   name: string;
 };
 
-
 type SearchBarProps = {
   searchQuery: string;
   setSearchQuery: (value: string) => void;
@@ -13,7 +12,7 @@ type SearchBarProps = {
   setSelectedCity: (value: string) => void;
   selectedLocality: string;
   setSelectedLocality: (value: string) => void;
-   cities: City[];
+  cities: City[];
 };
 
 export default function SearchBar({
@@ -25,7 +24,6 @@ export default function SearchBar({
   setSelectedLocality,
   cities,
 }: SearchBarProps) {
-
   // console.log(cities)
   return (
     <div className="flex-1 pt-10">
@@ -49,8 +47,11 @@ export default function SearchBar({
               className="w-full h-full pl-10 pr-4 bg-gray-200 text-black focus:outline-none"
             />
           </div>
-          <button className="bg-[#f47335] hover:bg-orange-600 text-white px-4 flex items-center justify-center">
-            <MapPin className="w-5 h-5" />
+          <button
+            className="bg-[#f47335] hover:bg-orange-600 text-white px-4 flex items-center justify-center cursor-pointer"
+            onClick={() => setSearchQuery(" ")}
+          >
+            {/* <MapPin className="w-5 h-5" /> */}Clear
           </button>
         </div>
 

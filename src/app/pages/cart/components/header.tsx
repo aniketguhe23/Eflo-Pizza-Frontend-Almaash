@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShoppingCart, MapPin } from "lucide-react";
 import { useHomeStore } from "@/app/store/homeStore";
 import Loader from "@/components/loader/Loader";
@@ -12,10 +12,13 @@ import CreateAccountModal from "../../auth/createAccount/CreateAccountModal";
 import LoginModal from "../../auth/login/LoginModal";
 import useCartStore from "@/app/store/useCartStore";
 import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
+import CitySelectModal from "@/components/modal/CitySelectModal";
 
 interface deliveryProps {
   deliveryType?: "delivery" | "pickup";
-  setDeliveryType: React.Dispatch<React.SetStateAction<"delivery" | "pickup" | undefined >>;
+  setDeliveryType: React.Dispatch<
+    React.SetStateAction<"delivery" | "pickup" | undefined>
+  >;
 }
 
 export default function Header({
@@ -33,6 +36,20 @@ export default function Header({
     waId: string;
     mobile: string;
   } | null>(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedCity = localStorage.getItem("selectedCity");
+    if (storedCity) {
+      setSelectedCity(storedCity);
+    }
+  }, []);
+
+  const handleCitySelect = (city: string) => {
+    setSelectedCity(city);
+  };
 
   // Calculate total quantity
   const totalCartCount =
@@ -64,6 +81,13 @@ export default function Header({
           onClose={() => setCreateAccountData(null)}
           waId={createAccountData.waId}
           mobile={createAccountData.mobile}
+        />
+      )}
+
+      {isModalOpen && (
+        <CitySelectModal
+          onClose={() => setIsModalOpen(false)}
+          onCitySelect={handleCitySelect}
         />
       )}
       <header className="fixed top-0 left-0 right-0 z-50 px-4  bg-[#f47335] shadow-md [font-family:'Barlow_Condensed',Helvetica]">
@@ -112,11 +136,16 @@ export default function Header({
             </div>
 
             {/* Address Box */}
-            <div className="bg-[#c05a29] opacity-70 text-black rounded-md flex items-center p-2 w-[50%]">
+            <div
+              className="bg-[#c05a29] text-black rounded-md flex items-center p-2 w-[40%] cursor-pointer"
+              onClick={() => setIsModalOpen(true)}
+            >
               <MapPin className="text-black mr-2 h-6 w-6" />
               <div className="flex flex-col">
-                <span className="text-[1rem]">Delivery From</span>
-                <span className="text-[.8rem]">Select your address</span>
+                <span className="text-[.8rem]">Delivery From</span>
+                <span className="text-[.6rem]">
+                  {selectedCity || "Select your address"}
+                </span>
               </div>
             </div>
           </div>
