@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useValuesStore } from "@/app/store/useValuesStore";
+import Link from "next/link";
 
 const PizzaDeliverySection = () => {
   const { valueData } = useValuesStore();
@@ -31,9 +32,11 @@ const PizzaDeliverySection = () => {
             height={200}
             className="w-auto h-auto"
           />
-          <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-10 rounded-md shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap">
-            ORDER NOW
-          </button>
+          <Link href="/pages/menu">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-10 rounded-md shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap">
+              ORDER NOW
+            </button>
+          </Link>
         </div>
       </div>
     </section>

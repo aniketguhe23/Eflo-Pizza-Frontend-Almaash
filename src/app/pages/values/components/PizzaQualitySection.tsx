@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useValuesStore } from "@/app/store/useValuesStore";
+import Link from "next/link";
 
 const PizzaQualitySection = () => {
   const { valueData } = useValuesStore();
@@ -31,16 +32,17 @@ const PizzaQualitySection = () => {
 
         {/* Right Column: Image & CTA */}
         <div className="flex flex-col items-center justify-center gap-16">
-          <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-8 rounded shadow transition-all duration-200 cursor-pointer ml-10">
-            ORDER NOW
-          </button>
+          <Link href="/pages/menu">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-8 rounded shadow transition-all duration-200 cursor-pointer ml-10">
+              ORDER NOW
+            </button>
+          </Link>
 
           <div className="relative w-[220px] h-[220px] ml-32">
             {/* Background Image - larger & moved left */}
             <div className="absolute top-1/2 left-1/2 w-[250px] h-[250px] -translate-x-[65%] -translate-y-1/2 z-0">
               <Image
-                src= {valueData?.best_pizza_img1 ??
-              "qualitySection2.png"}
+                src={valueData?.best_pizza_img1 ?? "qualitySection2.png"}
                 alt="Background Decoration"
                 width={250}
                 height={250}
@@ -51,8 +53,7 @@ const PizzaQualitySection = () => {
             {/* Foreground Image (Pizza) */}
             <div className="absolute top-1/2 left-1/2 w-[190px] h-[190px] -translate-x-1/2 -translate-y-1/2 z-10 border rounded-full overflow-hidden shadow-lg">
               <Image
-              src= {valueData?.best_pizza_img2 ??
-              "pizzacopy.png"}
+                src={valueData?.best_pizza_img2 ?? "pizzacopy.png"}
                 // src="/pizzacopy.png"
                 alt="Specialty Pizza"
                 fill
