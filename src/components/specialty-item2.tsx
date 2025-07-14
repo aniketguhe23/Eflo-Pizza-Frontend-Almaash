@@ -33,7 +33,7 @@ export default function SpecialtyItem({
         </h3>
         <p className="text-sm font-bold text-black mb-5">{description}</p>
 
-        <Link href="/order">
+        <Link href="/pages/menu">
           <button className="bg-[#f47335] hover:bg-[#e5631d] [font-family:'Barlow_Condensed',Helvetica] transition-colors text-white px-4 py-2 rounded-md flex items-center text-xl font-semibold shadow cursor-pointer">
             <GoChecklist />
 
