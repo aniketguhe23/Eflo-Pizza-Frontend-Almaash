@@ -46,7 +46,7 @@ export default function SearchBar({
             <input
               type="text"
               placeholder="Enter city or locality"
-              value={searchQuery}
+                value={searchQuery || ""}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-full pl-10 pr-4 bg-gray-200 text-black focus:outline-none"
             />
@@ -64,7 +64,7 @@ export default function SearchBar({
         {/* Right select group */}
         <div className="flex h-12 border border-gray-400 rounded-xl overflow-hidden text-black text-base">
           <select
-            value={selectedCity}
+            value={selectedCity || ""}
             onChange={(e) => {
               const selectedCityName = e.target.value;
               setSelectedCity(selectedCityName);
