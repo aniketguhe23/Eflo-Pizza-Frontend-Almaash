@@ -41,7 +41,7 @@ const StoresClient = () => {
           url += `address=${encodeURIComponent(searchResturan || selectedLocality)}&`;
         }
 
-        if (openNow) url += `openNow=true&`;
+        if (openNow) url += `openNow=true&is_active=true&`;
         if (newlyOpen) url += `newlyOpen=true&`;
 
         const res = await axios.get(url);

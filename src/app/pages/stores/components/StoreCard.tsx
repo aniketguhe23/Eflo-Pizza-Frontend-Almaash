@@ -10,6 +10,9 @@ export interface Store {
   image?: string;
   restaurants_no?: string;
   isClosed: boolean;
+  is_active: boolean;
+  today_closing_time: string;
+  today_opening_time: string;
 }
 
 interface StoreCardProps {
@@ -55,10 +58,14 @@ export default function StoreCard({ store }: StoreCardProps) {
             <div className="flex items-center gap-2 text-gray-500 mb-4">
               <Clock className="w-4 h-4 text-black" />
               <span className="text-sm">
-                <span className="text-black">Open from</span> {store.hours}
+                <span className="text-black">Open from</span>{" "}
+                {store.today_opening_time && store.today_closing_time
+                  ? `${store.today_opening_time} to ${store.today_closing_time}`
+                  : "Set restaurant hours first"}
               </span>
             </div>
-            {store?.isClosed === true ? (
+
+            {store?.isClosed === true || store?.is_active === false ? (
               <div className="w-full block bg-gray-500 text-white py-1 rounded-md text-center cursor-not-allowed">
                 Closed
               </div>

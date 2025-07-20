@@ -41,8 +41,12 @@ export default function ProjectApiList() {
     // masters
     api_getCities: `${baseUrl}/api/location/getAllcities`,
     api_getLocality: `${baseUrl}/api/location/locality-by-city`,
-
     
+    //refund
+    api_createRefund: `${baseUrl}/api/refunds/createRefund`,
+    
+    
+    api_createContactSupport: `${baseUrl}/api/support/create`,
   };
 
   return apiList;
