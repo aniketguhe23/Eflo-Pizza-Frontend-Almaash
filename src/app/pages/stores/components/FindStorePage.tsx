@@ -13,25 +13,29 @@ export interface Store {
   image?: string;
   restaurants_no?: string;
   isClosed: boolean;
+  is_active: boolean;
+  today_opening_time: string ;
+  today_closing_time: string ;
 }
 
 interface RawRestaurant {
   id: number;
   name: string;
   address: string;
-  opening_time: string;
-  closing_time: string;
+  today_opening_time: string;
+  today_closing_time: string;
   logo?: string;
   restaurants_no?: string;
   isClosed: boolean;
+  is_active: boolean;
 }
 
 interface FindStorePageProps {
   resturantData: RawRestaurant[] | RawRestaurant | null | undefined;
   setOpenNow: any;
   openNow: any;
-  setNewlyOpen:any,
-  newlyOpen:any,
+  setNewlyOpen: any;
+  newlyOpen: any;
 }
 
 export default function FindStorePage({
@@ -52,23 +56,36 @@ export default function FindStorePage({
         id: store.id,
         name: store.name,
         location: store.address,
-        hours: `${store.opening_time} AM to ${store.closing_time} PM`,
+        hours:
+          store.today_opening_time && store.today_closing_time
+            ? `${store.today_opening_time} AM to ${store.today_closing_time} PM`
+            : "Set restaurant hours first",
         image: store.logo,
         restaurants_no: store.restaurants_no,
         isClosed: store.isClosed ?? true,
+        is_active: store.is_active,
+        today_opening_time: store.today_opening_time || "",
+        today_closing_time: store.today_closing_time || "",
       }));
   } else if (resturantData && resturantData.id) {
-    restaurantsArray = [
-      {
-        id: resturantData.id,
-        name: resturantData.name,
-        location: resturantData.address,
-        hours: `${resturantData.opening_time} AM to ${resturantData.closing_time} PM`,
-        image: resturantData.logo,
-        restaurants_no: resturantData.restaurants_no,
-        isClosed: resturantData.isClosed ?? true,
-      },
-    ];
+   restaurantsArray = [
+  {
+    id: resturantData.id,
+    name: resturantData.name,
+    location: resturantData.address,
+    hours:
+      resturantData.today_opening_time && resturantData.today_closing_time
+        ? `${resturantData.today_opening_time} AM to ${resturantData.today_closing_time} PM`
+        : "Set restaurant hours first",
+    image: resturantData.logo,
+    restaurants_no: resturantData.restaurants_no,
+    isClosed: resturantData.isClosed ?? true,
+    is_active: resturantData.is_active,
+    today_opening_time: resturantData.today_opening_time || "",
+    today_closing_time: resturantData.today_closing_time || "",
+  },
+];
+
   }
 
   return (

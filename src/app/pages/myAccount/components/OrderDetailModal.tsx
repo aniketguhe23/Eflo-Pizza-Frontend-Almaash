@@ -37,7 +37,7 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
                   ELFO&apos;S PIZZA
                 </h3>
                 <p className="text-sm text-gray-500 italic">
-                  - {order?.restaurant_name}
+                  - {order?.restaurant.address}
                 </p>
               </div>
             </div>

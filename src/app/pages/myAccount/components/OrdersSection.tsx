@@ -6,6 +6,8 @@ import axios from "axios";
 import ProjectApiList from "@/app/api/ProjectApiList";
 import { useUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/navigation";
+import RefundModal from "./RefundDialog";
+import SupportModal from "./SupportModal";
 
 export default function OrdersSection() {
   const { api_getOrderById } = ProjectApiList();
@@ -15,6 +17,8 @@ export default function OrdersSection() {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [orderData, setOrderData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [refundOrder, setRefundOrder] = useState<any>(null);
+  const [supportOrder, setSupportOrder] = useState<any>(null);
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -61,13 +65,33 @@ export default function OrdersSection() {
               </div>
               <div className="flex justify-center items-center">
                 <h3 className="italic text-base font-normal">
-                  - {order?.address}
+                  - {order?.restaurant?.address}
                 </h3>
               </div>
 
               <div className="px-12 pt-4">
                 <div className="flex justify-between">
-                  <p className="text-xl font-bold">{order?.Order_no}</p>
+                  <div className="">
+                    <p className="text-xl font-bold">{order?.Order_no}</p>
+                    <p className="text-sm mt-1">
+                      Status:{" "}
+                      <span
+                        className={`font-semibold ${
+                          order?.order_status === "Pending"
+                            ? "text-yellow-600"
+                            : order?.order_status === "Confirmed"
+                            ? "text-blue-600"
+                            : order?.order_status === "Delivered"
+                            ? "text-green-600"
+                            : order?.order_status === "Cancelled"
+                            ? "text-red-600"
+                            : "text-gray-600"
+                        }`}
+                      >
+                        {order?.order_status}
+                      </span>
+                    </p>
+                  </div>
                   <button
                     className="text-orange-500 text-lg font-semibold cursor-pointer hover:bg-orange-100 p-2"
                     onClick={() => setSelectedOrder(order)}
@@ -109,10 +133,36 @@ export default function OrdersSection() {
                   </div>
                 </div>
 
-                <div className="flex justify-end items-center">
-                  <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer">
-                    RE - ORDER
-                  </button>
+                <div className="flex justify-between items-center gap-3">
+                  <div className="">
+                    {order?.order_status !== "Delivered" &&
+                      order?.order_status !== "Refunded" && (
+                        <button
+                          onClick={() => setSupportOrder(order)}
+                          className="text-xs uppercase cursor-pointer hover:underline"
+                        >
+                          CONTACT SUPPORT
+                        </button>
+                      )}
+                  </div>
+                  <div className="">
+                    <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer">
+                      RE - ORDER
+                    </button>
+
+                    {order?.order_status === "Refunded Requested" && (
+                      <p>{order?.order_status}</p>
+                    )}
+
+                    {order?.order_status === "Cancelled" && (
+                      <button
+                        onClick={() => setRefundOrder(order)}
+                        className="bg-red-500 hover:bg-red-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer"
+                      >
+                        REQUEST REFUND
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -124,6 +174,30 @@ export default function OrdersSection() {
         <OrderModal
           onClose={() => setSelectedOrder(null)}
           order={selectedOrder}
+        />
+      )}
+
+      {refundOrder && (
+        <RefundModal
+          open={true}
+          onClose={() => setRefundOrder(null)}
+          onSuccess={() => {
+            setRefundOrder(null);
+            fetchOrders();
+          }}
+          orderId={refundOrder?.Order_no} // assuming `id` is order ID
+          restaurantId={refundOrder?.restaurant_name}
+          amount={refundOrder?.total_price}
+        />
+      )}
+      {supportOrder && user?.waId && (
+        <SupportModal
+          open={true}
+          orderId={supportOrder?.Order_no}
+          userId={user?.waId}
+          restaurant_id={supportOrder?.restaurant_name} // 👈 add this line
+          onClose={() => setSupportOrder(null)}
+          onSuccess={() => setSupportOrder(null)}
         />
       )}
     </>
