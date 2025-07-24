@@ -8,9 +8,11 @@ import { useUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/navigation";
 import RefundModal from "./RefundDialog";
 import SupportModal from "./SupportModal";
+import { toast } from "react-toastify";
+import CancelOrderDialog from "./CancelOrderDialog";
 
 export default function OrdersSection() {
-  const { api_getOrderById } = ProjectApiList();
+  const { api_getOrderById, api_updateStatusOrdersById } = ProjectApiList();
   const { user } = useUserStore();
   const router = useRouter();
 
@@ -19,6 +21,7 @@ export default function OrdersSection() {
   const [loading, setLoading] = useState(false);
   const [refundOrder, setRefundOrder] = useState<any>(null);
   const [supportOrder, setSupportOrder] = useState<any>(null);
+  const [cancelOrder, setCancelOrder] = useState<any>(null);
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -31,6 +34,16 @@ export default function OrdersSection() {
       setLoading(false);
     }
   }, [api_getOrderById, user?.waId]);
+
+  const handleStatusUpdate = async (orderNo: string, status: string) => {
+    try {
+      await axios.put(`${api_updateStatusOrdersById}/${orderNo}`, { status });
+      toast.success(`Order Successfully Cancelled`);
+      fetchOrders();
+    } catch {
+      toast.error(`Failed to update order status`);
+    }
+  };
 
   useEffect(() => {
     fetchOrders();
@@ -146,9 +159,22 @@ export default function OrdersSection() {
                       )}
                   </div>
                   <div className="">
-                    <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer">
-                      RE - ORDER
-                    </button>
+                    {order?.order_status === "Delivered" && (
+                      <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer">
+                        RE - ORDER
+                      </button>
+                    )}
+
+                    {["Pending", "Confirmed", "Accepted", "Scheduled","Processing"].includes(
+                      order?.order_status
+                    ) && (
+                      <button
+                        onClick={() => setCancelOrder(order)}
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer"
+                      >
+                        Cancel Order
+                      </button>
+                    )}
 
                     {order?.order_status === "Refunded Requested" && (
                       <p>{order?.order_status}</p>
@@ -157,7 +183,7 @@ export default function OrdersSection() {
                     {order?.order_status === "Cancelled" && (
                       <button
                         onClick={() => setRefundOrder(order)}
-                        className="bg-red-500 hover:bg-red-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer"
+                        className="bg-red-500 hover:bg-red-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer ml-2"
                       >
                         REQUEST REFUND
                       </button>
@@ -198,6 +224,18 @@ export default function OrdersSection() {
           restaurant_id={supportOrder?.restaurant_name} // 👈 add this line
           onClose={() => setSupportOrder(null)}
           onSuccess={() => setSupportOrder(null)}
+        />
+      )}
+
+      {cancelOrder && (
+        <CancelOrderDialog
+          open={true}
+          orderId={cancelOrder?.Order_no}
+          onClose={() => setCancelOrder(null)}
+          onConfirm={() => {
+            handleStatusUpdate(cancelOrder?.Order_no, "Cancelled_By_Customer");
+            setCancelOrder(null);
+          }}
         />
       )}
     </>

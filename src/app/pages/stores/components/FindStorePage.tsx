@@ -90,7 +90,7 @@ export default function FindStorePage({
 
   return (
     <div className="min-h-screen bg-gray-100 pt-35">
-      <div className="mx-auto pb-8 bg-white px-55 pt-5 relative z-10">
+      <div className="mx-auto pb-8 bg-white px-55 max-sm:px-10 pt-5 relative z-10 max-sm:z-0 max-sm:mt-[6rem]">
         <FilterButtons
           setOpenNow={setOpenNow}
           openNow={openNow}

@@ -22,7 +22,6 @@ const Page = () => {
   // const [showHeader, setShowHeader] = useState(true);
   // const [lastScrollY, setLastScrollY] = useState(0);
 
-
   useEffect(() => {
     const fetchValueData = async () => {
       try {
@@ -72,9 +71,9 @@ const Page = () => {
   return (
     <div>
       <div
-        // className={`fixed top-0 w-full z-500 transition-transform duration-300 bg-black
-        //   //  ${showHeader ? "translate-y-0" : "bg-black"}
-        //   `}
+      // className={`fixed top-0 w-full z-500 transition-transform duration-300 bg-black
+      //   //  ${showHeader ? "translate-y-0" : "bg-black"}
+      //   `}
       >
         <Header />
       </div>
@@ -86,7 +85,7 @@ const Page = () => {
       <PizzaQualitySection />
       <PizzaDeliverySection />
       <StoneBakedSection />
-     <div className="relative z-10 -mb-35 px-40 pb-10 pt-10">
+      <div className="relative z-10 -mb-35 px-40 pb-10 pt-10 max">
         <FoodDeliveryHero />
       </div>
       <Footer />

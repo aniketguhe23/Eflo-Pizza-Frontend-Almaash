@@ -165,7 +165,7 @@ export default function BuildPizza() {
       extraSauces: [],
     });
 
-       toast.success(`Items added to cart`);
+    toast.success(`Items added to cart`);
   };
 
   const validateSelections = () => {
@@ -241,33 +241,37 @@ export default function BuildPizza() {
           BUILD YOUR OWN PIZZA
         </h1>
 
-        <div className="flex justify-center mb-7 overflow-x-auto">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className="px-8 py-2 font-medium text-2xl cursor-pointer text-black hover:text-[#f47834] uppercase"
-              onClick={() => handleScrollToCategory(category)}
-            >
-              {(() => {
-                switch (category) {
-                  case "doughTypes":
-                    return "Dough";
-                  case "crustTypes":
-                    return "Crust";
-                  case "cheeseOptions":
-                    return "Cheese";
-                  case "sauces":
-                    return "Sauce";
-                  case "extraSauces":
-                    return " Sauces";
-                  default:
-                    return category
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, (str) => str.toUpperCase());
-                }
-              })()}
-            </button>
-          ))}
+        <div className="flex justify-center mb-7 items-center">
+<div className="w-[300px] sm:w-full overflow-x-auto sm:flex sm:justify-center sm:items-center">
+            <div className="flex px-4 sm:px-0 w-max">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  className="px-8 py-2 font-medium text-2xl cursor-pointer text-black hover:text-[#f47834] uppercase"
+                  onClick={() => handleScrollToCategory(category)}
+                >
+                  {(() => {
+                    switch (category) {
+                      case "doughTypes":
+                        return "Dough";
+                      case "crustTypes":
+                        return "Crust";
+                      case "cheeseOptions":
+                        return "Cheese";
+                      case "sauces":
+                        return "Sauce";
+                      case "extraSauces":
+                        return "Sauces";
+                      default:
+                        return category
+                          .replace(/([A-Z])/g, " $1")
+                          .replace(/^./, (str) => str.toUpperCase());
+                    }
+                  })()}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {categories.map((category) => (
@@ -276,10 +280,10 @@ export default function BuildPizza() {
             ref={(el) => {
               sectionRefs.current[category] = el;
             }}
-            className="mb-14 mx-15 pt-10 pb-5"
+            className="mb-14 mx-15 max-sm:mx-0 pt-10 pb-5"
           >
             <h2 className="text-3xl font-bold text-center mb-6 uppercase">
-                {(() => {
+              {(() => {
                 switch (category) {
                   case "doughTypes":
                     return "Dough";
@@ -299,7 +303,7 @@ export default function BuildPizza() {
               })()}
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 max-sm:grid-cols-2 gap-6 px-6">
               {((data?.[category] || []) as ExtendedPizzaOption[]).map(
                 (option) => {
                   const name = option.name;
@@ -322,13 +326,13 @@ export default function BuildPizza() {
                       }`}
                     >
                       {image !== "/placeholder.svg" && (
-                        <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden bg-white flex items-center justify-center mb-4 sm:mb-0 sm:mr-6">
+                        <div className="w-32 max-sm:w-24 h-32 max-sm:h-24 sm:w-40 sm:h-40 rounded-full overflow-hidden bg-white flex items-center justify-center mb-4 sm:mb-0 sm:mr-6">
                           <Image
                             src={image}
                             alt={name}
                             width={160}
                             height={160}
-                            className="rounded-full object-cover"
+                            className="rounded-full object-cover "
                           />
                         </div>
                       )}
@@ -373,35 +377,38 @@ export default function BuildPizza() {
           </div>
         ))}
 
-        <div className="flex flex-col sm:flex-row justify-between items-center bg-[#f47834] text-black px-6 py-2 w-full rounded sticky bottom-0 z-20 gap-3 sm:gap-0">
-          <div className="flex items-center gap-4 text-xl font-bold">
+        <div className="flex flex-col sm:flex-row justify-between items-center bg-[#f47834] text-black px-4 sm:px-6 py-2 w-full rounded sticky bottom-0 z-20 gap-3 sm:gap-0">
+          {/* Quantity Selector */}
+          <div className="flex items-center gap-2 sm:gap-4 text-base sm:text-xl font-bold">
             <span>Qty:</span>
             <button
               onClick={() => setPizzaQuantity((prev) => Math.max(1, prev - 1))}
-              className="bg-black text-white w-7 h-7 flex items-center justify-center rounded-full"
+              className="bg-black text-white w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full"
             >
               -
             </button>
             <span>{pizzaQuantity}</span>
             <button
               onClick={() => setPizzaQuantity((prev) => prev + 1)}
-              className="bg-black text-white w-7 h-7 flex items-center justify-center rounded-full"
+              className="bg-black text-white w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full"
             >
               +
             </button>
           </div>
 
-          <div className="text-xl font-bold text-center">
+          {/* Total Price */}
+          <div className="text-base sm:text-xl font-bold text-center">
             Total: INR {totalPrice * pizzaQuantity}
           </div>
 
+          {/* Add to Cart Button */}
           <button
             onClick={() => {
               if (validateSelections()) {
                 setConfirmModalOpen(true);
               }
             }}
-            className="bg-black text-white text-xl font-bold px-12 sm:px-56 py-2 uppercase tracking-wider hover:opacity-90 transition-all cursor-pointer"
+            className="bg-black text-white text-sm sm:text-xl font-bold px-6 sm:px-56 py-2 uppercase tracking-wider hover:opacity-90 transition-all cursor-pointer w-full sm:w-auto"
           >
             Add to Cart
           </button>

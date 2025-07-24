@@ -143,270 +143,529 @@ const OrderModal: React.FC<OrderModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-1000 flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl h-[89vh] overflow-y-auto mx-4 md:mx-0 relative">
+    // <div className="fixed inset-0 z-1000 flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
+    //   <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl  overflow-y-auto mx-4 md:mx-0 relative">
+    //     <button
+    //       onClick={onClose}
+    //       className="absolute top-4 right-4 text-gray-700 hover:text-black text-2xl font-bold cursor-pointer"
+    //     >
+    //       <RxCross1 className="hover:text-red-600" />
+    //     </button>
+
+    //     {isDessert ? (
+    //       <div className="bg-[#ffe6db] p-8 text-center flex flex-col items-center">
+    //         <Image
+    //           src={item.image}
+    //           alt={item.name}
+    //           width={300}
+    //           height={300}
+    //           className="mb-6 object-contain rounded-full"
+    //         />
+    //         <h2 className="text-2xl font-bold uppercase tracking-wider mb-4">
+    //           {item.name}
+    //         </h2>
+    //         <button
+    //           onClick={handleAddToCart}
+    //           className="bg-black text-white py-2 px-6 text-sm hover:bg-gray-900 cursor-pointer"
+    //         >
+    //           ADD TO CART – INR {item.prices.small}
+    //         </button>
+    //       </div>
+    //     ) : isDrink ? (
+    //       <div className="bg-[#fde8dc] p-8 text-center flex flex-col items-center">
+    //         <Image
+    //           src={item.image}
+    //           alt={item.name}
+    //           width={250}
+    //           height={250}
+    //           className="mb-6 object-contain"
+    //         />
+    //         <h2 className="text-2xl font-bold uppercase">{item.name}</h2>
+
+    //         <div className="flex bg-white rounded-full overflow-hidden mt-6">
+    //           {(["small", "large"] as const).map((s) => (
+    //             <button
+    //               key={s}
+    //               onClick={() => setSize(s)}
+    //               className={`px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
+    //                 size === s
+    //                   ? "bg-orange-500 text-white"
+    //                   : "text-black hover:text-orange-500"
+    //               }`}
+    //             >
+    //               {s === "small" ? "SMALL (250 ml)" : "LARGE (400 ml)"}
+    //             </button>
+    //           ))}
+    //         </div>
+
+    //         <button
+    //           onClick={handleAddToCart}
+    //           className="bg-black text-white py-2 px-6 mt-6 text-sm hover:bg-gray-900 cursor-pointer"
+    //         >
+    //           ADD TO CART – INR {sizePrice}
+    //         </button>
+    //       </div>
+    //     ) : (
+    //       <div className="grid grid-cols-1 md:grid-cols-2">
+    //         <div className="bg-[#fde8dc] flex justify-center items-center p-6">
+    //           <Image
+    //             src={item.image || "/pizza.png"}
+    //             alt={item.name}
+    //             width={400}
+    //             height={400}
+    //             className="rounded-full"
+    //           />
+    //         </div>
+
+    //         <div className="p-6 flex flex-col justify-center space-y-4">
+    //           <h2 className="text-3xl font-bold uppercase">{item.name}</h2>
+    //           <p className="text-xl text-gray-700">
+    //             Fresh{" "}
+    //             {item.name.charAt(0).toUpperCase() +
+    //               item.name.slice(1).toLowerCase()}
+    //           </p>
+
+    //           {/* Size Selection */}
+    //           <div className="flex bg-orange-100 rounded-full overflow-hidden w-full uppercase">
+    //             {(["small", "medium", "large"] as const).map((s) => (
+    //               <button
+    //                 key={s}
+    //                 onClick={() => setSize(s)}
+    //                 className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+    //                   size === s ? "bg-orange-500 text-white" : "text-black"
+    //                 }`}
+    //               >
+    //                 {s}
+    //               </button>
+    //             ))}
+    //           </div>
+
+    //           {/* Dough Selection */}
+    //           <div className="flex bg-orange-100 rounded-full overflow-hidden w-full">
+    //             <button
+    //               onClick={() => setDough("original")}
+    //               className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+    //                 dough === "original"
+    //                   ? "bg-orange-500 text-white"
+    //                   : "text-black"
+    //               }`}
+    //             >
+    //               Original Dough
+    //             </button>
+    //             <button
+    //               onClick={() => setDough("sour")}
+    //               className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+    //                 dough === "sour" ? "bg-orange-500 text-white" : "text-black"
+    //               }`}
+    //             >
+    //               Sour Dough
+    //             </button>
+    //           </div>
+
+    //           {/* Crust Selection */}
+    //           <div className="flex bg-orange-100 rounded-full overflow-hidden w-full">
+    //             <button
+    //               onClick={() => setCrust("garlic")}
+    //               className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+    //                 crust === "garlic"
+    //                   ? "bg-orange-500 text-white"
+    //                   : "text-black"
+    //               }`}
+    //             >
+    //               Garlic Crust
+    //             </button>
+    //             <button
+    //               onClick={() => setCrust("original")}
+    //               className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+    //                 crust === "original"
+    //                   ? "bg-orange-500 text-white"
+    //                   : "text-black"
+    //               }`}
+    //             >
+    //               Original Crust
+    //             </button>
+    //           </div>
+
+    //           {/* Toppings */}
+    //           <div>
+    //             <p className="font-semibold text-base">Add topping</p>
+
+    //             <div className="relative">
+    //               {/* Scroll Left Button */}
+    //               <button
+    //                 onClick={scrollLeft}
+    //                 className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+    //               >
+    //                 <IoChevronBack className="text-xl" />
+    //               </button>
+
+    //               {/* Scrollable List */}
+    //               <div
+    //                 ref={toppingScrollRef}
+    //                 className="flex gap-2 overflow-x-auto flex-nowrap pb-2 no-scrollbar px-8"
+    //               >
+    //                 {Array.isArray(toppingData) &&
+    //                   toppingData.map((topping) => (
+    //                     <div
+    //                       key={topping.id}
+    //                       className={`w-24 h-28 flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
+    //                         toppings.includes(topping.name)
+    //                           ? "border-orange-500"
+    //                           : "border-transparent"
+    //                       }`}
+    //                       onClick={() => toggleTopping(topping.name)}
+    //                     >
+    //                       <div className="w-12 h-12 relative mb-1">
+    //                         <Image
+    //                           src={topping.image_url}
+    //                           alt={topping.name}
+    //                           fill
+    //                           className="object-contain rounded-full"
+    //                         />
+    //                       </div>
+    //                       <p className="text-xs mt-1 font-medium truncate w-full">
+    //                         {topping.name}
+    //                       </p>
+    //                       <p className="text-[10px] text-gray-500">
+    //                         ₹{Number(topping.price).toFixed(0)}
+    //                       </p>
+    //                     </div>
+    //                   ))}
+    //               </div>
+
+    //               {/* Scroll Right Button */}
+    //               <button
+    //                 onClick={scrollRight}
+    //                 className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+    //               >
+    //                 <IoChevronForward className="text-xl" />
+    //               </button>
+    //             </div>
+    //           </div>
+
+    //           {/* Suggestions */}
+    //           <div className="relative">
+    //             {/* Scroll Left Button */}
+    //             <p className="font-semibold mb-2 text-base">Suggestions</p>
+
+    //             <button
+    //               onClick={scrollSuggestionLeft}
+    //               className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+    //             >
+    //               <IoChevronBack className="text-xl" />
+    //             </button>
+
+    //             {/* Scrollable Suggestions */}
+    //             <div
+    //               ref={suggestionScrollRef}
+    //               className="flex gap-3 overflow-x-auto pb-1 no-scrollbar px-8"
+    //             >
+    //               {["Jalapeños", "Mushrooms", "Corn", "Paneer", "Spinach"].map(
+    //                 (label, i) => (
+    //                   <div
+    //                     key={label + i}
+    //                     className={`min-w-[90px] w-[90px] flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
+    //                       suggestions.includes(label)
+    //                         ? "border-orange-500"
+    //                         : "border-dashed border-gray-300"
+    //                     }`}
+    //                     onClick={() => toggleSuggestion(label)}
+    //                   >
+    //                     <Image
+    //                       src="/garlic.png"
+    //                       alt={label}
+    //                       width={40}
+    //                       height={40}
+    //                       className="object-contain"
+    //                     />
+    //                     <p className="text-xs mt-1 font-medium">{label}</p>
+    //                   </div>
+    //                 )
+    //               )}
+    //             </div>
+
+    //             {/* Scroll Right Button */}
+    //             <button
+    //               onClick={scrollSuggestionRight}
+    //               className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+    //             >
+    //               <IoChevronForward className="text-xl" />
+    //             </button>
+    //           </div>
+
+    //           {/* Add to Cart */}
+    //           <div className="flex justify-center items-center">
+    //             <button
+    //               onClick={handleAddToCart}
+    //               className="bg-black text-white py-2 px-10 mt-4 hover:bg-gray-900 cursor-pointer"
+    //             >
+    //               ADD TO CART – INR {totalPrice}
+    //             </button>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     )}
+    //   </div>
+    // </div>
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
+  <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl max-h-[95vh] overflow-y-auto mx-2 sm:mx-4 md:mx-0 relative">
+    <button
+      onClick={onClose}
+      className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-700 hover:text-black text-xl sm:text-2xl font-bold cursor-pointer"
+    >
+      <RxCross1 className="hover:text-red-600" />
+    </button>
+
+    {isDessert ? (
+      <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
+        <Image
+          src={item.image}
+          alt={item.name}
+          width={250}
+          height={250}
+          className="mb-4 sm:mb-6 object-contain rounded-full"
+        />
+        <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
+          {item.name}
+        </h2>
         <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-700 hover:text-black text-2xl font-bold cursor-pointer"
+          onClick={handleAddToCart}
+          className="bg-black text-white py-2 px-4 sm:px-6 text-sm hover:bg-gray-900 cursor-pointer"
         >
-          <RxCross1 className="hover:text-red-600" />
+          ADD TO CART – INR {item.prices.small}
         </button>
-
-        {isDessert ? (
-          <div className="bg-[#ffe6db] p-8 text-center flex flex-col items-center">
-            <Image
-              src={item.image}
-              alt={item.name}
-              width={300}
-              height={300}
-              className="mb-6 object-contain rounded-full"
-            />
-            <h2 className="text-2xl font-bold uppercase tracking-wider mb-4">
-              {item.name}
-            </h2>
-            <button
-              onClick={handleAddToCart}
-              className="bg-black text-white py-2 px-6 text-sm hover:bg-gray-900 cursor-pointer"
-            >
-              ADD TO CART – INR {item.prices.small}
-            </button>
-          </div>
-        ) : isDrink ? (
-          <div className="bg-[#fde8dc] p-8 text-center flex flex-col items-center">
-            <Image
-              src={item.image}
-              alt={item.name}
-              width={250}
-              height={250}
-              className="mb-6 object-contain"
-            />
-            <h2 className="text-2xl font-bold uppercase">{item.name}</h2>
-
-            <div className="flex bg-white rounded-full overflow-hidden mt-6">
-              {(["small", "large"] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSize(s)}
-                  className={`px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
-                    size === s
-                      ? "bg-orange-500 text-white"
-                      : "text-black hover:text-orange-500"
-                  }`}
-                >
-                  {s === "small" ? "SMALL (250 ml)" : "LARGE (400 ml)"}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={handleAddToCart}
-              className="bg-black text-white py-2 px-6 mt-6 text-sm hover:bg-gray-900 cursor-pointer"
-            >
-              ADD TO CART – INR {sizePrice}
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="bg-[#fde8dc] flex justify-center items-center p-6">
-              <Image
-                src={item.image || "/pizza.png"}
-                alt={item.name}
-                width={400}
-                height={400}
-                className="rounded-full"
-              />
-            </div>
-
-            <div className="p-6 flex flex-col justify-center space-y-4">
-              <h2 className="text-3xl font-bold uppercase">{item.name}</h2>
-              <p className="text-xl text-gray-700">
-                Fresh{" "}
-                {item.name.charAt(0).toUpperCase() +
-                  item.name.slice(1).toLowerCase()}
-              </p>
-
-              {/* Size Selection */}
-              <div className="flex bg-orange-100 rounded-full overflow-hidden w-full uppercase">
-                {(["small", "medium", "large"] as const).map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setSize(s)}
-                    className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                      size === s ? "bg-orange-500 text-white" : "text-black"
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-
-              {/* Dough Selection */}
-              <div className="flex bg-orange-100 rounded-full overflow-hidden w-full">
-                <button
-                  onClick={() => setDough("original")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    dough === "original"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
-                  }`}
-                >
-                  Original Dough
-                </button>
-                <button
-                  onClick={() => setDough("sour")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    dough === "sour" ? "bg-orange-500 text-white" : "text-black"
-                  }`}
-                >
-                  Sour Dough
-                </button>
-              </div>
-
-              {/* Crust Selection */}
-              <div className="flex bg-orange-100 rounded-full overflow-hidden w-full">
-                <button
-                  onClick={() => setCrust("garlic")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    crust === "garlic"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
-                  }`}
-                >
-                  Garlic Crust
-                </button>
-                <button
-                  onClick={() => setCrust("original")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    crust === "original"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
-                  }`}
-                >
-                  Original Crust
-                </button>
-              </div>
-
-              {/* Toppings */}
-              <div>
-                <p className="font-semibold text-base">Add topping</p>
-
-                <div className="relative">
-                  {/* Scroll Left Button */}
-                  <button
-                    onClick={scrollLeft}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
-                  >
-                    <IoChevronBack className="text-xl" />
-                  </button>
-
-                  {/* Scrollable List */}
-                  <div
-                    ref={toppingScrollRef}
-                    className="flex gap-2 overflow-x-auto flex-nowrap pb-2 no-scrollbar px-8"
-                  >
-                    {Array.isArray(toppingData) &&
-                      toppingData.map((topping) => (
-                        <div
-                          key={topping.id}
-                          className={`w-24 h-28 flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
-                            toppings.includes(topping.name)
-                              ? "border-orange-500"
-                              : "border-transparent"
-                          }`}
-                          onClick={() => toggleTopping(topping.name)}
-                        >
-                          <div className="w-12 h-12 relative mb-1">
-                            <Image
-                              src={topping.image_url}
-                              alt={topping.name}
-                              fill
-                              className="object-contain rounded-full"
-                            />
-                          </div>
-                          <p className="text-xs mt-1 font-medium truncate w-full">
-                            {topping.name}
-                          </p>
-                          <p className="text-[10px] text-gray-500">
-                            ₹{Number(topping.price).toFixed(0)}
-                          </p>
-                        </div>
-                      ))}
-                  </div>
-
-                  {/* Scroll Right Button */}
-                  <button
-                    onClick={scrollRight}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
-                  >
-                    <IoChevronForward className="text-xl" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Suggestions */}
-              <div className="relative">
-                {/* Scroll Left Button */}
-                <p className="font-semibold mb-2 text-base">Suggestions</p>
-
-                <button
-                  onClick={scrollSuggestionLeft}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
-                >
-                  <IoChevronBack className="text-xl" />
-                </button>
-
-                {/* Scrollable Suggestions */}
-                <div
-                  ref={suggestionScrollRef}
-                  className="flex gap-3 overflow-x-auto pb-1 no-scrollbar px-8"
-                >
-                  {["Jalapeños", "Mushrooms", "Corn", "Paneer", "Spinach"].map(
-                    (label, i) => (
-                      <div
-                        key={label + i}
-                        className={`min-w-[90px] w-[90px] flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
-                          suggestions.includes(label)
-                            ? "border-orange-500"
-                            : "border-dashed border-gray-300"
-                        }`}
-                        onClick={() => toggleSuggestion(label)}
-                      >
-                        <Image
-                          src="/garlic.png"
-                          alt={label}
-                          width={40}
-                          height={40}
-                          className="object-contain"
-                        />
-                        <p className="text-xs mt-1 font-medium">{label}</p>
-                      </div>
-                    )
-                  )}
-                </div>
-
-                {/* Scroll Right Button */}
-                <button
-                  onClick={scrollSuggestionRight}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
-                >
-                  <IoChevronForward className="text-xl" />
-                </button>
-              </div>
-
-              {/* Add to Cart */}
-              <div className="flex justify-center items-center">
-                <button
-                  onClick={handleAddToCart}
-                  className="bg-black text-white py-2 px-10 mt-4 hover:bg-gray-900 cursor-pointer"
-                >
-                  ADD TO CART – INR {totalPrice}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
-    </div>
+    ) : isDrink ? (
+      <div className="bg-[#fde8dc] p-4 sm:p-8 text-center flex flex-col items-center">
+        <Image
+  src={item.image}
+  alt={item.name}
+  width={200}
+  height={200}
+  className="mb-4 sm:mb-6 object-contain w-[150px] h-[150px] sm:w-[200px] sm:h-[200px]"
+/>
+        <h2 className="text-xl sm:text-2xl font-bold uppercase">{item.name}</h2>
+
+        <div className="flex bg-white rounded-full overflow-hidden mt-4 sm:mt-6">
+          {(["small", "large"] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => setSize(s)}
+              className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
+                size === s
+                  ? "bg-orange-500 text-white"
+                  : "text-black hover:text-orange-500"
+              }`}
+            >
+              {s === "small" ? "SMALL (250 ml)" : "LARGE (400 ml)"}
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={handleAddToCart}
+          className="bg-black text-white py-2 px-4 sm:px-6 mt-4 sm:mt-6 text-sm hover:bg-gray-900 cursor-pointer"
+        >
+          ADD TO CART – INR {sizePrice}
+        </button>
+      </div>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        {/* Left Image */}
+        <div className="bg-[#fde8dc] flex justify-center items-center p-4 sm:p-6">
+          <Image
+            src={item.image || "/pizza.png"}
+            alt={item.name}
+            width={300}
+            height={300}
+            className="mb-4 sm:mb-6 object-contain w-[150px] h-[150px] sm:w-[200px] sm:h-[200px]"
+          />
+        </div>
+
+        {/* Right Options */}
+        <div className="p-4 sm:p-6 flex flex-col justify-center space-y-3 sm:space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-bold uppercase">{item.name}</h2>
+          <p className="text-lg sm:text-xl text-gray-700 capitalize">
+            Fresh {item.name.toLowerCase()}
+          </p>
+
+          {/* Size Selection */}
+          <div className="flex bg-orange-100 rounded-full overflow-hidden w-full uppercase text-sm sm:text-base">
+            {(["small", "medium", "large"] as const).map((s) => (
+              <button
+                key={s}
+                onClick={() => setSize(s)}
+                className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+                  size === s ? "bg-orange-500 text-white" : "text-black"
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+
+          {/* Dough Selection */}
+          <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-sm sm:text-base">
+            <button
+              onClick={() => setDough("original")}
+              className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+                dough === "original" ? "bg-orange-500 text-white" : "text-black"
+              }`}
+            >
+              Original Dough
+            </button>
+            <button
+              onClick={() => setDough("sour")}
+              className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+                dough === "sour" ? "bg-orange-500 text-white" : "text-black"
+              }`}
+            >
+              Sour Dough
+            </button>
+          </div>
+
+          {/* Crust Selection */}
+          <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-sm sm:text-base">
+            <button
+              onClick={() => setCrust("garlic")}
+              className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+                crust === "garlic" ? "bg-orange-500 text-white" : "text-black"
+              }`}
+            >
+              Garlic Crust
+            </button>
+            <button
+              onClick={() => setCrust("original")}
+              className={`w-full py-1 font-semibold uppercase cursor-pointer ${
+                crust === "original" ? "bg-orange-500 text-white" : "text-black"
+              }`}
+            >
+              Original Crust
+            </button>
+          </div>
+
+          {/* Toppings */}
+          <div>
+            <p className="font-semibold text-sm sm:text-base mb-1">Add topping</p>
+
+            <div className="relative">
+              {/* Scroll Left Button */}
+              <button
+                onClick={scrollLeft}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+              >
+                <IoChevronBack className="text-xl" />
+              </button>
+
+              {/* Scrollable List */}
+              <div
+                ref={toppingScrollRef}
+                className="flex gap-2 overflow-x-auto flex-nowrap pb-2 no-scrollbar px-8"
+              >
+                {Array.isArray(toppingData) &&
+                  toppingData.map((topping) => (
+                    <div
+                      key={topping.id}
+                      className={`w-20 sm:w-24 h-24 sm:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
+                        toppings.includes(topping.name)
+                          ? "border-orange-500"
+                          : "border-transparent"
+                      }`}
+                      onClick={() => toggleTopping(topping.name)}
+                    >
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 relative mb-1">
+                        <Image
+                          src={topping.image_url}
+                          alt={topping.name}
+                          fill
+                          className="object-contain rounded-full"
+                        />
+                      </div>
+                      <p className="text-[10px] sm:text-xs mt-1 font-medium truncate w-full">
+                        {topping.name}
+                      </p>
+                      <p className="text-[9px] sm:text-[10px] text-gray-500">
+                        ₹{Number(topping.price).toFixed(0)}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              {/* Scroll Right Button */}
+              <button
+                onClick={scrollRight}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+              >
+                <IoChevronForward className="text-xl" />
+              </button>
+            </div>
+          </div>
+
+          {/* Suggestions */}
+          <div className="relative">
+            <p className="font-semibold text-sm sm:text-base mb-2">Suggestions</p>
+
+            <button
+              onClick={scrollSuggestionLeft}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+            >
+              <IoChevronBack className="text-xl" />
+            </button>
+
+            <div
+              ref={suggestionScrollRef}
+              className="flex gap-2 sm:gap-3 overflow-x-auto pb-1 no-scrollbar px-8"
+            >
+              {["Jalapeños", "Mushrooms", "Corn", "Paneer", "Spinach"].map(
+                (label, i) => (
+                  <div
+                    key={label + i}
+                    className={`min-w-[75px] sm:min-w-[90px] w-[75px] sm:w-[90px] flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
+                      suggestions.includes(label)
+                        ? "border-orange-500"
+                        : "border-dashed border-gray-300"
+                    }`}
+                    onClick={() => toggleSuggestion(label)}
+                  >
+                    <Image
+                      src="/garlic.png"
+                      alt={label}
+                      width={35}
+                      height={35}
+                      className="object-contain"
+                    />
+                    <p className="text-[10px] sm:text-xs mt-1 font-medium">
+                      {label}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+
+            {/* Scroll Right Button */}
+            <button
+              onClick={scrollSuggestionRight}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+            >
+              <IoChevronForward className="text-xl" />
+            </button>
+          </div>
+
+          {/* Add to Cart */}
+          <div className="flex justify-center items-center">
+            <button
+              onClick={handleAddToCart}
+              className="bg-black text-white py-2 px-6 sm:px-10 mt-4 hover:bg-gray-900 cursor-pointer text-sm sm:text-base"
+            >
+              ADD TO CART – INR {totalPrice}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
   );
 };
 

@@ -89,7 +89,7 @@ const StoresClient = () => {
     <div className="bg-[#f47335]">
       <Header />
 
-      <div className="relative z-10 -mb-85 p-40">
+      <div className="relative z-10 -mb-85 p-40 max-sm:p-8">
         <HeaderStoreListing
           setSearchResturant={setSearchResturant}
           searchResturan={searchResturan}

@@ -65,24 +65,24 @@ export default function Home() {
     );
 
   return (
-     <CitySelectGate>
-    <main
-      className="min-h-screen bg-cover bg-center bg-no-repeat bg-white no-scrollbar"
-      // style={{
-      //   backgroundImage: "url('/elephantPointers.png')",
-      // }}
-    >
-      <Header />
-      <HeroSection />
-      <JoinRewardFree />
-      <SpecialtiesSection />
-      <FeaturedSlider />
-      <WhyAtElfos />
-      <div className="relative z-10 -mb-35 px-40 pb-10">
-        <FoodDeliveryHero />
-      </div>
-      <Footer />
-    </main>
+    <CitySelectGate>
+      <main
+        className="min-h-screen bg-cover bg-center bg-no-repeat bg-white no-scrollbar"
+        // style={{
+        //   backgroundImage: "url('/elephantPointers.png')",
+        // }}
+      >
+        <Header />
+        <HeroSection />
+        <JoinRewardFree />
+        <SpecialtiesSection />
+        <FeaturedSlider />
+        <WhyAtElfos />
+        <div className="relative z-10 -mb-35 px-40 pb-10 max-sm:hidden">
+          <FoodDeliveryHero />
+        </div>
+        <Footer />
+      </main>
     </CitySelectGate>
   );
 }

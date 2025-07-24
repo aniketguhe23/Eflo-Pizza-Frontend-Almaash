@@ -4,7 +4,6 @@ import OrderModal from "@/app/pages/menu/components/order-modal";
 import { useHomeStore } from "@/app/store/homeStore";
 import Image from "next/image";
 import { useRef, useState } from "react";
-// import OrderModal from "@/components/order-modal"; // ✅ Update the path as needed
 
 export default function FeaturedSlider() {
   const { menuItems } = useHomeStore();
@@ -23,12 +22,10 @@ export default function FeaturedSlider() {
     }
   };
 
-  // console.log(selectedItem,"selectedItem================>")
-
   return (
-    <div className="py-20 text-black flex justify-center">
-      <div className="w-full max-w-[75%] text-center relative">
-        <h2 className="text-5xl font-extrabold uppercase mb-20 [font-family:'Antonio',Helvetica]">
+    <div className="py-16 sm:py-20 text-black flex justify-center">
+      <div className="w-full max-w-[95%] sm:max-w-[85%] md:max-w-[75%] text-center relative">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold uppercase mb-10 sm:mb-16 [font-family:'Antonio',Helvetica]">
           Explore Featured Pizza’s
         </h2>
 
@@ -36,7 +33,7 @@ export default function FeaturedSlider() {
           {/* Left Arrow */}
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 z-10 p-2 text-3xl font-bold bg-white shadow-md rounded-full -ml-10 cursor-pointer hover:bg-amber-200"
+            className="absolute left-0 z-10 p-2 text-2xl sm:text-3xl font-bold bg-white shadow-md rounded-full -ml-4 sm:-ml-10 cursor-pointer hover:bg-amber-200"
           >
             &lt;
           </button>
@@ -44,19 +41,22 @@ export default function FeaturedSlider() {
           {/* Slider */}
           <div
             ref={scrollRef}
-            className="flex gap-3 overflow-x-auto no-scrollbar py-10"
+            className="flex gap-4 overflow-x-auto no-scrollbar py-10 px-2"
           >
             {menuItems?.map((item, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl p-10 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-shadow duration-300 flex-shrink-0 snap-start flex flex-col items-center ml-5"
-                style={{ width: "350px" }}
+                className="bg-white rounded-xl px-5 py-8 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-shadow duration-300 flex-shrink-0 snap-start flex flex-col items-center"
+                style={{
+                  width: "90vw",
+                  maxWidth: "350px",
+                }}
               >
-                <h3 className="text-base font-bold uppercase mb-3 text-center">
+                <h3 className="text-base sm:text-lg font-bold uppercase mb-3 text-center">
                   {item.name}
                 </h3>
 
-                <p className="text-base text-[#f47335] mb-5 font-bold">
+                <p className="text-sm sm:text-base text-[#f47335] mb-5 font-bold text-center">
                   INR{" "}
                   {item.variants.map((variant, idx) => (
                     <span key={idx}>
@@ -66,7 +66,7 @@ export default function FeaturedSlider() {
                   ))}
                 </p>
 
-                <div className="w-48 h-48 relative mb-6">
+                <div className="w-40 h-40 sm:w-48 sm:h-48 relative mb-6">
                   <Image
                     src={item.imageUrl}
                     alt={item.name}
@@ -76,22 +76,19 @@ export default function FeaturedSlider() {
                 </div>
 
                 <button
-                  className="bg-[#f47335] hover:bg-[#f47335] text-white px-6 py-2 rounded-lg text-base font-semibold mb-4 cursor-pointer [font-family:'Antonio',Helvetica]"
+                  className="bg-[#f47335] hover:bg-[#f47335] text-white px-5 py-2 sm:px-6 sm:py-2 rounded-lg text-sm sm:text-base font-semibold mb-4 cursor-pointer [font-family:'Antonio',Helvetica]"
                   onClick={() => {
                     const transformedItem = {
                       name: item.name,
                       image: item.imageUrl,
-                      category: "GENERAL", // fallback if category is missing
+                      category: "GENERAL",
                       prices: {
                         small:
-                          Number(item.variants.find((v) => v.size === "small")
-                            ?.price ?? null),
+                          Number(item.variants.find((v) => v.size === "small")?.price ?? null),
                         medium:
-                          Number(item.variants.find((v) => v.size === "medium")
-                            ?.price ?? null),
+                          Number(item.variants.find((v) => v.size === "medium")?.price ?? null),
                         large:
-                          Number(item.variants.find((v) => v.size === "large")
-                            ?.price ?? null),
+                          Number(item.variants.find((v) => v.size === "large")?.price ?? null),
                       },
                     };
 
@@ -102,7 +99,7 @@ export default function FeaturedSlider() {
                   ORDER NOW
                 </button>
 
-                <p className="text-lg font-semibold [font-family:'Antonio',Helvetica]">
+                <p className="text-sm sm:text-lg font-semibold [font-family:'Antonio',Helvetica]">
                   MAKE IT MY OWN
                 </p>
               </div>
@@ -112,7 +109,7 @@ export default function FeaturedSlider() {
           {/* Right Arrow */}
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 z-10 p-2 text-3xl font-bold bg-white shadow-md rounded-full -mr-10 cursor-pointer hover:bg-amber-200"
+            className="absolute right-0 z-10 p-2 text-2xl sm:text-3xl font-bold bg-white shadow-md rounded-full -mr-4 sm:-mr-10 cursor-pointer hover:bg-amber-200"
           >
             &gt;
           </button>
@@ -125,7 +122,7 @@ export default function FeaturedSlider() {
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           item={selectedItem}
-          searchResturanNo={null} // You can pass values if needed
+          searchResturanNo={null}
           searchResturanName={null}
         />
       )}

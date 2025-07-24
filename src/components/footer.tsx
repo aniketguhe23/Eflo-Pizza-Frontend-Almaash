@@ -96,8 +96,8 @@ export default function Footer() {
       </div>
     );
   return (
-    <footer className="bg-[#ed722e] text-black px-6 py-10 pt-50 text-sm md:text-base">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+    <footer className="bg-[#ed722e] text-black px-6 py-10 pt-50 max-sm:pt-10 text-sm md:text-base">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 max-sm:grid-cols-2 md:grid-cols-5 gap-8">
         {/* Contact Support */}
         <div className="space-y-4">
           <div>
