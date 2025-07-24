@@ -30,7 +30,7 @@ const StoneBakedSection = () => {
               height={40}
               priority
             />
-            <p className="text-center font-medium max-w-[200px]">
+            <p className="text-center max-sm:text-left font-medium max-w-[200px]">
               {valueData?.nearme_icon1_desc ??
                 "PIZZA STONE OVENS FOR AUTHENTIC PIZZA CRUSTS."}
             </p>
@@ -46,7 +46,7 @@ const StoneBakedSection = () => {
               height={40}
               priority
             />
-            <p className="text-center font-medium max-w-[200px]">
+            <p className="text-center max-sm:text-left font-medium max-w-[200px]">
               {valueData?.nearme_icon2_desc ??
                 "  GAS FIRED OVENS TO GIVE CRISPY PIZZA CRUSTS."}
             </p>
@@ -54,32 +54,32 @@ const StoneBakedSection = () => {
         </div>
 
         {/* Image and Text Content */}
-        <div className=" flex justify-center items-center gap-12 ml-5">
-          {/* Left Image */}
-          <div>
-            <Image
-              src={valueData?.nearme_img ?? "/sauce.png"}
-              // src="/sauce.png"
-              alt="Pizza preparation"
-              width={550}
-              height={350} // adjust height proportionally
-              className="rounded-xl shadow-md"
-              priority
-            />
-          </div>
+       <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 px-4 md:px-8 py-6">
+  {/* Left Image */}
+  <div className="w-full md:w-1/2 flex justify-center">
+    <Image
+      src={valueData?.nearme_img ?? "/sauce.png"}
+      alt="Pizza preparation"
+      width={550}
+      height={350}
+      className="rounded-xl shadow-md w-full max-w-[500px] h-auto"
+      priority
+    />
+  </div>
 
-          {/* Right Text */}
-          <div className="max-w-xl">
-            <h3 className="text-3xl mb-4 pr-70">
-              {valueData?.nearme_title ??
-                "BEST PIZZA IN INDIA MEANS... HIGEST QUALITY STANDARDS"}
-            </h3>
-            <p className="text-gray-700 text-sm font-semibold leading-relaxed [font-family:'Nunito_Sans',Helvetica] pr-30">
-              {valueData?.nearme_desc ??
-                " Quality has to be first at Elfo’s Pizza. That is why we create each gourmet pizza using only the freshest ingredients - from Italian San Marzano tomatoes to authentic Italian dough prepared with 00-tipo flour. Every taste will represent an original slice of Italy. We are proud to bring the world’s flavors to Bhopal and make sure that everyone enjoys this gourmet pizza without ripping their pockets apart. Rich yet affordable, indulge in our pizzas with ease. Is the best pizza in Bhopal what you are looking for? Feel the perfect blend of taste and value with our gourmet pizza, which is not only high on taste but also pretty affordable."}
-            </p>
-          </div>
-        </div>
+  {/* Right Text */}
+  <div className="w-full md:w-1/2 max-w-xl">
+    <h3 className="text-2xl sm:text-3xl mb-4">
+      {valueData?.nearme_title ??
+        "BEST PIZZA IN INDIA MEANS... HIGEST QUALITY STANDARDS"}
+    </h3>
+    <p className="text-gray-700 text-sm sm:text-base font-semibold leading-relaxed [font-family:'Nunito_Sans',Helvetica]">
+      {valueData?.nearme_desc ??
+        " Quality has to be first at Elfo’s Pizza. That is why we create each gourmet pizza using only the freshest ingredients - from Italian San Marzano tomatoes to authentic Italian dough prepared with 00-tipo flour. Every taste will represent an original slice of Italy. We are proud to bring the world’s flavors to Bhopal and make sure that everyone enjoys this gourmet pizza without ripping their pockets apart. Rich yet affordable, indulge in our pizzas with ease. Is the best pizza in Bhopal what you are looking for? Feel the perfect blend of taste and value with our gourmet pizza, which is not only high on taste but also pretty affordable."}
+    </p>
+  </div>
+</div>
+
       </div>
     </section>
   );

@@ -44,43 +44,44 @@ export default function MenuItemCard({
   return (
     <>
       <div
-        className={`rounded-lg p-2 shadow-md overflow-hidden flex flex-col items-center transition-all duration-300 ease-in-out ${
-          isDisabled
-            ? "bg-gray-200 opacity-60 cursor-not-allowed"
-            : "bg-white hover:shadow-[0_0_20px_6px_rgba(244,120,52,0.25)] hover:scale-[1.03]"
-        } group`}
-      >
-        <h3 className="font-bold text-xl text-center mb-1">{item.name}</h3>
-        <p className="text-orange-500 mb-4 text-xl">{formatPrices()}</p>
+  className={`rounded-lg p-2 sm:p-2 max-[640px]:p-1 shadow-md overflow-hidden flex flex-col items-center transition-all duration-300 ease-in-out ${
+    isDisabled
+      ? "bg-gray-200 opacity-60 cursor-not-allowed"
+      : "bg-white hover:shadow-[0_0_20px_6px_rgba(244,120,52,0.25)] hover:scale-[1.03]"
+  } group max-w-[90vw] sm:max-w-none`}
+>
+  <h3 className="font-bold text-xl sm:text-xl max-[640px]:text-base text-center mb-1">{item.name}</h3>
+  <p className="text-orange-500 mb-4 text-xl sm:text-xl max-[640px]:text-base">{formatPrices()}</p>
 
-        <div className="w-32 h-32 relative mb-4">
-          <Image
-            src={item.image !== "" ? item.image : `/placeholder.svg`}
-            alt={item.name}
-            width={150}
-            height={150}
-            className={`w-full h-full object-contain transition-transform duration-300 ease-in-out ${
-              isDisabled ? "" : "group-hover:scale-110"
-            }`}
-            unoptimized={item.image.startsWith("http")}
-          />
-        </div>
+  <div className="w-32 h-32 sm:w-32 sm:h-32 max-[640px]:w-24 max-[640px]:h-24 relative mb-4">
+    <Image
+      src={item.image !== "" ? item.image : `/placeholder.svg`}
+      alt={item.name}
+      width={150}
+      height={150}
+      className={`w-full h-full object-contain transition-transform duration-300 ease-in-out ${
+        isDisabled ? "" : "group-hover:scale-110"
+      }`}
+      unoptimized={item.image.startsWith("http")}
+    />
+  </div>
 
-        {isDisabled ? (
-          <p className="bg-gray-400 text-white font-semibold py-1 px-6 rounded-md w-full max-w-[130px] text-center mb-2">
-            Unavailable
-          </p>
-        ) : (
-          <button
-            className="bg-orange-500 text-lg hover:bg-orange-600 text-white font-semibold cursor-pointer py-1 px-6 rounded-md mb-2 w-full max-w-[130px] text-center"
-            onClick={() => setIsOpen(true)}
-          >
-            ORDER NOW
-          </button>
-        )}
+  {isDisabled ? (
+    <p className="bg-gray-400 text-white font-semibold py-1 px-6 rounded-md w-full max-w-[130px] text-center mb-2 text-sm sm:text-base">
+      Unavailable
+    </p>
+  ) : (
+    <button
+      className="bg-orange-500 text-lg sm:text-lg max-[640px]:text-sm hover:bg-orange-600 text-white font-semibold cursor-pointer py-1 px-6 rounded-md mb-2 w-full max-w-[130px] text-center"
+      onClick={() => setIsOpen(true)}
+    >
+      ORDER NOW
+    </button>
+  )}
 
-        <p className="font-semibold text-center text-xl">MAKE IT MY OWN</p>
-      </div>
+  <p className="font-semibold text-center text-xl sm:text-xl max-[640px]:text-base">MAKE IT MY OWN</p>
+</div>
+
 
       <OrderModal
         isOpen={isOpen}

@@ -197,7 +197,7 @@ export default function AccountComponent({
     const fetchRestaurantList = async () => {
       try {
         const res = await axios.get(
-          `${api_getResturantData}?city=${selectedCity}&address=${encodeURIComponent(
+          `${api_getResturantData}?city=${selectedCity}&isClosed=false&is_active=true&address=${encodeURIComponent(
             restaurantSearch
           )}`
         );
@@ -234,12 +234,12 @@ export default function AccountComponent({
 
       <div
         className={`transition-all duration-300 ${
-          showLeft ? "w-[450px]" : "w-[80px]"
-        } h-screen bg-gray-300 p-4 flex flex-col gap-6 relative pt-15 overflow-hidden`}
+          showLeft ? "w-[450px]" : "w-[80px] max-sm:w-[50px]"
+        } h-screen bg-gray-300 p-4 max-sm:p-1 max-sm:pt-8 flex flex-col gap-6 relative pt-15 overflow-hidden`}
       >
         <div className="h-full overflow-y-auto flex flex-col gap-6 pb-28 no-scrollbar">
           {/* Account */}
-          <div className="bg-white p-4 rounded shadow flex items-start gap-4 mt-10 [font-family:'Barlow_Condensed',Helvetica]">
+          <div className="bg-white p-4 max-sm:p-1 rounded shadow flex items-start gap-4 mt-10 [font-family:'Barlow_Condensed',Helvetica]">
             <div className="w-10 h-10 flex justify-center items-center">
               <IoPersonCircleSharp size={showLeft ? 24 : 20} />
             </div>
@@ -403,8 +403,8 @@ export default function AccountComponent({
             // ✅ Show data if external restaurantNo is provided
             <div className="bg-white p-4 rounded shadow [font-family:'Barlow_Condensed',Helvetica]">
               <div className="flex items-center mb-4">
-                <div className="w-8 h-8 rounded flex items-center justify-center mr-3">
-                  <GiForkKnifeSpoon size={20} />
+                <div className="w-8 h-8 rounded flex items-center justify-center mr-3 ">
+                  <GiForkKnifeSpoon size={showLeft ? 24 : 20} />
                 </div>
                 <div className="flex">
                   <p className="font-bold text-xl">SELECTED RESTAURANT</p>

@@ -1,9 +1,8 @@
-import BackendUrl from './BackendUrl';
+import BackendUrl from "./BackendUrl";
 
 export default function ProjectApiList() {
   const baseUrl = BackendUrl;
   const apiList = {
-
     // data apis
     api_getHomeData: `${baseUrl}/api/getall/home/all`,
     api_getValueData: `${baseUrl}/api/getall/value/all`,
@@ -26,27 +25,30 @@ export default function ProjectApiList() {
     // otpless apis
     api_otplessCallback: `${baseUrl}/api/otp-authRoutes/auth/otpless/callback`,
     api_getBuildYourOwn: `${baseUrl}/api/build-your-own/options`,
-    
+
     // order apis
     api_getCoupons: `${baseUrl}/api/coupons/get`,
     api_createOrder: `${baseUrl}/api/order/orders/create`,
     api_getOrderById: `${baseUrl}/api/order/orders/get-by-id`,
-    
-    
+    api_updateStatusOrdersById: `${baseUrl}/api/reports/update-orders-status`,
+
     // resturant data
     api_getResturantData: `${baseUrl}/api/restaurants/get`,
     api_getResturantDataById: `${baseUrl}/api/restaurants/getbyid`,
     api_getItemsOfResturant: `${baseUrl}/api/restaurant-items`,
-    
+
     // masters
     api_getCities: `${baseUrl}/api/location/getAllcities`,
     api_getLocality: `${baseUrl}/api/location/locality-by-city`,
-    
+
     //refund
     api_createRefund: `${baseUrl}/api/refunds/createRefund`,
-    
-    
     api_createContactSupport: `${baseUrl}/api/support/create`,
+
+    //Chats
+    apigetChatsRestConversations: `${baseUrl}/api/chat/user`,
+    apigetChatsRestMessages: `${baseUrl}/api/chat/conversation`,
+    apipostChatsRestMessages: `${baseUrl}/api/chat/send`,
   };
 
   return apiList;

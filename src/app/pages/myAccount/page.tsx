@@ -7,6 +7,7 @@ import {
   MapPin,
   Gift,
   ShoppingBag,
+  MessageSquare,
 } from "lucide-react";
 import OrdersSection from "./components/OrdersSection";
 import RewardsSection from "./components/RewardsSection";
@@ -20,6 +21,7 @@ import { useRouter } from "next/navigation";
 import Loader from "@/components/loader/Loader";
 import SessionExpiredModal from "@/components/SessionExpiredModal";
 import { useFetchUser } from "@/app/hook/useFetchUser";
+import ChatSection from "./components/ChatSection";
 
 export default function MyAccount() {
   const { isSessionExpired } = useFetchUser(); // ✅ call the hook
@@ -36,6 +38,7 @@ export default function MyAccount() {
     { id: "rewards", label: "REWARDS", icon: Gift },
     { id: "payments", label: "PAYMENTS", icon: CreditCard },
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
+    { id: "chatSection", label: "CHAT", icon: MessageSquare },
   ];
 
   useEffect(() => {
@@ -130,6 +133,7 @@ export default function MyAccount() {
               {activeSection === "rewards" && <RewardsSection />}
               {activeSection === "payments" && <PaymentsSection />}
               {activeSection === "addresses" && <AddressesSection />}
+              {activeSection === "chatSection" && <ChatSection />}
             </div>
           </div>
         </div>

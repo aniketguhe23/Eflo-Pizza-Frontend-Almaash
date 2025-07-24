@@ -121,7 +121,7 @@ const SelectionCardModal: React.FC<SelectionCardModalProps> = ({
         )}
 
         {/* Bottom Bar */}
-        <div className="mt-8 flex flex-col md:flex-row items-center justify-between bg-[#ed722e] font-bold px-6 py-4">
+        <div className="mt-8 flex flex-col md:flex-row items-center justify-between bg-[#ed722e] font-bold px-6 py-4 max-sm:justify-center max-sm:items-center">
           <div className="text-xl tracking-wide pl-10">
             TOTAL:{" "}
             <span className="ml-1 font-medium">

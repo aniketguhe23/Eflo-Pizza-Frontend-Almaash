@@ -114,7 +114,6 @@ export default function Orders({
   const gstAndCharges = 33.3;
   const total = itemTotal - discount + gstAndCharges;
 
-
   const submitOrder = async () => {
     const mergedItems = [
       ...orderItems.map((item) => ({
@@ -136,7 +135,6 @@ export default function Orders({
       })),
     ];
 
-    
     const payload = {
       user_id: user?.waId || null,
       address: selectedAddress,
@@ -151,11 +149,11 @@ export default function Orders({
       item_total: Math.round(itemTotal),
       total_price: Math.round(total),
     };
-    
+
     // console.log(payload);
     try {
-        const res = await axios.post(api_createOrder, payload);
-        setOrderResponse(res?.data);
+      const res = await axios.post(api_createOrder, payload);
+      setOrderResponse(res?.data);
       toast.success("✅ Order placed successfully!");
       setShowConfirmModal(false);
       // ✅ Empty the cart
@@ -233,43 +231,50 @@ export default function Orders({
         </div>
 
         {isCartEmpty ? (
-          <div className="flex flex-col items-center justify-center h-[40vh] text-gray-500">
+          <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-500 px-4 text-center">
             <Image
               src="/empty-cart.png"
               alt="No items"
               width={180}
               height={180}
-              className="mb-4"
+              className="mb-4 w-28 sm:w-36 md:w-44 lg:w-48 h-auto"
             />
-            <h2 className="text-lg font-semibold">No items in cart</h2>
-            <p className="text-sm">
+            <h2 className="text-base sm:text-lg md:text-xl font-semibold">
+              No items in cart
+            </h2>
+            <p className="text-sm sm:text-base">
               You can still select Add-ons above. Try pairing with something!
             </p>
           </div>
         ) : (
           <>
-            <div className="px-4 space-y-4">
+            <div className="px-2 sm:px-4 space-y-4">
               {mergedItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between py-4 border-b border-gray-100"
+                  className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-4 border-b border-gray-100"
                 >
-                  <div className="w-20 h-20 mr-5">
+                  {/* Image */}
+                  <div className="w-20 h-20 shrink-0">
                     <Image
                       src={item.image}
                       alt={item.name}
-                      width={90}
-                      height={90}
-                      className="rounded-full object-cover"
+                      width={80}
+                      height={80}
+                      className="rounded-full object-cover w-20 h-20"
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-xl text-gray-900">
+
+                  {/* Item Details */}
+                  <div className="flex-1 w-full md:w-auto">
+                    <h3 className="font-semibold text-lg sm:text-xl text-gray-900">
                       {item.name}
                     </h3>
-                    <div className="mt-1 text-md text-gray-600 flex flex-wrap gap-x-2 gap-y-1">
+
+                    {/* Item extras or selections */}
+                    <div className="mt-1 text-sm sm:text-base text-gray-600 flex flex-wrap gap-x-2 gap-y-1">
                       {item.type === "order" &&
-                        !item.fromSuggestion && // ✅ Only show if not from suggestion
+                        !item.fromSuggestion &&
                         item.extra &&
                         Object.entries(item.extra).map(
                           ([key, val]) =>
@@ -301,7 +306,9 @@ export default function Orders({
                         })}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3">
+
+                  {/* Quantity and Price */}
+                  <div className="flex items-center justify-between md:justify-end gap-4 w-full md:w-auto">
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() =>
@@ -325,8 +332,9 @@ export default function Orders({
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
-                    <div className="text-right">
-                      <p className="font-semibold">
+
+                    <div className="text-right min-w-[70px]">
+                      <p className="font-semibold whitespace-nowrap">
                         ₹{item.quantity * item.price}
                       </p>
                     </div>
@@ -344,17 +352,17 @@ export default function Orders({
                   {suggestions?.map((item) => (
                     <div
                       key={item?.id}
-                      className="w-[140px] border border-orange-300 rounded-lg p-4 flex flex-col items-center text-center"
+                      className="w-[140px]  border border-orange-300 rounded-lg p-4 flex flex-col items-center text-center"
                     >
                       <Image
                         src={item?.imageUrl}
                         alt={item?.name}
                         width={100}
                         height={100}
-                        className="mb-3 rounded object-cover w-[100px] h-[100px]"
+                        className="mb-3 rounded object-cover w-[100px] h-[100px] max-sm:w-[50px] max-sm:h-[50px]"
                       />
 
-                      <h3 className="font-bold text-sm text-gray-800 mb-1 uppercase">
+                      <h3 className="font-bold max-sm:text-xs text-sm text-gray-800 mb-1 uppercase">
                         {item?.name}
                       </h3>
                       <p className="text-sm text-gray-600 font-semibold mb-3">

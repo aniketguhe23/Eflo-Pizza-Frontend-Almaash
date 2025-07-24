@@ -178,14 +178,15 @@ export default function LoginModal({
   }, [api_otplessCallback, router, setShowLoginModal, onTriggerCreateAccount]);
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-500">
-      <div className="bg-white rounded-md shadow-md p-3 w-full max-w-md min-h-[140px] relative">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[500] px-4 sm:px-0 min-h-[100px] sm:min-h-[100px]">
+      <div className="bg-white rounded-md shadow-md p-4 w-full max-w-md min-h-[100px] sm:min-h-[100px] relative">
         <button
-          className="absolute top-1.5 right-2 text-gray-500 hover:text-red-500 cursor-pointer"
+          className="absolute top-2 right-2 text-gray-500 hover:text-red-500 cursor-pointer"
           onClick={onClose}
         >
           <RxCross1 className="hover:text-red-600" />
         </button>
+
         <div id="otpless-login-page" className="h-[24px]" />
       </div>
     </div>

@@ -30,39 +30,39 @@ export default function SearchBar({
 }: SearchBarProps) {
   // console.log(cities)
   return (
-    <div className="flex-1 pt-10">
-      <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+    <div className="flex-1 pt-10 max-sm:pt-1 px-4 sm:px-0">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 text-center sm:text-left">
         Find Elfo’s Pizza stores near you
       </h1>
-      <p className="text-gray-600 mb-6">
+      <p className="text-sm sm:text-base text-gray-600 mb-6 text-center sm:text-left">
         Pizza that finds your address faster than friends !!
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-4 items-center">
+      <div className="flex flex-col sm:flex-row gap-4 sm:items-center items-stretch">
         {/* Left input + icon button group */}
-        <div className="flex h-12 w-full max-w-sm rounded-md overflow-hidden border border-gray-300 bg-gray-200">
+        <div className="flex w-full sm:max-w-sm rounded-md overflow-hidden border border-gray-300 bg-gray-200">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black w-5 h-5" />
             <input
               type="text"
               placeholder="Enter city or locality"
-                value={searchQuery || ""}
+              value={searchQuery || ""}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-full pl-10 pr-4 bg-gray-200 text-black focus:outline-none"
+              className="w-full h-full pl-10 pr-4 p-3 bg-gray-200 text-black focus:outline-none"
             />
           </div>
           <button
-            className="bg-[#f47335] hover:bg-orange-600 text-white px-4 flex items-center justify-center cursor-pointer"
+            className="bg-[#f47335] hover:bg-orange-600 text-white px-4 text-sm flex items-center justify-center"
             onClick={() => setSearchQuery(" ")}
           >
-            {/* <MapPin className="w-5 h-5" /> */}Clear
+            Clear
           </button>
         </div>
 
-        <span className=" font-medium">OR</span>
+        <span className="font-medium text-center sm:text-left ">OR</span>
 
         {/* Right select group */}
-        <div className="flex h-12 border border-gray-400 rounded-xl overflow-hidden text-black text-base">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:h-12 border border-gray-400 rounded-xl overflow-hidden text-black text-sm w-full sm:w-auto">
           <select
             value={selectedCity || ""}
             onChange={(e) => {
@@ -76,7 +76,7 @@ export default function SearchBar({
                 setCitieId(selectedCityObj.id);
               }
             }}
-            className="appearance-none w-48 text-left px-4 outline-none bg-white"
+            className="appearance-none w-full sm:w-48 px-4 py-2 sm:py-0 outline-none bg-white"
           >
             <option value="">Select City</option>
             {cities?.map((city: any) => (
@@ -86,13 +86,13 @@ export default function SearchBar({
             ))}
           </select>
 
-          {/* Divider */}
-          <div className="w-px bg-gray-400" />
+          {/* Divider (hidden on mobile) */}
+          <div className="hidden sm:block w-px bg-gray-400" />
 
           <select
             value={selectedLocality}
             onChange={(e) => setSelectedLocality(e.target.value)}
-            className="appearance-none w-56 text-center px-4 outline-none bg-white"
+            className="appearance-none w-full sm:w-56 px-4 py-2 sm:py-0 outline-none bg-white"
           >
             <option value="">Select Locality</option>
             {locality?.map((locality: any) => (
