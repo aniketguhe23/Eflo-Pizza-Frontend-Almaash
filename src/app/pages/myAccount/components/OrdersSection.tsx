@@ -59,7 +59,7 @@ export default function OrdersSection() {
             <p>No order found. Please order! 🍕</p>
             <button
               onClick={() => router.push("/pages/menu")}
-              className=" text-orange-600 underline cursor-pointer hover:underline-offset-8  px-6 py-2 rounded font-semibold text-lg transition"
+              className="text-orange-600 underline cursor-pointer hover:underline-offset-8 px-6 py-2 rounded font-semibold text-lg transition"
             >
               Go to Menu
             </button>
@@ -70,22 +70,25 @@ export default function OrdersSection() {
               key={index}
               className="rounded-lg bg-white text-black shadow-md [font-family:'Barlow_Condensed',Helvetica]"
             >
-              {/* Order Content */}
-              <div className="p-4 pb-0 flex justify-center items-center">
-                <h3 className="text-3xl font-black leading-tight">
+              {/* Order Title */}
+              <div className="p-4 pb-0 flex justify-center items-center text-center">
+                <h3 className="text-2xl md:text-3xl font-black leading-tight">
                   ELFO'S PIZZA
                 </h3>
               </div>
-              <div className="flex justify-center items-center">
-                <h3 className="italic text-base font-normal">
+              <div className="flex justify-center items-center px-4 text-center">
+                <h3 className="italic text-sm md:text-base font-normal break-words">
                   - {order?.restaurant?.address}
                 </h3>
               </div>
 
-              <div className="px-12 pt-4">
-                <div className="flex justify-between">
-                  <div className="">
-                    <p className="text-xl font-bold">{order?.Order_no}</p>
+              {/* Order Info */}
+              <div className="px-4 md:px-12 pt-4">
+                <div className="flex flex-col sm:flex-row justify-between gap-2">
+                  <div>
+                    <p className="text-lg md:text-xl font-bold break-all">
+                      {order?.Order_no}
+                    </p>
                     <p className="text-sm mt-1">
                       Status:{" "}
                       <span
@@ -106,17 +109,18 @@ export default function OrdersSection() {
                     </p>
                   </div>
                   <button
-                    className="text-orange-500 text-lg font-semibold cursor-pointer hover:bg-orange-100 p-2"
+                    className="text-orange-500 text-base md:text-lg font-semibold cursor-pointer hover:bg-orange-100 p-2 w-fit"
                     onClick={() => setSelectedOrder(order)}
                   >
                     VIEW DETAILS
                   </button>
                 </div>
-                <div className="border-t-2 border-dotted border-orange-500 w-[82%] my-2" />
+                <div className="border-t-2 border-dotted border-orange-500 w-full my-2" />
               </div>
 
-              <div className="p-4 px-12 pt-0">
-                <div className="text-lg text-gray-500 mb-4 whitespace-pre-line flex justify-between items-end">
+              {/* Items & Total */}
+              <div className="px-4 md:px-12 pt-0 pb-4">
+                <div className="text-sm md:text-lg text-gray-500 mb-4 whitespace-pre-wrap flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2">
                   <div>
                     {order?.items?.map((item: any, i: number) => {
                       if (item.type === "preset") {
@@ -139,15 +143,14 @@ export default function OrdersSection() {
                       return null;
                     })}
                   </div>
-                  <div>
-                    <span className="font-bold text-gray-500">
-                      TOTAL PAID : INR {order?.total_price}
-                    </span>
+                  <div className="font-bold text-gray-600">
+                    TOTAL PAID : INR {order?.total_price}
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center gap-3">
-                  <div className="">
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div>
                     {order?.order_status !== "Delivered" &&
                       order?.order_status !== "Refunded" && (
                         <button
@@ -158,19 +161,24 @@ export default function OrdersSection() {
                         </button>
                       )}
                   </div>
-                  <div className="">
+
+                  <div className="flex flex-wrap gap-2">
                     {order?.order_status === "Delivered" && (
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer">
+                      <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 tracking-wider uppercase cursor-pointer">
                         RE - ORDER
                       </button>
                     )}
 
-                    {["Pending", "Confirmed", "Accepted", "Scheduled","Processing"].includes(
-                      order?.order_status
-                    ) && (
+                    {[
+                      "Pending",
+                      "Confirmed",
+                      "Accepted",
+                      "Scheduled",
+                      "Processing",
+                    ].includes(order?.order_status) && (
                       <button
                         onClick={() => setCancelOrder(order)}
-                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer"
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 tracking-wider uppercase cursor-pointer"
                       >
                         Cancel Order
                       </button>
@@ -183,7 +191,7 @@ export default function OrdersSection() {
                     {order?.order_status === "Cancelled" && (
                       <button
                         onClick={() => setRefundOrder(order)}
-                        className="bg-red-500 hover:bg-red-600 text-white font-semibold text-sm px-6 py-2 tracking-wider uppercase cursor-pointer ml-2"
+                        className="bg-red-500 hover:bg-red-600 text-white font-semibold text-sm px-4 py-2 tracking-wider uppercase cursor-pointer"
                       >
                         REQUEST REFUND
                       </button>

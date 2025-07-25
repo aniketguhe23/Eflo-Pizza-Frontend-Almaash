@@ -107,36 +107,55 @@ export default function MyAccount() {
         </div>
 
         <div className="max-w-6xl mx-auto p-4 bg-[#fbdecf] rounded">
-          <div className="flex gap-6">
-            <div className="w-80 h-[600px] bg-[#ED722E] rounded-lg overflow-hidden flex flex-col">
-              {sidebarItems.map(({ id, label, icon: Icon }) => (
-                <button
-                  key={id}
-                  onClick={() => setActiveSection(id)}
-                  className={`w-full p-4 text-left font-bold cursor-pointer transition-colors ${
-                    activeSection === id
-                      ? "bg-[#fbdecf] text-black ml-5 mt-2"
-                      : "text-white"
-                  }`}
-                >
-                  <div className="flex items-center gap-3 text-2xl">
-                    <Icon className="w-5 h-5" />
-                    {label}
-                  </div>
-                </button>
-              ))}
-            </div>
+  {/* Mobile Dropdown */}
+  <div className="md:hidden mb-4">
+    <select
+      value={activeSection}
+      onChange={(e) => setActiveSection(e.target.value)}
+      className="w-full p-3 rounded bg-[#ED722E] text-white font-bold"
+    >
+      {sidebarItems.map(({ id, label }) => (
+        <option key={id} value={id} className="text-black">
+          {label}
+        </option>
+      ))}
+    </select>
+  </div>
 
-            <div className="flex-1 rounded-lg p-6">
-              {activeSection === "orders" && <OrdersSection />}
-              {activeSection === "app" && <AppSection />}
-              {activeSection === "rewards" && <RewardsSection />}
-              {activeSection === "payments" && <PaymentsSection />}
-              {activeSection === "addresses" && <AddressesSection />}
-              {activeSection === "chatSection" && <ChatSection />}
-            </div>
+  {/* Desktop Sidebar and Content */}
+  <div className="flex gap-6">
+    {/* Sidebar for md+ */}
+    <div className="hidden md:flex w-80 h-[600px] bg-[#ED722E] rounded-lg overflow-hidden flex-col">
+      {sidebarItems.map(({ id, label, icon: Icon }) => (
+        <button
+          key={id}
+          onClick={() => setActiveSection(id)}
+          className={`w-full p-4 text-left font-bold cursor-pointer transition-colors ${
+            activeSection === id
+              ? "bg-[#fbdecf] text-black ml-5 mt-2"
+              : "text-white"
+          }`}
+        >
+          <div className="flex items-center gap-3 text-2xl">
+            <Icon className="w-5 h-5" />
+            {label}
           </div>
-        </div>
+        </button>
+      ))}
+    </div>
+
+    {/* Section Content */}
+    <div className="flex-1 rounded-lg p-6">
+      {activeSection === "orders" && <OrdersSection />}
+      {activeSection === "app" && <AppSection />}
+      {activeSection === "rewards" && <RewardsSection />}
+      {activeSection === "payments" && <PaymentsSection />}
+      {activeSection === "addresses" && <AddressesSection />}
+      {activeSection === "chatSection" && <ChatSection />}
+    </div>
+  </div>
+</div>
+
       </div>
       <CustomEditProfileModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </>

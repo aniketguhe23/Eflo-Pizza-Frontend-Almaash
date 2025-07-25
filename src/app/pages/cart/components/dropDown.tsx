@@ -51,11 +51,11 @@ export default function AccountDropdown() {
         onClick={() => setOpen((prev) => !prev)}
         className="text-white text-xl font-semibold hover:underline cursor-pointer"
       >
-        <CircleUserRound className="text-white h-9 w-9" />
+        <CircleUserRound className="text-white h-9 w-9 max-sm:text-black" />
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-44 bg-white rounded-md shadow-lg z-50">
+        <div className="absolute max-sm:left-20 max-sm:top-0 right-0 mt-2 w-44 bg-white max-sm:shadow-2xl max-sm:text-white rounded-md shadow-lg z-50">
           <ul className="py-2 text-base text-gray-700">
             <li>
               <Link
