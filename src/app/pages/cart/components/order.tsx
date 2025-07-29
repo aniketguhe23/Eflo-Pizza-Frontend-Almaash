@@ -22,9 +22,11 @@ interface SuggestionItem {
 }
 
 type AppliedCoupon = {
+  id?: string;
   code?: string;
   discountAmount?: number;
   discountPercent?: number;
+  minOrderAmount?: number;
 };
 
 interface OrdersProps {
@@ -56,15 +58,37 @@ export default function Orders({
   const { user } = useUserStore();
   const restaurantNo = useCartStore((state) => state.restaurantNo);
 
-  const { api_createOrder, api_getSuggestions } = ProjectApiList();
+  const {
+    api_createOrder,
+    api_getSuggestions,
+    api_postUsedCoupon,
+    api_getResturantBasicSettings,
+  } = ProjectApiList();
 
-  // const [selectedAddress, setSelectedAddress] = useState<string | null>(
-  //   "House 43, Phase 1, Golden City, Misroad Bhopal, Madhya Pradesh 462047, INDIA (13)"
-  // );
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showConfirMationModal, setShowConfirMationModal] = useState(false);
   const [orderResponse, setOrderResponse] = useState<OrderResponse>({});
   const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
+  const [resturantBasicSettings, setResturantBasicSettings] = useState<any>([]);
+
+  const getResturantBasicSettings = async () => {
+    try {
+      const res = await axios.get(
+        `${api_getResturantBasicSettings}/${
+          restaurantNo ? restaurantNo : selectedRestaurantNumber
+        }`
+      );
+      const basicSettingData = res.data.data;
+      setResturantBasicSettings(basicSettingData);
+    } catch (err) {
+      toast.error("❌ Failed to fetch suggestions. Please try again.");
+      console.error("Suggestion fetch failed:", err);
+    }
+  };
+
+  useEffect(() => {
+    getResturantBasicSettings();
+  }, [restaurantNo, selectedRestaurantNumber]);
 
   const getSuggestions = async () => {
     try {
@@ -80,6 +104,26 @@ export default function Orders({
   useEffect(() => {
     getSuggestions();
   }, []);
+
+  // console.log(user)
+
+  const postUsedCoupons = async () => {
+    try {
+      const res = await axios.post(api_postUsedCoupon, {
+        userId: user?.waId,
+        couponId: appliedCoupon?.id,
+      });
+      const suggestionsData = res.data.data;
+      setSuggestions(suggestionsData);
+    } catch (err) {
+      toast.error("❌ Failed to fetch suggestions. Please try again.");
+      console.error("Suggestion fetch failed:", err);
+    }
+  };
+
+  // useEffect(() => {
+  //   postUsedCoupons();
+  // }, []);
 
   const orderItemsTotal = orderItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -111,10 +155,29 @@ export default function Orders({
     }
   }
 
-  const gstAndCharges = 33.3;
-  const total = itemTotal - discount + gstAndCharges;
+  const gstPercentage = resturantBasicSettings?.gst_percentage || 0;
+  const subtotal = itemTotal - discount;
+  const gstAmount = (subtotal * gstPercentage) / 100;
+
+  const packagingCharge =
+    deliveryType === "delivery"
+      ? Number(resturantBasicSettings?.packaging_charge_amount || 0)
+      : 0;
+
+  const total = subtotal + gstAmount + packagingCharge;
+
+  // console.log(appliedCoupon?.minOrderAmount, "minOrderAmount==============>");
 
   const submitOrder = async () => {
+    if (
+      appliedCoupon?.minOrderAmount &&
+      itemTotal < appliedCoupon.minOrderAmount
+    ) {
+      toast.error(
+        `⚠️ Minimum order amount for this coupon is ₹${appliedCoupon.minOrderAmount}. Your current total is ₹${itemTotal}.`
+      );
+      return; // stop order placement
+    }
     const mergedItems = [
       ...orderItems.map((item) => ({
         type: "preset",
@@ -145,7 +208,11 @@ export default function Orders({
       delivery: null,
       payment_method: "COD",
       payment_status: "Unpaid",
-      gst: gstAndCharges,
+      gst: gstPercentage,
+      packaging_charge:
+        deliveryType == "delivery"
+          ? Number(resturantBasicSettings?.packaging_charge_amount)
+          : 0,
       item_total: Math.round(itemTotal),
       total_price: Math.round(total),
     };
@@ -153,10 +220,13 @@ export default function Orders({
     // console.log(payload);
     try {
       const res = await axios.post(api_createOrder, payload);
+
+      if (user?.waId && appliedCoupon?.id) {
+        await postUsedCoupons();
+      }
       setOrderResponse(res?.data);
       toast.success("✅ Order placed successfully!");
       setShowConfirmModal(false);
-      // ✅ Empty the cart
       resetCart();
       clearPizzas();
       setShowConfirMationModal(true);
@@ -165,6 +235,9 @@ export default function Orders({
       console.error("Order placement failed:", err);
     }
   };
+// 
+  // console.log(deliveryType);
+  // console.log(resturantBasicSettings?.min_dinein_time);
 
   const handleProceedToPay = () => {
     if (!selectedRestaurantNumber && !restaurantNo) {
@@ -178,6 +251,43 @@ export default function Orders({
     if (!deliveryType) {
       toast.error("Please select a Pickup/Delivery before placing the order.");
       return;
+    }
+
+    if (deliveryType === "pickup") {
+      const dineInTimeStr = resturantBasicSettings?.min_dinein_time; // e.g., "14:30"
+      if (dineInTimeStr) {
+        const [hour, minute] = dineInTimeStr.split(":").map(Number);
+        const now = new Date();
+        const dineInTime = new Date();
+        dineInTime.setHours(hour, minute, 0, 0);
+
+        if (now < dineInTime) {
+          toast.error(
+            `Pickup/DineIn is allowed only after ${dineInTimeStr}. Please try later.`
+          );
+          return;
+        }
+      }
+    }
+
+    if (
+      Number(resturantBasicSettings?.min_order_amount) &&
+      itemTotal < Number(resturantBasicSettings?.min_order_amount)
+    ) {
+      toast.error(
+        `⚠️ Minimum order amount for this restaurant is ₹${resturantBasicSettings?.min_order_amount}. Your current total is ₹${itemTotal}.`
+      );
+      return;
+    }
+
+    if (
+      appliedCoupon?.minOrderAmount &&
+      itemTotal < appliedCoupon.minOrderAmount
+    ) {
+      toast.error(
+        `⚠️ Minimum order amount for this coupon is ₹${appliedCoupon.minOrderAmount}. Your current total is ₹${itemTotal}.`
+      );
+      return; // stop order placement
     }
     setShowConfirmModal(true);
   };
@@ -223,6 +333,20 @@ export default function Orders({
       };
     }),
   ];
+
+  // const filteredSuggestions = suggestions?.filter(
+  //   (sugg) =>
+  //     !orderItems.some(
+  //       (item) => item.id === sugg.id && item.fromSuggestion === true
+  //     )
+  // );
+
+  const allSuggestionsAdded = suggestions?.every((sugg) =>
+    orderItems.some(
+      (item) => item.id === sugg.id && item.fromSuggestion === true
+    )
+  );
+
   return (
     <>
       <div className="max-w-4xl mx-auto bg-white min-h-screen pt-10 rounded-lg mt-8 [font-family:'Barlow_Condensed',Helvetica]">
@@ -348,35 +472,51 @@ export default function Orders({
                 <h2 className="text-center font-semibold text-gray-900 mb-6 text-xl">
                   Pair it with
                 </h2>
-                <div className="flex flex-wrap justify-center gap-4">
-                  {suggestions?.map((item) => (
-                    <div
-                      key={item?.id}
-                      className="w-[140px]  border border-orange-300 rounded-lg p-4 flex flex-col items-center text-center"
-                    >
-                      <Image
-                        src={item?.imageUrl}
-                        alt={item?.name}
-                        width={100}
-                        height={100}
-                        className="mb-3 rounded object-cover w-[100px] h-[100px] max-sm:w-[50px] max-sm:h-[50px]"
-                      />
 
-                      <h3 className="font-bold max-sm:text-xs text-sm text-gray-800 mb-1 uppercase">
-                        {item?.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 font-semibold mb-3">
-                        INR {item?.variants?.[0]?.price || 15}
-                      </p>
-                      <button
-                        onClick={() => addSuggestionToOrder(item)}
-                        className="text-orange-500 font-bold hover:underline text-sm cursor-pointer"
-                      >
-                        ADD
-                      </button>
-                    </div>
-                  ))}
-                </div>
+                {allSuggestionsAdded ? (
+                  <p className="text-center text-gray-600 font-medium">
+                    {" "}
+                    All items added!
+                  </p>
+                ) : (
+                  <div className="flex flex-wrap justify-center gap-4">
+                    {suggestions
+                      ?.filter(
+                        (sugg) =>
+                          !orderItems.some(
+                            (item) =>
+                              item.id === sugg.id &&
+                              item.fromSuggestion === true
+                          )
+                      )
+                      .map((item) => (
+                        <div
+                          key={item.id}
+                          className="w-[140px] border border-orange-300 rounded-lg p-4 flex flex-col items-center text-center"
+                        >
+                          <Image
+                            src={item.imageUrl}
+                            alt={item.name}
+                            width={100}
+                            height={100}
+                            className="mb-3 rounded object-cover w-[100px] h-[100px] max-sm:w-[50px] max-sm:h-[50px]"
+                          />
+                          <h3 className="font-bold max-sm:text-xs text-sm text-gray-800 mb-1 uppercase">
+                            {item.name}
+                          </h3>
+                          <p className="text-sm text-gray-600 font-semibold mb-3">
+                            INR {item.variants?.[0]?.price || 15}
+                          </p>
+                          <button
+                            onClick={() => addSuggestionToOrder(item)}
+                            className="text-orange-500 font-bold hover:underline text-sm cursor-pointer"
+                          >
+                            ADD
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                )}
               </div>
             )}
 
@@ -394,9 +534,7 @@ export default function Orders({
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Item Total</span>
-                  <span className="font-semibold">
-                    ₹{Math.round(itemTotal)}
-                  </span>
+                  <span className="font-semibold">₹ {itemTotal}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-orange-500">
@@ -413,19 +551,26 @@ export default function Orders({
                         remove
                       </button>
                     )}
-                    <span className="text-orange-500">
-                      -₹{Math.round(discount)}
-                    </span>
+                    <span className="text-orange-500">-₹{discount}</span>
                   </div>
                 </div>
                 <div className="flex justify-between">
+                  <span className="text-gray-600">Packaging Charges</span>
+                  <span className="font-semibold">
+                    ₹{" "}
+                    {deliveryType == "delivery"
+                      ? resturantBasicSettings?.packaging_charge_amount
+                      : "0"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
                   <span className="text-gray-600 text-sm">GST</span>
-                  <span className="font-semibold">₹{gstAndCharges}</span>
+                  <span className="font-semibold">{gstPercentage}%</span>
                 </div>
                 <div className="border-t pt-3 mt-3 flex justify-between">
                   <span className="font-bold text-gray-900">TOTAL</span>
                   <span className="font-bold text-gray-900">
-                    ₹{Math.round(total)}
+                    {total ? `₹${total}` : "Select restaurant"}
                   </span>
                 </div>
               </div>

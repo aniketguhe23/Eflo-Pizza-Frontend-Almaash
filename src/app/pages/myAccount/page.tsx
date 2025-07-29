@@ -8,6 +8,7 @@ import {
   Gift,
   ShoppingBag,
   MessageSquare,
+  ReceiptIndianRupee,
 } from "lucide-react";
 import OrdersSection from "./components/OrdersSection";
 import RewardsSection from "./components/RewardsSection";
@@ -22,6 +23,7 @@ import Loader from "@/components/loader/Loader";
 import SessionExpiredModal from "@/components/SessionExpiredModal";
 import { useFetchUser } from "@/app/hook/useFetchUser";
 import ChatSection from "./components/ChatSection";
+import RefundRequestedTab from "./components/RefundRequestedTab";
 
 export default function MyAccount() {
   const { isSessionExpired } = useFetchUser(); // ✅ call the hook
@@ -39,8 +41,8 @@ export default function MyAccount() {
     { id: "payments", label: "PAYMENTS", icon: CreditCard },
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
     { id: "chatSection", label: "CHAT", icon: MessageSquare },
+    { id: "RefundRequested", label: "Refund Requests", icon: ReceiptIndianRupee },
   ];
-
   useEffect(() => {
     if (!user) {
       const timeout = setTimeout(() => {
@@ -152,6 +154,7 @@ export default function MyAccount() {
       {activeSection === "payments" && <PaymentsSection />}
       {activeSection === "addresses" && <AddressesSection />}
       {activeSection === "chatSection" && <ChatSection />}
+      {activeSection === "RefundRequested" && <RefundRequestedTab />}
     </div>
   </div>
 </div>

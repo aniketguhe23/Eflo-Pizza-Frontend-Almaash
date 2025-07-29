@@ -8,6 +8,8 @@ interface OrderModalProps {
 }
 
 export default function OrderModal({ onClose, order }: OrderModalProps) {
+
+  console.log(order?.packaging_charge)
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] flex flex-col overflow-hidden">
@@ -118,7 +120,7 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
           <div className="p-4 space-y-3">
             <div className="flex justify-between border-b border-gray-200 pb-2">
               <span className="text-gray-600">Item Total</span>
-              <span className="font-medium">{order?.item_total}</span>
+              <span className="font-medium">₹{order?.item_total}</span>
             </div>
             <div className="flex justify-between border-b border-gray-200 pb-2">
               <span className="text-orange-500">Item Discount</span>
@@ -137,11 +139,15 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">GST</span>
-              <span className="text-gray-700">{order?.gst}</span>
+              <span className="text-gray-700">₹{order?.gst}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Packaging Charge</span>
+              <span className="text-gray-700">₹{order?.packaging_charge}</span>
             </div>
             <div className="flex justify-between font-bold text-lg">
               <span>TOTAL</span>
-              <span className="text-orange-500">{order?.total_price}</span>
+              <span className="text-orange-500">₹{order?.total_price}</span>
             </div>
             <p className="font-semibold text-black">
               Paid Via Credit/Debit card
