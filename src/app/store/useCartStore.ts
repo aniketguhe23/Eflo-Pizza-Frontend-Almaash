@@ -50,7 +50,7 @@ interface CartState {
 
 const useCartStore = create<CartState>()(
   persist(
-    (set) => ({
+    (set,get) => ({
       orderItems: [],
       addOns: [],
       restaurantNo: null, // ✅ default null
@@ -100,31 +100,30 @@ const useCartStore = create<CartState>()(
           ),
         })),
 
-      addSuggestionToOrder: (item) =>
-        set((state) => {
-          const exists = state.orderItems.find((o) => o.id === item.id);
-          if (exists) return state;
+      addSuggestionToOrder: (item) => {
+        const currentItems:any = get().orderItems;
+        const existingItemIndex = currentItems.findIndex(
+          (orderItem: any) => orderItem.id === item.id
+        );
 
-          const price = item.variants?.[0]?.price || 15;
-
-          const newItem: OrderItem = {
-            id: item.id.toString(),
+        if (existingItemIndex !== -1) {
+          // If the item already exists, increase the quantity
+          const updatedItems = [...currentItems];
+          updatedItems[existingItemIndex].quantity += 1;
+          set({ orderItems: updatedItems });
+        } else {
+          // Otherwise, add it as a new item with fromSuggestion: true
+          const newItem = {
+            id: item.id,
             name: item.name,
-            image: item.imageUrl,
-            price,
             quantity: 1,
-            size: "",
-            dough: undefined,
-            crust: undefined,
-            toppings: [],
-            suggestions: [],
+            price: item.variants?.[0]?.price || 0,
             fromSuggestion: true,
+            image: item.imageUrl,
           };
-
-          return {
-            orderItems: [...state.orderItems, newItem],
-          };
-        }),
+          set({ orderItems: [...currentItems, newItem] });
+        }
+      },
 
       resetCart: () => set({ orderItems: [], addOns: [], restaurantNo: null }), // ✅ clear restaurantNo on reset
     }),

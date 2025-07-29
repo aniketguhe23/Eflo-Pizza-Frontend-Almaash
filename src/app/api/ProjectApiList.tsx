@@ -28,6 +28,8 @@ export default function ProjectApiList() {
 
     // order apis
     api_getCoupons: `${baseUrl}/api/coupons/get`,
+    api_getUsedCoupons: `${baseUrl}/api/coupons/get-used-coupons`,
+    api_postUsedCoupon: `${baseUrl}/api/coupons/use-coupons`,
     api_createOrder: `${baseUrl}/api/order/orders/create`,
     api_getOrderById: `${baseUrl}/api/order/orders/get-by-id`,
     api_updateStatusOrdersById: `${baseUrl}/api/reports/update-orders-status`,
@@ -36,6 +38,7 @@ export default function ProjectApiList() {
     api_getResturantData: `${baseUrl}/api/restaurants/get`,
     api_getResturantDataById: `${baseUrl}/api/restaurants/getbyid`,
     api_getItemsOfResturant: `${baseUrl}/api/restaurant-items`,
+    api_getResturantBasicSettings: `${baseUrl}/api/restaurants/basic-setting/getByRestNo`,
 
     // masters
     api_getCities: `${baseUrl}/api/location/getAllcities`,
