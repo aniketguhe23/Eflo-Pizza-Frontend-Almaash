@@ -41,12 +41,7 @@ export default function OrderConfirmationModal({
         {/* Header */}
         <div className="flex flex-col items-center mb-6">
           <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-            <Image
-              src="/elephant.png"
-              alt="Mascot"
-              width={40}
-              height={40}
-            />
+            <Image src="/elephant.png" alt="Mascot" width={40} height={40} />
           </div>
           <h2 className="text-base font-bold text-black tracking-wide mt-2">
             ELFOS' PIZZA
@@ -72,8 +67,13 @@ export default function OrderConfirmationModal({
         </div>
 
         {/* Success Message */}
-        <h1 className="text-2xl font-bold text-black mb-6 tracking-wide">
+        <h1 className="text-2xl font-bold text-black mb-2 tracking-wide">
           YAY!! ORDER RECEIVED
+        </h1>
+        <h1 className="text-xl font-bold text-black mb-6 tracking-wide">
+          <span className="text-orange-600">
+            #{orderResponse?.data?.Order_no}
+          </span>
         </h1>
 
         {/* Address */}

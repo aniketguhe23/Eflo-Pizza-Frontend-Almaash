@@ -8,6 +8,7 @@ export interface OrderItem {
   price: number;
   quantity: number;
   image: string;
+  type?: string;
   dough?: "original" | "sour";
   crust?: "original" | "garlic";
   toppings?: string[];
@@ -50,7 +51,7 @@ interface CartState {
 
 const useCartStore = create<CartState>()(
   persist(
-    (set,get) => ({
+    (set, get) => ({
       orderItems: [],
       addOns: [],
       restaurantNo: null, // ✅ default null
@@ -101,7 +102,7 @@ const useCartStore = create<CartState>()(
         })),
 
       addSuggestionToOrder: (item) => {
-        const currentItems:any = get().orderItems;
+        const currentItems: any = get().orderItems;
         const existingItemIndex = currentItems.findIndex(
           (orderItem: any) => orderItem.id === item.id
         );
@@ -125,7 +126,13 @@ const useCartStore = create<CartState>()(
         }
       },
 
-      resetCart: () => set({ orderItems: [], addOns: [], restaurantNo: null }), // ✅ clear restaurantNo on reset
+      resetCart: () =>
+        set({
+          orderItems: [],
+          addOns: [],
+          restaurantNo: null,
+          restaurantAddress: null,
+        }), // ✅ clear restaurantNo on reset
     }),
     {
       name: "cart-storage",

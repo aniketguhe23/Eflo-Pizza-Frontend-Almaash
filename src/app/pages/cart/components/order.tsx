@@ -166,8 +166,6 @@ export default function Orders({
 
   const total = subtotal + gstAmount + packagingCharge;
 
-  // console.log(appliedCoupon?.minOrderAmount, "minOrderAmount==============>");
-
   const submitOrder = async () => {
     if (
       appliedCoupon?.minOrderAmount &&
@@ -214,7 +212,7 @@ export default function Orders({
           ? Number(resturantBasicSettings?.packaging_charge_amount)
           : 0,
       item_total: Math.round(itemTotal),
-      total_price: Math.round(total),
+      total_price: Math.round(total).toFixed(2),
     };
 
     // console.log(payload);
@@ -235,7 +233,7 @@ export default function Orders({
       console.error("Order placement failed:", err);
     }
   };
-// 
+  //
   // console.log(deliveryType);
   // console.log(resturantBasicSettings?.min_dinein_time);
 
@@ -299,7 +297,7 @@ export default function Orders({
       type: "order" as const,
       id: item.id,
       name: item.name,
-      image: item.image || "/placeholder.svg",
+      image: item.image || "",
       quantity: item.quantity,
       price: item.price,
       extra: {
@@ -379,14 +377,18 @@ export default function Orders({
                   className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-4 border-b border-gray-100"
                 >
                   {/* Image */}
-                  <div className="w-20 h-20 shrink-0">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={80}
-                      height={80}
-                      className="rounded-full object-cover w-20 h-20"
-                    />
+                  <div className="w-20 h-20 shrink-0 flex items-center justify-center rounded-full bg-gray-200 text-xl font-semibold text-gray-700 overflow-hidden">
+                    {item?.image ? (
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className="rounded-full object-cover w-20 h-20"
+                      />
+                    ) : (
+                      <span>{item?.name?.charAt(0)?.toUpperCase() || "?"}</span>
+                    )}
                   </div>
 
                   {/* Item Details */}
@@ -534,7 +536,7 @@ export default function Orders({
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Item Total</span>
-                  <span className="font-semibold">₹ {itemTotal}</span>
+                  <span className="font-semibold">₹ {itemTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-orange-500">
@@ -570,7 +572,7 @@ export default function Orders({
                 <div className="border-t pt-3 mt-3 flex justify-between">
                   <span className="font-bold text-gray-900">TOTAL</span>
                   <span className="font-bold text-gray-900">
-                    {total ? `₹${total}` : "Select restaurant"}
+                    {total ? `₹${Math.round(total).toFixed(2)}` : "Select restaurant"}
                   </span>
                 </div>
               </div>

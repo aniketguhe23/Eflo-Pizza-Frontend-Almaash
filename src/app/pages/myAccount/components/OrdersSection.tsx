@@ -10,6 +10,7 @@ import RefundModal from "./RefundDialog";
 import SupportModal from "./SupportModal";
 import { toast } from "react-toastify";
 import CancelOrderDialog from "./CancelOrderDialog";
+import ReorderModal from "./ReorderModal";
 
 export default function OrdersSection() {
   const { api_getOrderById, api_updateStatusOrdersById } = ProjectApiList();
@@ -22,6 +23,8 @@ export default function OrdersSection() {
   const [refundOrder, setRefundOrder] = useState<any>(null);
   const [supportOrder, setSupportOrder] = useState<any>(null);
   const [cancelOrder, setCancelOrder] = useState<any>(null);
+
+  const [reorderOrder, setReorderOrder] = useState<any>(null);
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -164,7 +167,10 @@ export default function OrdersSection() {
 
                   <div className="flex flex-wrap gap-2">
                     {order?.order_status === "Delivered" && (
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 tracking-wider uppercase cursor-pointer">
+                      <button
+                        onClick={() => setReorderOrder(order)}
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 tracking-wider uppercase cursor-pointer"
+                      >
                         RE - ORDER
                       </button>
                     )}
@@ -244,6 +250,14 @@ export default function OrdersSection() {
             handleStatusUpdate(cancelOrder?.Order_no, "Cancelled_By_Customer");
             setCancelOrder(null);
           }}
+        />
+      )}
+
+      {reorderOrder && (
+        <ReorderModal
+          open={true}
+          onClose={() => setReorderOrder(null)}
+          order={reorderOrder}
         />
       )}
     </>

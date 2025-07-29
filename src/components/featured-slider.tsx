@@ -58,7 +58,7 @@ export default function FeaturedSlider() {
 
                 <p className="text-sm sm:text-base text-[#f47335] mb-5 font-bold text-center">
                   INR{" "}
-                  {item.variants.map((variant, idx) => (
+                  {item?.variants.map((variant, idx) => (
                     <span key={idx}>
                       {variant.price}
                       {idx !== item.variants.length - 1 && " / "}
@@ -84,11 +84,11 @@ export default function FeaturedSlider() {
                       category: "GENERAL",
                       prices: {
                         small:
-                          Number(item.variants.find((v) => v.size === "small")?.price ?? null),
+                          Number(item.variants.find((v) => v.size === "small")?.price ?? 0),
                         medium:
-                          Number(item.variants.find((v) => v.size === "medium")?.price ?? null),
+                          Number(item.variants.find((v) => v.size === "medium")?.price ?? 0),
                         large:
-                          Number(item.variants.find((v) => v.size === "large")?.price ?? null),
+                          Number(item.variants.find((v) => v.size === "large")?.price ?? 0),
                       },
                     };
 
