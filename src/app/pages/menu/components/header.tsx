@@ -11,12 +11,10 @@ import { useUserStore } from "@/app/store/useUserStore";
 import AccountDropdown from "@/app/pages/cart/components/dropDown";
 import LoginModal from "@/app/pages/auth/login/LoginModal";
 import CreateAccountModal from "@/app/pages/auth/createAccount/CreateAccountModal";
-// import DineInModal from "./dineIn-modal";
 import useCartStore from "@/app/store/useCartStore";
 import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 import DineInModal from "@/components/dineIn-modal";
 import CitySelectModal from "@/components/modal/CitySelectModal";
-// import CitySelectModal from "./modal/CitySelectModal";
 
 export default function Header() {
   const { data } = useHomeStore();
@@ -37,14 +35,10 @@ export default function Header() {
 
   useEffect(() => {
     const storedCity = localStorage.getItem("selectedCity");
-    if (storedCity) {
-      setSelectedCity(storedCity);
-    }
+    if (storedCity) setSelectedCity(storedCity);
   }, []);
 
-  const handleCitySelect = (city: string) => {
-    setSelectedCity(city);
-  };
+  const handleCitySelect = (city: string) => setSelectedCity(city);
 
   const totalCartCount =
     orderItems.reduce((sum, item) => sum + item.quantity, 0) +
@@ -52,6 +46,7 @@ export default function Header() {
 
   return (
     <>
+      {/* Modals */}
       {showLoginModal && (
         <LoginModal
           onClose={() => setShowLoginModal(false)}
@@ -62,7 +57,6 @@ export default function Header() {
           }}
         />
       )}
-
       {createAccountData && (
         <CreateAccountModal
           onClose={() => setCreateAccountData(null)}
@@ -70,11 +64,7 @@ export default function Header() {
           mobile={createAccountData.mobile}
         />
       )}
-
-      {isPickupModalOpen && (
-        <DineInModal onClose={() => setIsPickupModalOpen(false)} />
-      )}
-
+      {isPickupModalOpen && <DineInModal onClose={() => setIsPickupModalOpen(false)} />}
       {isModalOpen && (
         <CitySelectModal
           onClose={() => setIsModalOpen(false)}
@@ -82,10 +72,10 @@ export default function Header() {
         />
       )}
 
-      <header
-        className={`fixed top-0 left-0 w-full z-50 flex flex-col md:flex-row items-center justify-between px-4 md:px-12 border-b  bg-black `}
-      >
-        <div className="flex items-center justify-between w-full md:w-auto py-2">
+      {/* Header */}
+      <header className="fixed top-0 left-0 w-full z-50 bg-black border-b px-4 lg:px-12 py-2">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
           <div className="flex items-center gap-2">
             <Image
               src={data?.nav_logo_img || "/elephant.png"}
@@ -99,125 +89,102 @@ export default function Header() {
             </h1>
           </div>
 
-          <div className="flex gap-5">
-            <Link href="/pages/cart" className="relative md:hidden">
-              <ShoppingCart className="text-white h-8 w-8" />
-              {totalCartCount > 0 && (
-                <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
-                  {totalCartCount}
-                </span>
-              )}
-            </Link>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="md:hidden text-white"
-            >
-              <Menu size={30} />
-            </button>
-          </div>
-        </div>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8 [font-family:'Barlow_Condensed',Helvetica] text-2xl ">
-          <Link
-            href="/"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            HOME
-          </Link>
-          <Link
-            href="/pages/values"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            VALUES
-          </Link>
-          <Link
-            href="/pages/build"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            BUILD YOUR OWN
-          </Link>
-          <Link
-            href="/pages/menu"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            MENU
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-4 mt-4 md:mt-0 w-full md:w-[50%] max-sm:hidden">
-          <div
-            className="bg-[#868383] text-black rounded-md flex items-center p-2 w-[60%] md:w-[40%] cursor-pointer"
-            onClick={() => setIsModalOpen(true)}
-          >
-            <MapPin className="text-black mr-2 h-6 w-6" />
-            <div className="flex flex-col">
-              <span className="text-[.8rem]">Delivery From</span>
-              <span className="text-[.6rem]">
-                {selectedCity || "Select your address"}
-              </span>
-            </div>
-          </div>
-
-          <div className="hidden md:flex items-center [font-family:'Barlow_Condensed',Helvetica]">
-            <button
-              onClick={() => setActiveTab("delivery")}
-              className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                activeTab === "delivery"
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white border border-white"
-              }`}
-            >
-              <PiHandCoinsFill size={20} />
-              Delivery
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab("pickup");
-                setIsPickupModalOpen(true);
-              }}
-              className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                activeTab === "pickup"
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white border border-white"
-              }`}
-            >
-              <TbBus size={20} />
-              Pickup/Dine in
-            </button>
-          </div>
-
-          <div className="flex justify-end items-center gap-5 w-[20%]">
+          {/* Cart & Menu Toggle */}
+          <div className="flex gap-4 items-center lg:hidden">
             <Link href="/pages/cart" className="relative">
-              <ShoppingCart className="text-white h-8 w-8" />
+              <ShoppingCart className="text-white h-7 w-7" />
               {totalCartCount > 0 && (
                 <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
                   {totalCartCount}
                 </span>
               )}
             </Link>
+            <button onClick={() => setMobileMenuOpen(true)} className="text-white">
+              <Menu size={28} />
+            </button>
+          </div>
 
-            {user ? (
-              <AccountDropdown />
-            ) : (
-              <button
-                onClick={() => setShowLoginModal(true)}
-                className="text-white text-base font-semibold hover:underline flex justify-center items-center gap-1 cursor-pointer"
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center gap-8 w-full justify-end">
+            {/* Nav Links */}
+            <nav className="flex gap-8 text-white text-2xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
+              <Link href="/" className="hover:border-b-2 hover:border-white pb-1">HOME</Link>
+              <Link href="/pages/values" className="hover:border-b-2 hover:border-white pb-1">VALUES</Link>
+              <Link href="/pages/build" className="hover:border-b-2 hover:border-white pb-1">BUILD YOUR OWN</Link>
+              <Link href="/pages/menu" className="hover:border-b-2 hover:border-white pb-1">MENU</Link>
+            </nav>
+
+            {/* City & Mode Toggle */}
+            <div className="flex gap-4 items-center ml-6">
+              <div
+                className="bg-[#868383] text-black rounded-md flex items-center p-2 w-56 cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
               >
-                <CircleUserRound className="text-white h-9 w-9" /> SignIn
-              </button>
-            )}
+                <MapPin className="text-black mr-2 h-6 w-6" />
+                <div className="flex flex-col text-xs">
+                  <span>Delivery From</span>
+                  <span className="text-[.6rem]">
+                    {selectedCity || "Select your address"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Delivery / Pickup */}
+              <div className="flex">
+                <button
+                  onClick={() => setActiveTab("delivery")}
+                  className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 flex items-center gap-2 ${
+                    activeTab === "delivery"
+                      ? "bg-white text-black"
+                      : "bg-transparent text-white border border-white"
+                  }`}
+                >
+                  <PiHandCoinsFill size={20} /> Delivery
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab("pickup");
+                    setIsPickupModalOpen(true);
+                  }}
+                  className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 flex items-center gap-2 ${
+                    activeTab === "pickup"
+                      ? "bg-white text-black"
+                      : "bg-transparent text-white border border-white"
+                  }`}
+                >
+                  <TbBus size={20} /> Pickup/Dine in
+                </button>
+              </div>
+
+              {/* Cart & Login */}
+              <Link href="/pages/cart" className="relative">
+                <ShoppingCart className="text-white h-7 w-7" />
+                {totalCartCount > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
+                    {totalCartCount}
+                  </span>
+                )}
+              </Link>
+
+              {user ? (
+                <AccountDropdown />
+              ) : (
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="text-white font-semibold flex items-center gap-1"
+                >
+                  <CircleUserRound className="h-7 w-7" /> SignIn
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile & Tablet Sidebar */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 bg-opacity-70 flex lg:hidden">
+        <div className="fixed inset-0 z-50 flex lg:hidden bg-black/70">
           <div className="bg-white w-[75%] p-6 flex flex-col gap-6">
-            {/* Header */}
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-[#f47335]">Menu</h2>
               <button onClick={() => setMobileMenuOpen(false)}>
@@ -225,40 +192,21 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Nav Links */}
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-semibold text-gray-800"
-            >
-              HOME
-            </Link>
-            <Link
-              href="/pages/values"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-semibold text-gray-800"
-            >
-              VALUES
-            </Link>
-            <Link
-              href="/pages/build"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-semibold text-gray-800"
-            >
-              BUILD YOUR OWN
-            </Link>
-            <Link
-              href="/pages/menu"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-semibold text-gray-800"
-            >
-              MENU
-            </Link>
+            {/* Links */}
+            {["HOME", "VALUES", "BUILD YOUR OWN", "MENU"].map((item, i) => (
+              <Link
+                key={i}
+                href={`/pages/${item === "HOME" ? "" : item.toLowerCase().replace(/\s/g, "")}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-lg font-semibold text-gray-800"
+              >
+                {item}
+              </Link>
+            ))}
 
-            {/* Divider */}
             <hr className="border-gray-300" />
 
-            {/* Delivery From */}
+            {/* City */}
             <div
               onClick={() => {
                 setIsModalOpen(true);
@@ -275,59 +223,46 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Delivery / Pickup Buttons */}
+            {/* Mode Toggle */}
             <div className="flex">
-              <button
-                onClick={() => {
-                  setActiveTab("delivery");
-                  setMobileMenuOpen(false);
-                }}
-                className={`w-1/2 py-3 rounded-l-md font-semibold flex flex-col items-center justify-center gap-1 ${
-                  activeTab === "delivery"
-                    ? "bg-[#f47335] text-white"
-                    : "border border-[#f47335] text-[#f47335]"
-                }`}
-              >
-                <PiHandCoinsFill size={20} />
-                <span>Delivery</span>
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab("pickup");
-                  setIsPickupModalOpen(true);
-                  setMobileMenuOpen(false);
-                }}
-                className={`w-1/2 py-3 rounded-r-md font-semibold flex flex-col items-center justify-center gap-1 ${
-                  activeTab === "pickup"
-                    ? "bg-[#f47335] text-white"
-                    : "border border-[#f47335] text-[#f47335]"
-                }`}
-              >
-                <TbBus size={20} />
-                <span>Pickup/Dine in</span>
-              </button>
-            </div>
-
-            {/* Sign In / Account */}
-            <div className="mt-4">
-              {user ? (
-                <AccountDropdown />
-              ) : (
+              {["delivery", "pickup"].map((mode) => (
                 <button
+                  key={mode}
                   onClick={() => {
-                    setShowLoginModal(true);
+                    setActiveTab(mode as any);
+                    if (mode === "pickup") setIsPickupModalOpen(true);
                     setMobileMenuOpen(false);
                   }}
-                  className="flex items-center gap-2 text-[#f47335] font-semibold"
+                  className={`w-1/2 py-3 font-semibold flex flex-col items-center justify-center gap-1 ${
+                    activeTab === mode
+                      ? "bg-[#f47335] text-white"
+                      : "border border-[#f47335] text-[#f47335]"
+                  } ${mode === "delivery" ? "rounded-l-md" : "rounded-r-md"}`}
                 >
-                  <CircleUserRound className="w-6 h-6" />
-                  Sign In
+                  {mode === "delivery" ? <PiHandCoinsFill size={20} /> : <TbBus size={20} />}
+                  <span>{mode === "delivery" ? "Delivery" : "Pickup/Dine in"}</span>
                 </button>
-              )}
+              ))}
             </div>
+
+            {/* Auth */}
+            {user ? (
+              <AccountDropdown />
+            ) : (
+              <button
+                onClick={() => {
+                  setShowLoginModal(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-2 text-[#f47335] font-semibold"
+              >
+                <CircleUserRound className="w-6 h-6" />
+                Sign In
+              </button>
+            )}
           </div>
 
-          {/* Backdrop click closes sidebar */}
+          {/* Backdrop */}
           <div className="w-[25%]" onClick={() => setMobileMenuOpen(false)} />
         </div>
       )}
