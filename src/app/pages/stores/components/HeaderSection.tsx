@@ -198,25 +198,47 @@ export default function HeaderSection({
                 isDropdownVisible &&
                 searchResturantData.length > 0 && (
                   <div className="absolute z-100 mt-2 w-full bg-white shadow-lg rounded-md max-h-60 overflow-y-auto border border-gray-200">
-                    {searchResturantData.map((restaurant, index) => (
-                      <div
-                        key={index}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => {
-                          setSearchResturant("");
-                          setSearchResturantNo(restaurant.restaurants_no);
-                          setSearchResturantName(restaurant.address);
-                          setIsDropdownVisible(false);
-                        }}
-                      >
-                        <p className="text-black font-medium">
-                          {restaurant.name}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {restaurant.address}
-                        </p>
-                      </div>
-                    ))}
+                    {searchResturantData?.map((restaurant, index) => {
+                      const isInactive =
+                        restaurant?.isClosed || !restaurant?.is_active;
+
+                      return (
+                        <div
+                          key={index}
+                          className={`px-4 py-2 hover:bg-gray-100 ${
+                            isInactive
+                              ? "cursor-not-allowed opacity-60"
+                              : "cursor-pointer"
+                          }`}
+                          onClick={() => {
+                            if (isInactive) return;
+                            setSearchResturant("");
+                            setSearchResturantNo(restaurant.restaurants_no);
+                            setSearchResturantName(restaurant.address);
+                            setIsDropdownVisible(false);
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <p className="text-black font-medium">
+                              {restaurant.name}
+                            </p>
+                            {isInactive ? (
+                              <p className="text-sm text-red-500 font-semibold">
+                                Closed
+                              </p>
+                            ) : (
+                              <p className="text-sm text-green-500 font-medium">
+                                Open
+                              </p>
+                            )}
+                          </div>
+
+                          <p className="text-sm text-gray-500">
+                            {restaurant.address}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
             </div>
