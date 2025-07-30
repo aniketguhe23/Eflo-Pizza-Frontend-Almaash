@@ -22,7 +22,7 @@ interface Coupon {
 const Page = () => {
   const { user } = useUserStore();
 
-  const [showLeft, setShowLeft] = useState(true);
+  const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null); // ✅ Fix added
   const [hydrated, setHydrated] = useState(false);

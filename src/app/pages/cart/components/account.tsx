@@ -274,6 +274,13 @@ export default function AccountComponent({
           </div>
 
           {/* Delivery Address */}
+          {!showLeft && (
+            <div className="bg-white p-4 max-sm:p-1 rounded shadow flex items-start gap-4 [font-family:'Barlow_Condensed',Helvetica]">
+              <div className="w-10 h-10 flex justify-center items-center">
+                <IoLocationSharp size={24} fill="black" />
+              </div>
+            </div>
+          )}
           {showLeft &&
             user &&
             (selectedAddress && !showSelector ? (
@@ -398,104 +405,113 @@ export default function AccountComponent({
               </div>
             ))}
 
-          {/* Restaurant Section */}
-          {restaurantAddress ? (
-            // ✅ Show data if external restaurantNo is provided
-            <div className="bg-white p-4 rounded shadow [font-family:'Barlow_Condensed',Helvetica]">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 rounded flex items-center justify-center mr-3 ">
-                  <GiForkKnifeSpoon size={showLeft ? 24 : 20} />
-                </div>
-                <div className="flex">
-                  <p className="font-bold text-xl">SELECTED RESTAURANT</p>
-                  <TiTick className="text-orange-500 w-5 h-5 ml-1" />
-                </div>
+          {!showLeft && (
+            <div className="bg-white p-4 max-sm:p-1 rounded shadow flex items-start gap-4 [font-family:'Barlow_Condensed',Helvetica]">
+              <div className="w-10 h-10 flex justify-center items-center">
+                <GiForkKnifeSpoon size={showLeft ? 24 : 20} />
               </div>
-
-              <div className="flex justify-between items-center">
-                <p className="text-base text-gray-700 pl-11">
-                  {restaurantAddress}
-                </p>
-              </div>
-            </div>
-          ) : (
-            // ❌ If no external restaurantNo, allow selection via internal state
-            <div className="bg-white p-4 rounded shadow [font-family:'Barlow_Condensed',Helvetica]">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 rounded flex items-center justify-center mr-3">
-                  <GiForkKnifeSpoon size={20} />
-                </div>
-                <div className="flex">
-                  <p className="font-bold text-xl">SELECTED RESTAURANT</p>
-                  {selectedRestaurantNumber && (
-                    <TiTick className="text-orange-500 w-5 h-5 ml-1" />
-                  )}
-                </div>
-              </div>
-
-              {selectedRestaurantNumber && !editRestaurant ? (
-                <div className="flex justify-between items-center">
-                  <p className="text-base text-gray-700 pl-11">
-                    {selectedRestaurant}
-                  </p>
-                  <button
-                    className="text-[#ED722E] text-sm font-semibold underline hover:no-underline"
-                    onClick={() => setEditRestaurant(true)}
-                  >
-                    CHANGE
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <input
-                    type="text"
-                    placeholder="Search restaurant..."
-                    value={restaurantSearch}
-                    onChange={(e) => setRestaurantSearch(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border rounded outline-none focus:ring-2 ring-orange-300 mb-3"
-                  />
-                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-                    {filteredRestaurants.length ? (
-                      filteredRestaurants.map((rest) => (
-                        <button
-                          key={rest.id}
-                          onClick={() => {
-                            setSelectedRestaurant(rest.address);
-                            setSelectedRestaurantNumber(rest.restaurants_no);
-                            setEditRestaurant(false);
-                          }}
-                          className={`w-full text-left border rounded px-3 py-2 text-sm transition cursor-pointer ${
-                            selectedRestaurantNumber === rest.restaurants_no
-                              ? "border-orange-500 bg-orange-50"
-                              : "border-gray-300 hover:border-orange-400"
-                          }`}
-                        >
-                          <p className="font-semibold text-gray-800">
-                            {rest.name}
-                          </p>
-                          <p className="text-xs text-gray-600">
-                            {rest.address}
-                          </p>
-                        </button>
-                      ))
-                    ) : (
-                      <>
-                        {!selectedCity ? (
-                          <p className="text-sm text-gray-500">
-                            No City is selected
-                          </p>
-                        ) : (
-                          <p className="text-sm text-gray-500">
-                            No matching restaurants found.
-                          </p>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </>
-              )}
             </div>
           )}
+
+          {/* Restaurant Section */}
+          {showLeft &&
+            (restaurantAddress ? (
+              // ✅ Show data if external restaurantNo is provided
+              <div className="bg-white p-4 rounded shadow [font-family:'Barlow_Condensed',Helvetica]">
+                <div className="flex items-center mb-4">
+                  <div className="w-8 h-8 rounded flex items-center justify-center mr-3 ">
+                    <GiForkKnifeSpoon size={showLeft ? 24 : 20} />
+                  </div>
+                  <div className="flex">
+                    <p className="font-bold text-xl">SELECTED RESTAURANT</p>
+                    <TiTick className="text-orange-500 w-5 h-5 ml-1" />
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <p className="text-base text-gray-700 pl-11">
+                    {restaurantAddress}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              // ❌ If no external restaurantNo, allow selection via internal state
+              <div className="bg-white p-4 rounded shadow [font-family:'Barlow_Condensed',Helvetica]">
+                <div className="flex items-center mb-4">
+                  <div className="w-8 h-8 rounded flex items-center justify-center mr-3">
+                    <GiForkKnifeSpoon size={20} />
+                  </div>
+                  <div className="flex">
+                    <p className="font-bold text-xl">SELECTED RESTAURANT</p>
+                    {selectedRestaurantNumber && (
+                      <TiTick className="text-orange-500 w-5 h-5 ml-1" />
+                    )}
+                  </div>
+                </div>
+
+                {selectedRestaurantNumber && !editRestaurant ? (
+                  <div className="flex justify-between items-center">
+                    <p className="text-base text-gray-700 pl-11">
+                      {selectedRestaurant}
+                    </p>
+                    <button
+                      className="text-[#ED722E] text-sm font-semibold underline hover:no-underline"
+                      onClick={() => setEditRestaurant(true)}
+                    >
+                      CHANGE
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      placeholder="Search restaurant..."
+                      value={restaurantSearch}
+                      onChange={(e) => setRestaurantSearch(e.target.value)}
+                      className="w-full px-3 py-2 text-sm border rounded outline-none focus:ring-2 ring-orange-300 mb-3"
+                    />
+                    <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                      {filteredRestaurants.length ? (
+                        filteredRestaurants.map((rest) => (
+                          <button
+                            key={rest.id}
+                            onClick={() => {
+                              setSelectedRestaurant(rest.address);
+                              setSelectedRestaurantNumber(rest.restaurants_no);
+                              setEditRestaurant(false);
+                            }}
+                            className={`w-full text-left border rounded px-3 py-2 text-sm transition cursor-pointer ${
+                              selectedRestaurantNumber === rest.restaurants_no
+                                ? "border-orange-500 bg-orange-50"
+                                : "border-gray-300 hover:border-orange-400"
+                            }`}
+                          >
+                            <p className="font-semibold text-gray-800">
+                              {rest.name}
+                            </p>
+                            <p className="text-xs text-gray-600">
+                              {rest.address}
+                            </p>
+                          </button>
+                        ))
+                      ) : (
+                        <>
+                          {!selectedCity ? (
+                            <p className="text-sm text-gray-500">
+                              No City is selected
+                            </p>
+                          ) : (
+                            <p className="text-sm text-gray-500">
+                              No matching restaurants found.
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
 
           {/* Payment Section */}
           {showLeft ? (
