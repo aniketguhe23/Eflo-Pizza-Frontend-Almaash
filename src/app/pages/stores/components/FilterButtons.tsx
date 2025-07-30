@@ -7,7 +7,7 @@ export default function FilterButtons({
   newlyOpen,
 }: any) {
   return (
-    <div className="max-w-6xl  mx-auto px-4 max-sm:px-0 py-12 relative z-[5000] max-sm:z-[0]">
+    <div className="max-w-6xl  mx-auto px-4 max-sm:px-0 py-12 relative z-[5000] max-sm:z-[0] max-sm:mt-8">
       {/* Flex column on small screens, row on md+ screens */}
       <div className="flex sm:justify-center  gap-4 items-center">
         {/* Open Now Button */}
