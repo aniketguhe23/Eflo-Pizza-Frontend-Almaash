@@ -43,6 +43,7 @@ export default function ProjectApiList() {
     api_getResturantDataById: `${baseUrl}/api/restaurants/getbyid`,
     api_getItemsOfResturant: `${baseUrl}/api/restaurant-items`,
     api_getResturantBasicSettings: `${baseUrl}/api/restaurants/basic-setting/getByRestNo`,
+    api_getResturantGeneralSettings: `${baseUrl}/api/restaurants/general-setting/getByRestNo`,
 
     // masters
     api_getCities: `${baseUrl}/api/location/getAllcities`,
