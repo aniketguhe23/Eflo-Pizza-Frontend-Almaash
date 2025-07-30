@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import ProjectApiList from "@/app/api/ProjectApiList";
+import { useUserStore } from "@/app/store/useUserStore";
 
 interface Refund {
   id: number;
@@ -23,13 +25,16 @@ const STATUS_LABELS = {
 };
 
 export default function RefundRequestedTab() {
+  const { api_getAllRefunds } = ProjectApiList();
+  const { user } = useUserStore();
   const [refunds, setRefunds] = useState<Refund[]>([]);
+
 
   useEffect(() => {
     const fetchRefunds = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/refunds/getAllRefunds?user_id=MO-27aa546135c448f4b4fc803d95bf499a"
+          `${api_getAllRefunds}?user_id=${user?.waId}`
         );
         setRefunds(res.data.data);
       } catch (error) {

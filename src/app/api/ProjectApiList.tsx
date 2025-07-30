@@ -33,6 +33,10 @@ export default function ProjectApiList() {
     api_createOrder: `${baseUrl}/api/order/orders/create`,
     api_getOrderById: `${baseUrl}/api/order/orders/get-by-id`,
     api_updateStatusOrdersById: `${baseUrl}/api/reports/update-orders-status`,
+    
+    // resturant data
+    api_getAllRefunds: `${baseUrl}/api/refunds/getAllRefunds`,
+    
 
     // resturant data
     api_getResturantData: `${baseUrl}/api/restaurants/get`,
