@@ -13,6 +13,9 @@ import LoginModal from "../../auth/login/LoginModal";
 import useCartStore from "@/app/store/useCartStore";
 import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 import CitySelectModal from "@/components/modal/CitySelectModal";
+import { PiHandCoinsFill } from "react-icons/pi";
+import { TbBus } from "react-icons/tb";
+import DineInModal from "@/components/dineIn-modal";
 
 interface deliveryProps {
   deliveryType?: "delivery" | "pickup";
@@ -42,6 +45,8 @@ export default function Header({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
+  const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
 
   useEffect(() => {
     const storedCity = localStorage.getItem("selectedCity");
@@ -93,6 +98,8 @@ export default function Header({
           onCitySelect={handleCitySelect}
         />
       )}
+
+      {isPickupModalOpen && <DineInModal onClose={() => setIsPickupModalOpen(false)} />}
       <>
         {/* Mobile Sidebar */}
         <div
@@ -226,25 +233,32 @@ export default function Header({
               } max-sm:flex-col sm:flex sm:flex-row items-center gap-4 w-full sm:w-[55%]`}
             >
               {/* Toggle */}
-              <div className="flex items-center gap-4 px-4 py-4 w-full sm:px-10 sm:py-4 sm:w-auto sm:border-l max-sm:border-b border-white">
-                <label className="flex items-center gap-1 text-white font-semibold text-xl cursor-pointer">
-                  <input
-                    type="radio"
-                    checked={deliveryType === "delivery"}
-                    onChange={() => setDeliveryType("delivery")}
-                    className="accent-black cursor-pointer"
-                  />
+              <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica]">
+                <button
+                  onClick={() => setActiveTab("delivery")}
+                  className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === "delivery"
+                      ? "bg-white text-black"
+                      : "bg-transparent text-white border border-white"
+                  }`}
+                >
+                  <PiHandCoinsFill size={20} />
                   Delivery
-                </label>
-                <label className="flex items-center gap-1 text-white font-semibold text-xl cursor-pointer">
-                  <input
-                    type="radio"
-                    checked={deliveryType === "pickup"}
-                    onChange={() => setDeliveryType("pickup")}
-                    className="accent-black cursor-pointer"
-                  />
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab("pickup");
+                    setIsPickupModalOpen(true);
+                  }}
+                  className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === "pickup"
+                      ? "bg-white text-black"
+                      : "bg-transparent text-white border border-white"
+                  }`}
+                >
+                  <TbBus size={20} />
                   Pickup/Dine in
-                </label>
+                </button>
               </div>
 
               {/* Address */}

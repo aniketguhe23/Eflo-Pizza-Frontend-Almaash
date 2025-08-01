@@ -14,6 +14,19 @@ import OrderConfirmationModal, {
   OrderResponse,
 } from "./OrderConfirmationModal";
 
+type Size = "small" | "medium" | "large";
+
+interface MenuItem {
+  id: number;
+  name: string;
+  image: string;
+  category: string;
+  is_available: boolean;
+  prices: Record<Size, number | null>;
+}
+
+type Menu = Record<string, MenuItem[]>;
+
 interface SuggestionItem {
   id: string | number;
   name: string;
@@ -33,6 +46,7 @@ interface OrdersProps {
   setShowRight: (value: boolean) => void;
   appliedCoupon: AppliedCoupon | null;
   onRemoveCoupon: () => void;
+  menuData: Menu;
   selectedRestaurant: string | null; // 🔧 FIXED
   selectedAddress: string | null; // 🔧 FIXED
   selectedRestaurantNumber: string | null; // 🔧 FIXED
@@ -50,6 +64,7 @@ export default function Orders({
   selectedRestaurant,
   selectedAddress,
   selectedRestaurantNumber,
+  menuData,
 }: OrdersProps) {
   const { orderItems, updateQuantity, resetCart, addSuggestionToOrder } =
     useCartStore();
@@ -213,6 +228,7 @@ export default function Orders({
           : 0,
       item_total: Math.round(itemTotal),
       total_price: Math.round(total).toFixed(2),
+      points: Math.floor(itemTotal / 200),
     };
 
     // console.log(payload);
@@ -242,6 +258,36 @@ export default function Orders({
       toast.error("Please select a restaurant before placing the order.");
       return;
     }
+    /* ─── 1️⃣  BLOCK if any cart item is not available ─── */
+    if (!menuData || Object.keys(menuData).length === 0) {
+      return; // ⛔ Skip check if menuData not loaded
+    }
+
+    const hasUnavailableItems = mergedItems.some((item) => {
+      if (item.type !== "order") return false; // skip custom pizzas
+
+      // Try to match with current menu
+      const matched = Object.values(menuData)
+        .flat()
+        .find((m) => {
+          const sameId = String(m.id) === String(item.id);
+          const sameName = m.name === item.name;
+          return sameId || sameName;
+        });
+
+      // If no match OR matched item is not available → treat as unavailable
+      return !matched || matched.is_available === false;
+    });
+
+    if (hasUnavailableItems) {
+      toast.error(
+        "Some items in your cart are not available. Please remove them to proceed."
+      );
+      return;
+    }
+
+    // ------------
+
     if (!selectedAddress) {
       toast.error("Please select a Address before placing the order.");
       return;
@@ -345,6 +391,20 @@ export default function Orders({
     )
   );
 
+  //   const hasUnavailableItems = mergedItems.some((item) => {
+  //   if (item.type !== "order") return false;
+
+  //   const matchedMenuItem = Object.values(menuData).flat().find((menuItem) => {
+  //     const isIdMatch = String(menuItem.id) === String(item.id);
+  //     const isNameMatch = menuItem.name === item.name;
+  //     return isIdMatch || isNameMatch;
+  //   });
+
+  //   return matchedMenuItem?.is_available === false;
+  // });
+
+  console.log(menuData, "menuData==========================>");
+  console.log(mergedItems, "mergedItems======================>");
   return (
     <>
       <div className="max-w-4xl mx-auto bg-white min-h-screen pt-10 rounded-lg mt-8 [font-family:'Barlow_Condensed',Helvetica]">
@@ -431,6 +491,33 @@ export default function Orders({
                           ) : null;
                         })}
                     </div>
+
+                    <h3 className="font-semibold text-lg sm:text-xl text-gray-900">
+                      {item.type === "order" &&
+                        (() => {
+                          const matchedMenuItem = Object.values(menuData)
+                            .flat()
+                            .find((menuItem) => {
+                              const isIdMatch =
+                                String(menuItem.id) === String(item.id);
+                              const isNameMatch = menuItem.name === item.name;
+                              return isIdMatch || isNameMatch;
+                            });
+
+                          const isAvailable =
+                            matchedMenuItem?.is_available === true;
+
+                          return (
+                            <p
+                              className={`text-sm font-medium ${
+                                isAvailable ? "text-green-600" : "text-red-500"
+                              }`}
+                            >
+                              {isAvailable ? "Available" : "Not Available"}
+                            </p>
+                          );
+                        })()}
+                    </h3>
                   </div>
 
                   {/* Quantity and Price */}
@@ -536,7 +623,9 @@ export default function Orders({
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Item Total</span>
-                  <span className="font-semibold">₹ {itemTotal.toFixed(2)}</span>
+                  <span className="font-semibold">
+                    ₹ {itemTotal.toFixed(2)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-orange-500">
@@ -567,12 +656,17 @@ export default function Orders({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600 text-sm">GST</span>
-                  <span className="font-semibold">{gstPercentage}%</span>
+                  <span className="font-semibold">
+                    {" "}
+                    ₹ {gstAmount.toFixed(2)} ({gstPercentage}%)
+                  </span>
                 </div>
                 <div className="border-t pt-3 mt-3 flex justify-between">
                   <span className="font-bold text-gray-900">TOTAL</span>
                   <span className="font-bold text-gray-900">
-                    {total ? `₹${Math.round(total).toFixed(2)}` : "Select restaurant"}
+                    {total
+                      ? `₹${Math.round(total).toFixed(2)}`
+                      : "Select restaurant"}
                   </span>
                 </div>
               </div>

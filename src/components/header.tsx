@@ -183,89 +183,90 @@ export default function Header() {
 
       {/* Mobile Sidebar */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 bg-opacity-70 flex lg:hidden">
-          <div className="bg-white w-[75%] p-6 flex flex-col gap-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-[#f47335]">Menu</h2>
-              <button onClick={() => setMobileMenuOpen(false)}>
-                <X size={24} />
-              </button>
-            </div>
+  <div className="fixed inset-0 z-50 bg-black/50 bg-opacity-70 flex xl:hidden">
+    <div className="bg-white w-[75%] p-6 flex flex-col gap-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-[#f47335]">Menu</h2>
+        <button onClick={() => setMobileMenuOpen(false)}>
+          <X size={24} />
+        </button>
+      </div>
 
-            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">HOME</Link>
-            <Link href="/pages/values" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">VALUES</Link>
-            <Link href="/pages/build" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">BUILD YOUR OWN</Link>
-            <Link href="/pages/menu" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">MENU</Link>
+      <Link href="/" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">HOME</Link>
+      <Link href="/pages/values" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">VALUES</Link>
+      <Link href="/pages/build" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">BUILD YOUR OWN</Link>
+      <Link href="/pages/menu" onClick={() => setMobileMenuOpen(false)} className="text-lg font-semibold text-gray-800">MENU</Link>
 
-            <hr className="border-gray-300" />
+      <hr className="border-gray-300" />
 
-            <div
-              onClick={() => {
-                setIsModalOpen(true);
-                setMobileMenuOpen(false);
-              }}
-              className="flex items-center gap-2 p-3 bg-[#f47335] rounded-md cursor-pointer text-white "
-            >
-              <MapPin className="w-5 h-5" />
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold">Delivery From</span>
-                <span className="text-xs">{selectedCity || "Select your address"}</span>
-              </div>
-            </div>
-
-            <div className="flex">
-              <button
-                onClick={() => {
-                  setActiveTab("delivery");
-                  setMobileMenuOpen(false);
-                }}
-                className={`w-1/2 py-3 rounded-l-md font-semibold flex flex-col items-center justify-center gap-1 ${
-                  activeTab === "delivery"
-                    ? "bg-[#f47335] text-white"
-                    : "border border-[#f47335] text-[#f47335]"
-                }`}
-              >
-                <PiHandCoinsFill size={20} />
-                <span>Delivery</span>
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab("pickup");
-                  setIsPickupModalOpen(true);
-                  setMobileMenuOpen(false);
-                }}
-                className={`w-1/2 py-3 rounded-r-md font-semibold flex flex-col items-center justify-center gap-1 ${
-                  activeTab === "pickup"
-                    ? "bg-[#f47335] text-white"
-                    : "border border-[#f47335] text-[#f47335]"
-                }`}
-              >
-                <TbBus size={20} />
-                <span>Pickup/Dine in</span>
-              </button>
-            </div>
-
-            <div className="mt-4">
-              {user ? (
-                <AccountDropdown />
-              ) : (
-                <button
-                  onClick={() => {
-                    setShowLoginModal(true);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-2 text-[#f47335] font-semibold"
-                >
-                  <CircleUserRound className="w-6 h-6" />
-                  Sign In
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div className="w-[25%]" onClick={() => setMobileMenuOpen(false)} />
+      <div
+        onClick={() => {
+          setIsModalOpen(true);
+          setMobileMenuOpen(false);
+        }}
+        className="flex items-center gap-2 p-3 bg-[#f47335] rounded-md cursor-pointer text-white"
+      >
+        <MapPin className="w-5 h-5" />
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold">Delivery From</span>
+          <span className="text-xs">{selectedCity || "Select your address"}</span>
         </div>
-      )}
+      </div>
+
+      <div className="flex">
+        <button
+          onClick={() => {
+            setActiveTab("delivery");
+            setMobileMenuOpen(false);
+          }}
+          className={`w-1/2 py-3 rounded-l-md font-semibold flex flex-col items-center justify-center gap-1 ${
+            activeTab === "delivery"
+              ? "bg-[#f47335] text-white"
+              : "border border-[#f47335] text-[#f47335]"
+          }`}
+        >
+          <PiHandCoinsFill size={20} />
+          <span>Delivery</span>
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("pickup");
+            setIsPickupModalOpen(true);
+            setMobileMenuOpen(false);
+          }}
+          className={`w-1/2 py-3 rounded-r-md font-semibold flex flex-col items-center justify-center gap-1 ${
+            activeTab === "pickup"
+              ? "bg-[#f47335] text-white"
+              : "border border-[#f47335] text-[#f47335]"
+          }`}
+        >
+          <TbBus size={20} />
+          <span>Pickup/Dine in</span>
+        </button>
+      </div>
+
+      <div className="mt-4">
+        {user ? (
+          <AccountDropdown />
+        ) : (
+          <button
+            onClick={() => {
+              setShowLoginModal(true);
+              setMobileMenuOpen(false);
+            }}
+            className="flex items-center gap-2 text-[#f47335] font-semibold"
+          >
+            <CircleUserRound className="w-6 h-6" />
+            Sign In
+          </button>
+        )}
+      </div>
+    </div>
+
+    <div className="w-[25%]" onClick={() => setMobileMenuOpen(false)} />
+  </div>
+)}
+
     </>
   );
 }

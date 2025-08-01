@@ -33,10 +33,9 @@ export default function ProjectApiList() {
     api_createOrder: `${baseUrl}/api/order/orders/create`,
     api_getOrderById: `${baseUrl}/api/order/orders/get-by-id`,
     api_updateStatusOrdersById: `${baseUrl}/api/reports/update-orders-status`,
-    
+
     // resturant data
     api_getAllRefunds: `${baseUrl}/api/refunds/getAllRefunds`,
-    
 
     // resturant data
     api_getResturantData: `${baseUrl}/api/restaurants/get`,
@@ -54,9 +53,16 @@ export default function ProjectApiList() {
     api_createContactSupport: `${baseUrl}/api/support/create`,
 
     //Chats
-    apigetChatsRestConversations: `${baseUrl}/api/chat/user`,
-    apigetChatsRestMessages: `${baseUrl}/api/chat/conversation`,
-    apipostChatsRestMessages: `${baseUrl}/api/chat/send`,
+    apipostChatsUserMessages: `${baseUrl}/api/chat/send`,
+    apigetChatsUserList: `${baseUrl}/api/chat/user-list`,
+    apigetChatsUserAdminConversations: `${baseUrl}/api/chat/user-admin`,
+    
+    //Admin
+    apigetAllAdmins: `${baseUrl}/api/auth/getall-admins`,
+    
+    
+    //Pomts
+    apigetUserPoints: `${baseUrl}/api/order/orders/points`,
   };
 
   return apiList;

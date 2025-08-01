@@ -4,6 +4,7 @@ import OrderModal from "@/app/pages/menu/components/order-modal";
 import { useHomeStore } from "@/app/store/homeStore";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import Link from "next/link";
 
 export default function FeaturedSlider() {
   const { menuItems } = useHomeStore();
@@ -83,12 +84,18 @@ export default function FeaturedSlider() {
                       image: item.imageUrl,
                       category: "GENERAL",
                       prices: {
-                        small:
-                          Number(item.variants.find((v) => v.size === "small")?.price ?? 0),
-                        medium:
-                          Number(item.variants.find((v) => v.size === "medium")?.price ?? 0),
-                        large:
-                          Number(item.variants.find((v) => v.size === "large")?.price ?? 0),
+                        small: Number(
+                          item.variants.find((v) => v.size === "small")
+                            ?.price ?? 0
+                        ),
+                        medium: Number(
+                          item.variants.find((v) => v.size === "medium")
+                            ?.price ?? 0
+                        ),
+                        large: Number(
+                          item.variants.find((v) => v.size === "large")
+                            ?.price ?? 0
+                        ),
                       },
                     };
 
@@ -98,10 +105,11 @@ export default function FeaturedSlider() {
                 >
                   ORDER NOW
                 </button>
-
-                <p className="text-sm sm:text-lg font-semibold [font-family:'Antonio',Helvetica]">
-                  MAKE IT MY OWN
-                </p>
+                <Link href="/pages/build">
+                  <p className="cursor-pointer text-sm sm:text-lg font-semibold [font-family:'Antonio',Helvetica] hover:underline">
+                    MAKE IT MY OWN
+                  </p>
+                </Link>
               </div>
             ))}
           </div>

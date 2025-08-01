@@ -1,144 +1,150 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { MessageCircle, Plus, Send, Bot, User, ArrowLeft } from "lucide-react";
-import io from "socket.io-client";
-import BackendUrl from "@/app/api/BackendUrl";
-import { useUserStore } from "@/app/store/useUserStore";
+import { useEffect, useState } from "react";
 import ProjectApiList from "@/app/api/ProjectApiList";
+import { MessageCircle, Send, User, Bot, ArrowLeft } from "lucide-react";
 import axios from "axios";
+import socket from "@/lib/socket";
+import { useUserStore } from "@/app/store/useUserStore";
 
 interface ChatSession {
-  id: string;
-  title: string;
-  address: string;
-  name: string;
-  restaurant_no: string;
-  last_message_time: string;
-  timestamp: string;
+  admin: {
+    id: string;
+    name: string;
+    email: string;
+  } | null;
+  order_id: string | null;
+  last_message: string | null;
+  last_message_time: string | null;
 }
 
 interface ChatMessage {
   id: string;
-  role: "user" | "restaurant";
+  role: "user" | "admin";
   content: string;
 }
 
-const socket = io(BackendUrl); // replace with production URL if needed
-
-export default function ChatSection() {
-  const { user } = useUserStore();
+export default function ChatApp() {
   const {
-    apigetChatsRestConversations,
-    apigetChatsRestMessages,
-    apipostChatsRestMessages,
+    apigetChatsUserAdminConversations,
+    apigetChatsUserList,
+    apipostChatsUserMessages,
     api_getOrderById,
+    apigetAllAdmins,
   } = ProjectApiList();
+  const { user } = useUserStore();
+
   const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
-  const [activeChat, setActiveChat] = useState("");
+  const [activeChat, setActiveChat] = useState<any>("default");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
+  const [userID, setUserID] = useState("");
+  const [orderID, setOrderID] = useState("");
+  const [userName, setUserName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [restaurants_no, setResturant_no] = useState<any>("");
-  const [orderData, setOrderData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [adminId, setAdminId] = useState<any>("");
+  const [refreshChat, setRefreshChat] = useState(true);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [adminData, setAdminData] = useState<any[]>([]);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [selectedOrderTemp, setSelectedOrderTemp] = useState<any>(null);
+  const [orderDetails, setOrderDetails] = useState<any>(null);
+  const [selectedAdminTemp, setSelectedAdminTemp] = useState<any>(null);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newRestaurantId, setNewRestaurantId] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+  const [showMobileChat, setShowMobileChat] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-    setInput(
-      `Hi, I have a query regarding my recent order. Could you please assist with the status or any issues? Thank you.`
-    );
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setInput("");
-    setNewRestaurantId("");
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  const fetchOrders = useCallback(async () => {
-    setLoading(true);
+  const fetchAllAdmins = async () => {
     try {
-      const response = await axios.get(`${api_getOrderById}/${user?.waId}`);
-      setOrderData(response?.data?.data || []);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    } finally {
-      setLoading(false);
+      const res = await axios.get(`${apigetAllAdmins}`);
+      setAdminData(res.data?.data || []);
+    } catch (err) {
+      console.error("Error fetching admins:", err);
     }
-  }, [api_getOrderById, user?.waId]);
+  };
 
-  useEffect(() => {
-    fetchOrders();
-  }, [fetchOrders]);
-
-  // Load all chat sessions
-  const chatSessionFunc = () => {
-    fetch(`${apigetChatsRestConversations}/${user?.waId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setChatSessions(data.data);
-        if (data.length > 0) {
-          setActiveChat(data[0].id);
-        }
-      });
+  const fetchAllOrders = async () => {
+    try {
+      const res = await axios.get(`${api_getOrderById}/${user?.waId}`);
+      setOrders(res.data?.data || []);
+    } catch (err) {
+      console.error("Error fetching orders:", err);
+    }
   };
 
   useEffect(() => {
-    chatSessionFunc();
-  }, [isModalOpen]);
+    if (user?.waId) {
+      fetchAllOrders();
+    }
+  }, [user?.waId]);
 
-  // Load conversation for active chat
   useEffect(() => {
-    fetch(
-      `${apigetChatsRestMessages}?userId=${user?.waId}&restaurantId=${restaurants_no}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const formatted: ChatMessage[] = data?.data.map((msg: any) => ({
-          id: msg._id,
-          role: msg.sender_type === "user" ? "user" : "restaurant",
-          content: msg.message,
-        }));
-        setMessages(formatted);
-      });
-  }, [activeChat]);
+    if (showOrderModal) {
+      fetchAllAdmins();
+    }
+  }, [showOrderModal]);
 
-  // Handle socket.io real-time updates
   useEffect(() => {
-    socket.on("receive_message", (msg: any) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: msg._id,
-          role: msg.sender_type === "user" ? "user" : "restaurant",
-          content: msg.message,
-        },
-      ]);
+    socket.connect();
+    socket.on("connect", () => {
+      socket.emit("join_room", { userID, adminId });
+    });
+
+    socket.on("message_received", (data: any) => {
+      if (data.sender_id !== userID) {
+        const msg: ChatMessage = {
+          id: data._id,
+          role: "admin",
+          content: data.message,
+        };
+        setMessages((prev) => [...prev, msg]);
+      }
     });
 
     return () => {
-      socket.off("receive_message");
+      socket.disconnect();
     };
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+  const fetchConversations = async () => {
+    const res = await axios.get(`${apigetChatsUserList}/${user?.waId}`);
+    setChatSessions(res.data.data);
   };
+
+  const fetchMessages = async () => {
+    const res = await axios.get(
+      `${apigetChatsUserAdminConversations}?userId=${user?.waId}&adminId=${adminId}&orderId=${orderID}`
+    );
+    const data = res.data.data;
+
+    const formatted: ChatMessage[] = data.map((msg: any) => ({
+      id: msg._id,
+      role: msg.sender_type === "user" ? "user" : "admin",
+      content: msg.message,
+    }));
+    setMessages(formatted);
+  };
+
+  useEffect(() => {
+    if (user?.waId) fetchConversations();
+    if (userID) fetchMessages();
+  }, [user?.waId, adminId, orderID, refreshChat]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setInput(e.target.value);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!input.trim()) return;
-
-    const messagePayload = {
-      sender_type: "user",
-      sender_id: user?.waId,
-      receiver_type: "restaurant",
-      receiver_id: restaurants_no,
-      message: input,
-    };
+    if (!input.trim()) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
@@ -149,16 +155,21 @@ export default function ChatSection() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
-    closeModal();
+
+    const payload = {
+      sender_type: "user",
+      sender_id: user?.waId,
+      receiver_type: "admin",
+      receiver_id: adminId,
+      message: input,
+      roomId: `chat-room-${userID}`,
+      order_id: orderID,
+    };
 
     try {
-      const res = await fetch(apipostChatsRestMessages, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(messagePayload),
-      });
-
-      const data = await res.json();
+      const res = await axios.post(apipostChatsUserMessages, payload);
+      socket.emit("send_message", res.data);
+      fetchMessages();
     } catch (err) {
       console.error("Sending failed", err);
     } finally {
@@ -166,212 +177,310 @@ export default function ChatSection() {
     }
   };
 
+  const sendMessageManually = async (messageText: string) => {
+    if (!messageText.trim()) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      role: "user",
+      content: messageText,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
+
+    const payload = {
+      sender_type: "user",
+      sender_id: user?.waId,
+      receiver_type: "admin",
+      receiver_id: selectedAdminTemp?.id,
+      message: messageText,
+      roomId: `chat-room-${user?.waId}`,
+      order_id: selectedOrderTemp?.Order_no,
+    };
+
+    try {
+      const res = await axios.post(apipostChatsUserMessages, payload);
+      socket.emit("send_message", res.data);
+      fetchMessages();
+    } catch (err) {
+      console.error("Sending failed", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChatSelect = (chat: ChatSession) => {
+    if (!chat.admin) return;
+    setActiveChat(chat.order_id);
+    setUserID(user?.waId || "");
+    setOrderID(chat.order_id || "");
+    setUserName(chat.admin.name || "Unknown");
+    setAdminId(chat.admin.id);
+    setRefreshChat((prev) => !prev);
+    if (isMobile) setShowMobileChat(true);
+  };
+
+  const formatDate = (dateStr: string | null) => {
+    if (!dateStr) return "";
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const truncateText = (text: string, charLimit = 30) => {
+    return text.length > charLimit ? text.slice(0, charLimit) + "..." : text;
+  };
 
   return (
-<div className="flex flex-col sm:flex-row h-auto sm:h-[35rem] bg-[#fbd2bd]">
-  {/* Sidebar */}
-  {(!activeChat || typeof window !== "undefined" && window.innerWidth >= 640) && (
-    <div className="w-full sm:w-56 bg-[#fbd2bd] border-b sm:border-b-0 sm:border-r border-[#f4b798] flex flex-col">
-      <div className="p-3 sm:p-4 border-b border-[#f4b798] flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
-          <h1 className="text-lg sm:text-xl font-semibold text-gray-900">Chat</h1>
+    <div className="h-[100dvh] md:h-[550px] bg-gray-50 rounded-md shadow border overflow-hidden flex flex-col md:flex-row">
+      {/* Sidebar */}
+      <aside
+        className={`w-full md:w-80 bg-white border-r border-gray-300 flex-shrink-0 flex-col ${
+          isMobile && showMobileChat ? "hidden" : "flex"
+        }`}
+      >
+        <div className="p-4 border-b border-gray-200">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <MessageCircle size={20} /> Chat Support
+          </h2>
         </div>
-        <button
-          onClick={openModal}
-          className="p-1 border rounded hover:bg-gray-100"
-        >
-          <Plus className="w-4 h-4" />
-        </button>
-      </div>
-
-      <div className="overflow-y-auto flex-1 p-2 space-y-2">
-        {chatSessions.map((chat) => (
-          <div
-            key={chat.id}
-            onClick={() => {
-              setActiveChat(chat.id);
-              setResturant_no(chat.restaurant_no);
-            }}
-            className={`p-3 rounded cursor-pointer border text-sm ${
-              activeChat === chat.id
-                ? "bg-[#f4b798] ring-2 ring-[#f4b798]"
-                : "hover:bg-[#f3bda3]"
-            }`}
+        <div className="p-4 border-b">
+          <button
+            onClick={() => setShowOrderModal(true)}
+            className="w-full text-sm px-4 py-2 border border-blue-500 text-blue-600 rounded hover:bg-blue-50 cursor-pointer"
           >
-            <div className="flex items-start gap-2">
-              <div className="w-7 h-7 rounded-full bg-[#f3bda3] flex items-center justify-center text-[#ea6929]">
-                <MessageCircle className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="font-medium truncate">{chat.name}</h3>
-                <h3 className="font-medium truncate">{chat.address}</h3>
-                <p className="text-xs text-gray-500 mt-1">
-                  {chat.last_message_time.split(" ")[0]}
-                </p>
-                <p className="text-xs text-gray-400">{chat.timestamp}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )}
-
-  {/* Chat Area */}
-  {activeChat && (
-    <div className="flex-1 w-full flex flex-col relative">
-      {/* Back Button on Small Screens */}
-      <div className="sm:hidden absolute top-2 left-2 z-10">
-        <button
-          onClick={() => setActiveChat("")}
-          className="flex items-center text-sm gap-1 px-2 py-1 bg-white border rounded shadow text-blue-600"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          {/* Back */}
-        </button>
-      </div>
-
-      {/* Chat Header */}
-      <div className="bg-[#fbd2bd] border-b border-[#f4b798] p-3 pt-10 sm:pt-3">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-            <Bot className="w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="text-base sm:text-lg font-semibold text-gray-900">
-              Almaash Alam
-            </h2>
-            <p className="text-sm text-gray-500">Online</p>
-          </div>
+            {orderDetails?.Order_no || "Select an Order"}
+          </button>
         </div>
-      </div>
-
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
-        {messages?.length === 0 ? (
-          <div className="text-center py-10">
-            <div className="w-14 h-14 bg-gray-100 rounded-full mx-auto flex items-center justify-center mb-4">
-              <MessageCircle className="w-6 h-6 text-gray-400" />
-            </div>
-            <h3 className="text-base font-medium text-gray-900 mb-2">
-              Chat Feature
-            </h3>
-            <p className="text-gray-500 text-sm">Start a conversation</p>
-          </div>
-        ) : (
-          messages?.map((message) => (
+        <div className="flex-grow max-w-[350px] overflow-y-auto overflow-x-hidden">
+          {chatSessions.map((chat, index) => (
             <div
-              key={message.id}
-              className={`flex gap-2 sm:gap-3 ${
-                message.role === "user" ? "justify-end" : "justify-start"
+              key={index}
+              onClick={() => handleChatSelect(chat)}
+              className={`flex items-start gap-3 p-4 cursor-pointer transition-all hover:bg-gray-100 ${
+                activeChat === chat.order_id ? "bg-gray-200" : ""
               }`}
             >
-              {message.role === "restaurant" && (
-                <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                  <Bot className="w-4 h-4" />
-                </div>
-              )}
+              <div className="bg-blue-100 rounded-full p-2">
+                <MessageCircle className="text-blue-500" size={18} />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-gray-900">
+                  {chat.admin?.name || "No Name"}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {chat.last_message ? (
+                    <>
+                      <span className="block">
+                        {truncateText(chat.last_message)}
+                      </span>
+                      <span className="block text-[10px] text-gray-400">
+                        {formatDate(chat.last_message_time)}
+                      </span>
+                    </>
+                  ) : (
+                    "No messages yet"
+                  )}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      {/* Chat Area */}
+      <main
+        className={`flex flex-col flex-grow ${
+          isMobile && !showMobileChat ? "hidden" : "flex"
+        }`}
+      >
+        {/* Header */}
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 p-4 flex items-center gap-3">
+          {isMobile && showMobileChat && (
+            <button
+              onClick={() => setShowMobileChat(false)}
+              className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
+            >
+              <ArrowLeft size={18} />
+              Back
+            </button>
+          )}
+          <div className="bg-gray-200 rounded-full p-2">
+            <Bot size={18} className="text-gray-700" />
+          </div>
+          <h3 className="font-semibold text-gray-800">{userName}</h3>
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+          {messages.length === 0 && !isLoading ? (
+            <div className="text-center pt-20 text-gray-500">
+              <MessageCircle className="mx-auto mb-2" size={48} />
+              <p className="text-lg">No messages yet</p>
+              <p className="text-sm">Select a user to start chatting</p>
+            </div>
+          ) : (
+            messages.map((msg, index) => (
               <div
-                className={`max-w-[85%] sm:max-w-md px-3 py-2 rounded-lg text-sm whitespace-pre-wrap ${
-                  message.role === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-900"
+                key={`${msg.role}-${index}-${msg.content.slice(0, 10)}`}
+                className={`flex items-end ${
+                  msg.role === "admin" ? "justify-end" : "justify-start"
                 }`}
               >
-                {message.content}
-              </div>
-              {message?.role === "user" && (
-                <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
-                  <User className="w-4 h-4" />
+                {msg.role === "user" && (
+                  <div className="mr-2">
+                    <div className="bg-gray-300 rounded-full p-1">
+                      <User size={16} />
+                    </div>
+                  </div>
+                )}
+                <div
+                  className={`px-4 py-2 rounded-lg max-w-xs text-sm shadow ${
+                    msg.role === "admin"
+                      ? "bg-blue-600 text-white"
+                      : "bg-white text-gray-900 border"
+                  }`}
+                >
+                  {msg.content}
                 </div>
-              )}
+                {msg.role === "admin" && (
+                  <div className="ml-2">
+                    <div className="bg-gray-300 rounded-full p-1">
+                      <Bot size={16} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+          {isLoading && (
+            <div className="flex items-center gap-2 text-sm text-gray-500 animate-pulse">
+              <div className="h-4 w-4 border-2 border-t-transparent border-gray-400 rounded-full animate-spin"></div>
+              <span>Sending...</span>
             </div>
-          ))
-        )}
+          )}
+        </div>
 
-        {isLoading && (
-          <div className="flex gap-3 justify-start">
-            <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-              <Bot className="w-4 h-4" />
-            </div>
-            <div className="bg-gray-100 text-gray-900 max-w-[85%] sm:max-w-md px-3 py-2 rounded-lg flex space-x-1">
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-              <div
-                className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                style={{ animationDelay: "0.1s" }}
-              ></div>
-              <div
-                className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                style={{ animationDelay: "0.2s" }}
-              ></div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Input */}
-      <div className="bg-[#fbd2bd] border-t border-[#f4b798] p-3 sm:p-4">
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        {/* Message Input */}
+        <form
+          onSubmit={handleSubmit}
+          className="border-t border-gray-300 p-3 flex gap-2 bg-white"
+        >
           <input
             type="text"
+            placeholder="Type your message..."
             value={input}
             onChange={handleInputChange}
-            placeholder="Type your message..."
-            className="flex-1 px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50"
             disabled={isLoading}
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-400 text-sm"
           />
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="p-2 bg-blue-600 text-white rounded-md disabled:opacity-50"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
           >
-            <Send className="w-4 h-4" />
+            <Send size={18} />
           </button>
         </form>
-      </div>
-    </div>
-  )}
+      </main>
 
-  {/* Modal */}
-  {isModalOpen && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-lg shadow-lg w-[95%] sm:w-full sm:max-w-md px-4 py-5 sm:p-6">
-        <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
-          Start New Conversation
-        </h2>
-        <select
-          value={newRestaurantId}
-          onChange={(e) => setResturant_no(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2 mb-3 sm:mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
-        >
-          <option value="">Select a Restaurant</option>
-          {orderData?.map((order, index) => (
-            <option key={index} value={order.restaurant.restaurants_no}>
-              {order?.Order_no} - {order.restaurant.address}
-            </option>
-          ))}
-        </select>
+      {showOrderModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+          <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-4">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Start Chat</h2>
+              <button
+                onClick={() => {
+                  setShowOrderModal(false);
+                  setSelectedOrderTemp(null);
+                  setSelectedAdminTemp(null);
+                }}
+                className="text-gray-500 hover:text-gray-700 text-xl"
+              >
+                &times;
+              </button>
+            </div>
 
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={closeModal}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 text-sm"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
-          >
-            Start Chat
-          </button>
+            {/* Order Dropdown */}
+            <div className="mb-4">
+              <label className="text-sm font-medium mb-1 block">
+                Select an Order
+              </label>
+              <select
+                value={selectedOrderTemp?.id || ""}
+                onChange={(e) => {
+                  const selected = orders.find(
+                    (order) => order.id === parseInt(e.target.value)
+                  );
+                  setSelectedOrderTemp(selected || null);
+                }}
+                className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">-- Select Order --</option>
+                {orders.map((order) => (
+                  <option key={order.id} value={order.id}>
+                    {order.Order_no}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Admin Dropdown */}
+            <div className="mb-4">
+              <label className="text-sm font-medium mb-1 block">
+                Select an Admin
+              </label>
+              <select
+                value={selectedAdminTemp?.id || ""}
+                onChange={(e) => {
+                  const selected = adminData.find(
+                    (admin) => admin.id === parseInt(e.target.value)
+                  );
+                  setSelectedAdminTemp(selected || null);
+                }}
+                className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">-- Select Admin --</option>
+                {adminData.map((admin) => (
+                  <option key={admin.id} value={admin.id}>
+                    Admin {admin.id}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Confirm Button */}
+            <button
+              onClick={async () => {
+                if (selectedOrderTemp && selectedAdminTemp) {
+                  setOrderID(selectedOrderTemp.Order_no);
+                  setOrderDetails(selectedOrderTemp);
+                  setAdminId(selectedAdminTemp.id);
+                  setUserID(user?.waId || "");
+                  setUserName(
+                    `${selectedAdminTemp.firstname} ${selectedAdminTemp.lastname}`
+                  );
+                  setShowOrderModal(false);
+                  setSelectedOrderTemp(null);
+                  setSelectedAdminTemp(null);
+
+                  await sendMessageManually(
+                    `Hi, I want to start a chat regarding my order - #${selectedOrderTemp?.Order_no}`
+                  );
+                }
+              }}
+              disabled={!selectedOrderTemp || !selectedAdminTemp}
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
+            >
+              Start Chat
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
-  )}
-</div>
-
-
   );
 }

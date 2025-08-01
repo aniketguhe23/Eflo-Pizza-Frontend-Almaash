@@ -154,6 +154,9 @@ export default function OrdersSection() {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div>
+                    {order?.order_status == "Delivered" && (
+                      <p>Point Earned: {order?.points} </p>
+                    )}
                     {order?.order_status !== "Delivered" &&
                       order?.order_status !== "Refunded" && (
                         <button
@@ -177,10 +180,10 @@ export default function OrdersSection() {
 
                     {[
                       "Pending",
-                      "Confirmed",
-                      "Accepted",
-                      "Scheduled",
-                      "Processing",
+                      // "Confirmed",
+                      // "Accepted",
+                      // "Scheduled",
+                      // "Processing",
                     ].includes(order?.order_status) && (
                       <button
                         onClick={() => setCancelOrder(order)}

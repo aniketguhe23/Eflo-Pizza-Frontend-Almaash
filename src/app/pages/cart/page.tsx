@@ -8,6 +8,9 @@ import Header from "./components/header";
 import { useUserStore } from "@/app/store/useUserStore";
 import UserBootstrap from "@/app/hook/UserBootstrap";
 import CitySelectGate from "@/components/modal/CitySelectGate";
+import ProjectApiList from "@/app/api/ProjectApiList";
+import axios from "axios";
+import useCartStore from "@/app/store/useCartStore";
 
 interface Coupon {
   id: string;
@@ -19,14 +22,39 @@ interface Coupon {
   expiresAt?: string;
 }
 
+type Size = "small" | "medium" | "large";
+
+interface MenuItem {
+  id: number;
+  name: string;
+  image: string;
+  category: string;
+  is_available: boolean;
+  prices: Record<Size, number | null>;
+}
+
+type Menu = Record<string, MenuItem[]>;
+
+
 const Page = () => {
   const { user } = useUserStore();
+  const { api_getItemsOfResturant } = ProjectApiList();
+  const restaurantNo = useCartStore((state) => state.restaurantNo);
 
-  const [showLeft, setShowLeft] = useState(false);
+  const [showLeft, setShowLeft] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth >= 768; // true for md and above
+    }
+    return false;
+  });
+  const [loading, setLoading] = useState(true);
+const [menuData, setMenuData] = useState<Menu>({});
+  const [categories, setCategories] = useState<string[]>([]);
+
   const [showRight, setShowRight] = useState(false);
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null); // ✅ Fix added
   const [hydrated, setHydrated] = useState(false);
-  const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">();
+  const [deliveryType, setDeliveryType] = useState<any>("delivery");
   const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
     null
   );
@@ -37,6 +65,31 @@ const Page = () => {
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
     user?.address_home || null
   );
+
+  useEffect(() => {
+    const fetchMenuData = async () => {
+      try {
+        const apiUrl = `${api_getItemsOfResturant}/${selectedRestaurantNumber ? selectedRestaurantNumber : restaurantNo}/items`;
+
+        const response = await axios.get(apiUrl);
+        const data = response?.data?.data || {};
+
+        setMenuData(data);
+        setCategories(Object.keys(data));
+      } catch (error) {
+        console.error("Error fetching menu data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (selectedRestaurantNumber || restaurantNo) {
+      fetchMenuData();
+    }
+  }, [api_getItemsOfResturant, selectedRestaurantNumber,restaurantNo]);
+
+  // console.log(menuData, "menuData=================>");
+
   useEffect(() => setHydrated(true), []);
   if (!hydrated) return null;
 
@@ -81,6 +134,7 @@ const Page = () => {
               selectedRestaurant={selectedRestaurant}
               selectedAddress={selectedAddress}
               selectedRestaurantNumber={selectedRestaurantNumber}
+              menuData={menuData}
             />
           </div>
 
