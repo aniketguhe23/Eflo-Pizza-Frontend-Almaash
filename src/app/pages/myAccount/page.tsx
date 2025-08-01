@@ -41,7 +41,7 @@ export default function MyAccount() {
     { id: "payments", label: "PAYMENTS", icon: CreditCard },
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
     { id: "chatSection", label: "CHAT", icon: MessageSquare },
-    { id: "RefundRequested", label: "Refund Requests", icon: ReceiptIndianRupee },
+    { id: "RefundRequested", label: "REFUNDS", icon: ReceiptIndianRupee },
   ];
   useEffect(() => {
     if (!user) {

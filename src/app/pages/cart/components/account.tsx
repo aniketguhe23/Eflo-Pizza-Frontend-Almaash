@@ -44,6 +44,7 @@ export default function AccountComponent({
   setSelectedAddress,
   setSelectedRestaurantNumber,
   selectedRestaurantNumber,
+  setDeliveryType,
 }: AccountComponentProps) {
   const { user } = useUserStore();
   const { orderItems, addOns } = useCartStore();
@@ -272,6 +273,37 @@ export default function AccountComponent({
                 </div>
               ))}
           </div>
+
+          {/* Delivery / Pickup */}
+          {/* {!showLeft && (
+            <div className="bg-white p-4 max-sm:p-1 rounded shadow flex items-start gap-4 [font-family:'Barlow_Condensed',Helvetica]">
+              <div className="w-10 h-10 flex justify-center items-center">
+                <IoLocationSharp size={24} fill="black" />
+              </div>
+            </div>
+          )} */}
+          {showLeft && (
+            <div className="flex items-center gap-3 px-3 py-2 w-full sm:px-6 sm:py-5 sm:w-auto sm:border-l max-sm:border-b border-white bg-white rounded-md">
+              <label className="flex items-center gap-1 text-black font-medium text-sm cursor-pointer">
+                <input
+                  type="radio"
+                  checked={deliveryType === "delivery"}
+                  onChange={() => setDeliveryType("delivery")}
+                  className="accent-black h-4 w-4 cursor-pointer"
+                />
+                Delivery
+              </label>
+              <label className="flex items-center gap-1 text-black font-medium text-sm cursor-pointer">
+                <input
+                  type="radio"
+                  checked={deliveryType === "pickup"}
+                  onChange={() => setDeliveryType("pickup")}
+                  className="accent-black h-4 w-4 cursor-pointer"
+                />
+                Pickup/Dine In
+              </label>
+            </div>
+          )}
 
           {/* Delivery Address */}
           {!showLeft && (
