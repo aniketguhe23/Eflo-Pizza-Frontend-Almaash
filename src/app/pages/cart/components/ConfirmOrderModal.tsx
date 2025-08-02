@@ -4,6 +4,7 @@ import React from "react";
 
 interface ConfirmOrderModalProps {
   open: boolean;
+  deliveryType: "delivery" | "pickup";
   onClose: () => void;
   onConfirm: () => void;
 }
@@ -12,6 +13,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = ({
   open,
   onClose,
   onConfirm,
+  deliveryType,
 }) => {
   if (!open) return null;
 
@@ -22,7 +24,11 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = ({
           Confirm Your Order
         </h2>
         <p className="text-lg text-gray-600 mb-6">
-          Are you sure you want to place this order ?
+          Are you sure you want to place this order for{" "}
+          <span className="uppercase font-bold">
+            {deliveryType == "pickup" ? "pickup/dinein" : deliveryType}
+          </span>{" "}
+          ?
         </p>
         <div className="flex justify-center gap-3 w-full">
           <button

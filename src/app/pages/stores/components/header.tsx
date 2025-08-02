@@ -59,9 +59,9 @@ export default function Header() {
             <Link href="/pages/stores" className="hover:underline">
               Store Locator
             </Link>
-            <Link href="#" className="hover:underline">
+            {/* <Link href="#" className="hover:underline">
               Contact Us
-            </Link>
+            </Link> */}
             <Link href="/pages/cart" className="relative">
               <ShoppingCart className="h-7 w-7" />
               {totalCartCount > 0 && (
@@ -110,13 +110,13 @@ export default function Header() {
           >
             Store Locator
           </Link>
-          <Link
+          {/* <Link
             href="#"
             className="hover:underline"
             onClick={() => setSidebarOpen(false)}
           >
             Contact Us
-          </Link>
+          </Link> */}
           <Link
             href="/pages/cart"
             className="flex items-center gap-2 hover:underline"

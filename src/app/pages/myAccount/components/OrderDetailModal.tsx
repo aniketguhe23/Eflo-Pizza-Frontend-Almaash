@@ -124,7 +124,7 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
             </div>
             <div className="flex justify-between border-b border-gray-200 pb-2">
               <span className="text-orange-500">Item Discount</span>
-              <span className="text-orange-500">-{order?.discount}</span>
+              <span className="text-orange-500">- {order?.discount}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 flex items-center">
@@ -150,7 +150,7 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
               <span className="text-orange-500">₹{order?.total_price}</span>
             </div>
             <p className="font-semibold text-black">
-              Paid Via Credit/Debit card
+              Paid Via : {order?.payment_method}
             </p>
           </div>
         </div>

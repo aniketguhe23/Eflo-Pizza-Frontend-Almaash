@@ -594,7 +594,7 @@ export default function Orders({
                             {item.name}
                           </h3>
                           <p className="text-sm text-gray-600 font-semibold mb-3">
-                            INR {item.variants?.[0]?.price || 15}
+                            INR {item.variants?.[0]?.price}
                           </p>
                           <button
                             onClick={() => addSuggestionToOrder(item)}
@@ -680,11 +680,15 @@ export default function Orders({
           </>
         )}
       </div>
-      <ConfirmOrderModal
-        open={showConfirmModal}
-        onClose={() => setShowConfirmModal(false)}
-        onConfirm={submitOrder}
-      />
+      {deliveryType && (
+        <ConfirmOrderModal
+          open={showConfirmModal}
+          onClose={() => setShowConfirmModal(false)}
+          onConfirm={submitOrder}
+          deliveryType={deliveryType}
+        />
+      )}
+
       <OrderConfirmationModal
         isOpen={showConfirMationModal}
         onClose={() => setShowConfirMationModal(false)}
