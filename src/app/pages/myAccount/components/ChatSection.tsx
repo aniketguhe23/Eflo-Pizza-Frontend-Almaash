@@ -234,6 +234,8 @@ export default function ChatApp() {
     return text.length > charLimit ? text.slice(0, charLimit) + "..." : text;
   };
 
+  console.log(chatSessions,"chatSessions-------------->")
+
   return (
     <div className="h-[100dvh] md:h-[550px] bg-gray-50 rounded-md shadow border overflow-hidden flex flex-col md:flex-row">
       {/* Sidebar */}
@@ -269,7 +271,8 @@ export default function ChatApp() {
               </div>
               <div className="flex-1">
                 <p className="font-medium text-gray-900">
-                  {chat.admin?.name || "No Name"}
+                  {/* {chat.admin?.name || "No Name"} */}
+                  #{chat.order_id || "No Order Id"}
                 </p>
                 <p className="text-xs text-gray-500">
                   {chat.last_message ? (

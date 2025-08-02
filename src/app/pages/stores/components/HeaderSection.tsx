@@ -257,7 +257,7 @@ export default function HeaderSection({
                   </div>
                 )}
 
-                {restaurantSettings.non_veg && (
+                {/* {restaurantSettings.non_veg && (
                   <div className="flex justify-center items-center gap-2 border border-red-700 px-3 py-3 rounded-md bg-white">
                     <div className="flex items-center gap-2">
                       <div className="w-5 h-5 border border-red-700 rounded-sm flex items-center justify-center">
@@ -266,7 +266,7 @@ export default function HeaderSection({
                     </div>
                     <h1 className="text-sm text-black font-medium">Non Veg</h1>
                   </div>
-                )}
+                )} */}
               </>
             )}
 

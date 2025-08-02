@@ -64,7 +64,9 @@ export default function Header() {
           mobile={createAccountData.mobile}
         />
       )}
-      {isPickupModalOpen && <DineInModal onClose={() => setIsPickupModalOpen(false)} />}
+      {isPickupModalOpen && (
+        <DineInModal onClose={() => setIsPickupModalOpen(false)} />
+      )}
       {isModalOpen && (
         <CitySelectModal
           onClose={() => setIsModalOpen(false)}
@@ -84,7 +86,7 @@ export default function Header() {
               height={200}
               className="w-16 h-16"
             />
-            <h1 className="text-white text-2xl md:text-3xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica]">
+            <h1 className="text-white text-2xl lg:text-3xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica]">
               {data?.nav_logo_text || "ELFO'S PIZZA"}
             </h1>
           </div>
@@ -99,19 +101,42 @@ export default function Header() {
                 </span>
               )}
             </Link>
-            <button onClick={() => setMobileMenuOpen(true)} className="text-white">
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="text-white"
+            >
               <Menu size={28} />
             </button>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-8 w-full justify-end">
+          <div className="hidden lg:flex items-center gap-8  justify-end">
             {/* Nav Links */}
             <nav className="flex gap-8 text-white text-2xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
-              <Link href="/" className="hover:border-b-2 hover:border-white pb-1">HOME</Link>
-              <Link href="/pages/values" className="hover:border-b-2 hover:border-white pb-1">VALUES</Link>
-              <Link href="/pages/build" className="hover:border-b-2 hover:border-white pb-1">BUILD YOUR OWN</Link>
-              <Link href="/pages/menu" className="hover:border-b-2 hover:border-white pb-1">MENU</Link>
+              <Link
+                href="/"
+                className="hover:border-b-2 hover:border-white pb-1"
+              >
+                HOME
+              </Link>
+              <Link
+                href="/pages/values"
+                className="hover:border-b-2 hover:border-white pb-1"
+              >
+                VALUES
+              </Link>
+              <Link
+                href="/pages/build"
+                className="hover:border-b-2 hover:border-white pb-1"
+              >
+                BUILD YOUR OWN
+              </Link>
+              <Link
+                href="/pages/menu"
+                className="hover:border-b-2 hover:border-white pb-1"
+              >
+                MENU
+              </Link>
             </nav>
 
             {/* City & Mode Toggle */}
@@ -130,29 +155,31 @@ export default function Header() {
               </div>
 
               {/* Delivery / Pickup */}
-              <div className="flex">
+              <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica]">
                 <button
                   onClick={() => setActiveTab("delivery")}
-                  className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 flex items-center gap-2 ${
+                  className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     activeTab === "delivery"
                       ? "bg-white text-black"
                       : "bg-transparent text-white border border-white"
                   }`}
                 >
-                  <PiHandCoinsFill size={20} /> Delivery
+                  <PiHandCoinsFill size={20} />
+                  Delivery
                 </button>
                 <button
                   onClick={() => {
                     setActiveTab("pickup");
                     setIsPickupModalOpen(true);
                   }}
-                  className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 flex items-center gap-2 ${
+                  className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     activeTab === "pickup"
                       ? "bg-white text-black"
                       : "bg-transparent text-white border border-white"
                   }`}
                 >
-                  <TbBus size={20} /> Pickup/Dine in
+                  <TbBus size={20} />
+                  Pickup/Dine in
                 </button>
               </div>
 
@@ -193,16 +220,34 @@ export default function Header() {
             </div>
 
             {/* Links */}
-            {["HOME", "VALUES", "BUILD YOUR OWN", "MENU"].map((item, i) => (
-              <Link
-                key={i}
-                href={`/pages/${item === "HOME" ? "" : item.toLowerCase().replace(/\s/g, "")}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-lg font-semibold text-gray-800"
-              >
-                {item}
-              </Link>
-            ))}
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-lg font-semibold text-gray-800"
+            >
+              HOME
+            </Link>
+            <Link
+              href="/pages/values"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-lg font-semibold text-gray-800"
+            >
+              VALUES
+            </Link>
+            <Link
+              href="/pages/build"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-lg font-semibold text-gray-800"
+            >
+              BUILD YOUR OWN
+            </Link>
+            <Link
+              href="/pages/menu"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-lg font-semibold text-gray-800"
+            >
+              MENU
+            </Link>
 
             <hr className="border-gray-300" />
 
@@ -239,8 +284,14 @@ export default function Header() {
                       : "border border-[#f47335] text-[#f47335]"
                   } ${mode === "delivery" ? "rounded-l-md" : "rounded-r-md"}`}
                 >
-                  {mode === "delivery" ? <PiHandCoinsFill size={20} /> : <TbBus size={20} />}
-                  <span>{mode === "delivery" ? "Delivery" : "Pickup/Dine in"}</span>
+                  {mode === "delivery" ? (
+                    <PiHandCoinsFill size={20} />
+                  ) : (
+                    <TbBus size={20} />
+                  )}
+                  <span>
+                    {mode === "delivery" ? "Delivery" : "Pickup/Dine in"}
+                  </span>
                 </button>
               ))}
             </div>

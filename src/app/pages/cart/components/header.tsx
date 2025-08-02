@@ -99,13 +99,15 @@ export default function Header({
         />
       )}
 
-      {isPickupModalOpen && <DineInModal onClose={() => setIsPickupModalOpen(false)} />}
+      {isPickupModalOpen && (
+        <DineInModal onClose={() => setIsPickupModalOpen(false)} />
+      )}
       <>
         {/* Mobile Sidebar */}
         <div
           className={`fixed top-0 left-0 h-full w-64 bg-[#f47335] z-[999] transform transition-transform duration-300 ease-in-out ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } sm:hidden`}
+          } lg:hidden`}
         >
           <div className="flex items-center justify-between p-4 border-b border-white">
             <h2 className="text-white text-lg font-bold">Menu</h2>
@@ -138,7 +140,7 @@ export default function Header({
         {/* Backdrop when sidebar is open */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-[998] sm:hidden"
+            className="fixed inset-0 bg-black/50 z-[998] lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -152,7 +154,7 @@ export default function Header({
 
               <div className="flex justify-center items-center">
                 <Menu
-                  className="text-white w-10 h-10 cursor-pointer sm:hidden"
+                  className="text-white w-10 h-10 cursor-pointer lg:hidden"
                   onClick={() => setSidebarOpen(true)}
                 />
                 <div className="flex sm:hidden justify-end w-full mb-2">
@@ -230,7 +232,7 @@ export default function Header({
             <div
               className={`${
                 showMobileDeliveryOptions ? "flex" : "hidden"
-              } max-sm:flex-col sm:flex sm:flex-row items-center gap-4 w-full sm:w-[55%]`}
+              } max-sm:flex-col sm:flex sm:flex-row items-center gap-4  sm:w-[55%]`}
             >
               {/* Toggle */}
               <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica]">
@@ -263,7 +265,7 @@ export default function Header({
 
               {/* Address */}
               <div
-                className="bg-[#c05a29] text-black rounded-md flex items-center p-2 w-full sm:w-[40%] cursor-pointer"
+                className="bg-[#c05a29] text-black rounded-md flex items-center p-2  sm:w-[40%] cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
               >
                 <MapPin className="text-black mr-2 h-6 w-6" />
@@ -277,8 +279,8 @@ export default function Header({
             </div>
 
             {/* Right: Cart + Sign In */}
-            <div className="flex items-center justify-end gap-4 w-full sm:w-[22%] max-sm:hidden">
-              <div className="relative cursor-pointer">
+            <div className="flex items-center justify-end gap-4  sm:w-[22%] max-sm:hidden">
+              <div className="relative cursor-pointer mr-5">
                 <Link href="/pages/cart" className="relative">
                   <ShoppingCart className="text-white h-7 w-7 sm:h-8 sm:w-8" />
                   {totalCartCount > 0 && (
@@ -288,17 +290,18 @@ export default function Header({
                   )}
                 </Link>
               </div>
-
-              {user ? (
-                <AccountDropdown />
-              ) : (
-                <button
-                  onClick={() => setShowLoginModal(true)}
-                  className="text-white text-base sm:text-xl font-semibold hover:underline cursor-pointer "
-                >
-                  SIGN IN / JOIN
-                </button>
-              )}
+              <div className="mr-15 max-sm:hidden max-lg:hidden">
+                {user ? (
+                  <AccountDropdown />
+                ) : (
+                  <button
+                    onClick={() => setShowLoginModal(true)}
+                    className="text-white text-base sm:text-xl font-semibold hover:underline cursor-pointer "
+                  >
+                    SIGN IN / JOIN
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </header>
