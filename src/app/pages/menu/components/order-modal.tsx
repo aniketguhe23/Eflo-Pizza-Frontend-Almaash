@@ -49,7 +49,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
   const [toppingData, setToppingData] = useState<Record<string, any[]> | null>(
     null
   );
-  const [size, setSize] = useState<"small" | "medium" | "large">("medium");
+  const [size, setSize] = useState<"small" | "medium" | "large">("small");
   const [dough, setDough] = useState<"original" | "sour">("original");
   const [crust, setCrust] = useState<"garlic" | "original">("original");
   const [toppings, setToppings] = useState<string[]>([]);
@@ -175,7 +175,15 @@ const OrderModal: React.FC<OrderModalProps> = ({
               {item.name}
             </h2>
             <button
-              onClick={handleAddToCart}
+              // onClick={handleAddToCart}
+              onClick={() => {
+                const price = item.prices.small ?? 0;
+                if (price <= 0) {
+                  toast.error("Size not available");
+                  return;
+                }
+                handleAddToCart();
+              }}
               className="bg-black text-white py-2 px-4 sm:px-6 text-sm hover:bg-gray-900 cursor-pointer"
             >
               ADD TO CART – INR {item.prices.small}
@@ -195,10 +203,18 @@ const OrderModal: React.FC<OrderModalProps> = ({
             </h2>
 
             <div className="flex bg-white rounded-full overflow-hidden mt-4 sm:mt-6">
-              {(["small", "large"] as const).map((s) => (
+              {(["small", "medium", "large"] as const).map((s) => (
                 <button
                   key={s}
-                  onClick={() => setSize(s)}
+                  // onClick={() => setSize(s)}
+                  onClick={() => {
+                    const selectedPrice = item.prices[s] ?? 0;
+                    if (selectedPrice === 0) {
+                      toast.error("Size not available");
+                      return;
+                    }
+                    setSize(s);
+                  }}
                   className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
                     size === s
                       ? "bg-orange-500 text-white"
@@ -211,7 +227,13 @@ const OrderModal: React.FC<OrderModalProps> = ({
             </div>
 
             <button
-              onClick={handleAddToCart}
+              onClick={() => {
+                if (sizePrice <= 0) {
+                  toast.error("Please select size");
+                  return;
+                }
+                handleAddToCart();
+              }}
               className="bg-black text-white py-2 px-4 sm:px-6 mt-4 sm:mt-6 text-sm hover:bg-gray-900 cursor-pointer"
             >
               ADD TO CART – INR {sizePrice}
