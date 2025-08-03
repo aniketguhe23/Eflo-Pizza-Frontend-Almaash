@@ -56,6 +56,8 @@ export default function RefundRequestedTab() {
 
   return (
     <div className="flex flex-col items-center text-center space-y-6 p-4">
+            <h2 className="text-2xl font-bold mb-4 text-center">Submitted Refund Requests</h2>
+
       <div className="w-full max-w-3xl overflow-y-auto max-h-[550px] border border-gray-300 rounded-lg p-4 no-scrollbar">
         {refunds.length === 0 ? (
           <p className="text-gray-500">No refund requests found.</p>

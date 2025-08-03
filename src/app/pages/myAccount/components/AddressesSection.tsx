@@ -110,7 +110,7 @@ export default function AddressesSection() {
     !user?.address_home && !user?.address_work && !user?.address_others;
 
   return (
-    <div className="space-y-4">
+  <div className="space-y-4 max-h-[570px] overflow-y-auto pr-2">
       <h3 className="text-3xl font-bold mb-4">MANAGE ADDRESSES</h3>
 
       {noAddresses && (
