@@ -59,6 +59,9 @@ const OrderModal: React.FC<OrderModalProps> = ({
   const isDessert = item.category === "DESSERTS";
 
   const toggleTopping = (topping: string) => {
+    // if (sizePrice > 0) {
+    //   return; // Disable toggling if sizePrice is greater than 0
+    // }
     setToppings((prev) =>
       prev.includes(topping)
         ? prev.filter((t) => t !== topping)
@@ -138,6 +141,13 @@ const OrderModal: React.FC<OrderModalProps> = ({
   const scrollSuggestionRight = () => {
     suggestionScrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
   };
+
+  // useEffect(() => {
+  //   const selectedPrice = item.prices[size] ?? 0;
+  //   if (selectedPrice === 0) {
+  //     toast.error("Size not available");
+  //   }
+  // }, [size, item.prices]);
 
   // ✅ Moved after hooks to avoid violating Rules of Hooks
   if (!isOpen) return null;
@@ -234,7 +244,14 @@ const OrderModal: React.FC<OrderModalProps> = ({
                 {(["small", "medium", "large"] as const).map((s) => (
                   <button
                     key={s}
-                    onClick={() => setSize(s)}
+                    onClick={() => {
+                      const selectedPrice = item.prices[s] ?? 0;
+                      if (selectedPrice === 0) {
+                        toast.error("Size not available");
+                        return;
+                      }
+                      setSize(s);
+                    }}
                     className={`w-full py-1 font-semibold uppercase cursor-pointer ${
                       size === s ? "bg-orange-500 text-white" : "text-black"
                     }`}
@@ -314,12 +331,18 @@ const OrderModal: React.FC<OrderModalProps> = ({
                       toppingData.map((topping) => (
                         <div
                           key={topping.id}
-                          className={`w-20 sm:w-24 h-24 sm:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center cursor-pointer border-2 rounded-lg p-1 transition-all ${
+                          className={`w-20 sm:w-24 h-24 sm:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center border-2 rounded-lg p-1 transition-all ${
                             toppings.includes(topping.name)
                               ? "border-orange-500"
                               : "border-transparent"
+                          } ${
+                            sizePrice <= 0
+                              ? "pointer-events-none opacity-50"
+                              : "cursor-pointer"
                           }`}
-                          onClick={() => toggleTopping(topping.name)}
+                          onClick={() => {
+                            if (sizePrice > 0) toggleTopping(topping.name);
+                          }}
                         >
                           <div className="w-10 h-10 sm:w-12 sm:h-12 relative mb-1">
                             <Image
@@ -405,7 +428,14 @@ const OrderModal: React.FC<OrderModalProps> = ({
               <div className="flex justify-center items-center">
                 <button
                   onClick={handleAddToCart}
-                  className="bg-black text-white py-2 px-6 sm:px-10 mt-4 hover:bg-gray-900 cursor-pointer text-sm sm:text-base"
+                  disabled={totalPrice <= 0 || sizePrice <= 0}
+                  className={`bg-black text-white py-2 px-6 sm:px-10 mt-4 text-sm sm:text-base 
+    ${
+      totalPrice > 0 && sizePrice > 0
+        ? "cursor-pointer hover:bg-gray-900"
+        : "cursor-not-allowed"
+    }
+  `}
                 >
                   ADD TO CART – INR {totalPrice}
                 </button>
