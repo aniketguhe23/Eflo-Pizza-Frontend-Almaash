@@ -52,6 +52,8 @@ export default function OrdersSection() {
     fetchOrders();
   }, [fetchOrders]);
 
+  console.log(orderData,"orderData============>")
+
   return (
     <>
       <div className="max-h-[80vh] overflow-y-auto space-y-4 pr-2 scrollbar-thin scrollbar-thumb-orange-400 scrollbar-track-orange-100">
@@ -147,7 +149,7 @@ export default function OrdersSection() {
                     })}
                   </div>
                   <div className="font-bold text-gray-600">
-                    TOTAL PAID : INR {order?.total_price}
+                    TOTAL : INR {order?.total_price}
                   </div>
                 </div>
 
@@ -197,7 +199,7 @@ export default function OrdersSection() {
                       <p>{order?.order_status}</p>
                     )}
 
-                    {order?.order_status === "Cancelled" && (
+                    {(order?.order_status === "Cancelled" && order?.payment_status === "Unpaid") && (
                       <button
                         onClick={() => setRefundOrder(order)}
                         className="bg-red-500 hover:bg-red-600 text-white font-semibold text-sm px-4 py-2 tracking-wider uppercase cursor-pointer"
