@@ -110,7 +110,7 @@ export default function Header({
           } lg:hidden`}
         >
           <div className="flex items-center justify-between p-4 border-b border-white">
-            <h2 className="text-white text-lg font-bold">Menu</h2>
+            <h2 className="text-white text-lg font-bold">Elfo's</h2>
             <X
               className="text-white w-6 h-6 cursor-pointer"
               onClick={() => setSidebarOpen(false)}
@@ -122,6 +122,15 @@ export default function Header({
             </Link>
             <Link href="/pages/cart" onClick={() => setSidebarOpen(false)}>
               Cart
+            </Link>
+            <Link href="/pages/menu" onClick={() => setSidebarOpen(false)}>
+              Menu
+            </Link>
+            <Link href="/pages/build" onClick={() => setSidebarOpen(false)}>
+              Build Your Own
+            </Link>
+            <Link href="/pages/values" onClick={() => setSidebarOpen(false)}>
+             Values
             </Link>
             {user ? (
               <AccountDropdown />

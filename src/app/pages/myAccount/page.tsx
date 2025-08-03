@@ -24,6 +24,7 @@ import SessionExpiredModal from "@/components/SessionExpiredModal";
 import { useFetchUser } from "@/app/hook/useFetchUser";
 import ChatSection from "./components/ChatSection";
 import RefundRequestedTab from "./components/RefundRequestedTab";
+import ContactSupportlist from "./components/ContactSupportlist";
 
 export default function MyAccount() {
   const { isSessionExpired } = useFetchUser(); // ✅ call the hook
@@ -42,6 +43,7 @@ export default function MyAccount() {
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
     { id: "chatSection", label: "CHAT", icon: MessageSquare },
     { id: "RefundRequested", label: "REFUNDS", icon: ReceiptIndianRupee },
+    { id: "contactSupportlist", label: "CONTACT SUPPORT", icon: ReceiptIndianRupee },
   ];
   useEffect(() => {
     if (!user) {
@@ -155,6 +157,7 @@ export default function MyAccount() {
       {activeSection === "addresses" && <AddressesSection />}
       {activeSection === "chatSection" && <ChatSection />}
       {activeSection === "RefundRequested" && <RefundRequestedTab />}
+      {activeSection === "contactSupportlist" && <ContactSupportlist />}
     </div>
   </div>
 </div>

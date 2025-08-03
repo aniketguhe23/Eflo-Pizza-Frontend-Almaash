@@ -9,7 +9,6 @@ interface OrderModalProps {
 
 export default function OrderModal({ onClose, order }: OrderModalProps) {
 
-  console.log(order?.packaging_charge)
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] flex flex-col overflow-hidden">
@@ -50,6 +49,14 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
               </div>
               <div>
                 <p className="text-sm">{order?.address}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-1">
+              🍽️
+              </div>
+              <div>
+                <p className="text-sm">Order Type : <span className="uppercase">{order?.type}</span></p>
               </div>
             </div>
           </div>

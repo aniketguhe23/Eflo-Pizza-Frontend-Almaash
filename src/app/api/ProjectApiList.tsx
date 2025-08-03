@@ -36,6 +36,7 @@ export default function ProjectApiList() {
 
     // resturant data
     api_getAllRefunds: `${baseUrl}/api/refunds/getAllRefunds`,
+    api_getAllContactSupport: `${baseUrl}/api/support/getsupport`,
 
     // resturant data
     api_getResturantData: `${baseUrl}/api/restaurants/get`,
