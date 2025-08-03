@@ -118,7 +118,7 @@ const [menuData, setMenuData] = useState<Menu>({});
           <div className="flex-1 relative overflow-y-auto no-scrollbar">
             {!showLeft && (
               <button
-                className="absolute left-0 top-4 bg-gray-100 px-2 py-1 border border-gray-300 text-sm z-10"
+                className="absolute left-0 top-4 bg-gray-100 px-2 py-1 border border-gray-300 text-sm z-10 max-sm:hidden"
                 onClick={() => setShowLeft(true)}
               >
                 Show Account
