@@ -75,7 +75,7 @@ export default function Header() {
       )}
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-black border-b px-4 lg:px-12 py-2">
+      <header className="fixed top-0 left-0 w-full z-50 bg-black border-b px-4 lg:px-8 xl:px-12 py-2">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center gap-2">
@@ -84,9 +84,12 @@ export default function Header() {
               alt="Elfo's Pizza Logo"
               width={200}
               height={200}
-              className="w-16 h-16"
+              className="w-16 h-16 lg:w-12 lg:h-12"
             />
-            <h1 className="text-white text-2xl lg:text-3xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica]">
+            <h1 className="text-white max-xl:hidden text-2xl lg:text-3xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica] ">
+              {data?.nav_logo_text || "ELFO'S PIZZA"}
+            </h1>
+            <h1 className="text-white xl:hidden lg:hidden text-xl lg:text-xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica] ">
               {data?.nav_logo_text || "ELFO'S PIZZA"}
             </h1>
           </div>
@@ -110,9 +113,9 @@ export default function Header() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-8  justify-start">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 justify-start py-4">
             {/* Nav Links */}
-            <nav className="flex gap-8 text-white text-2xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
+            <nav className="flex gap-6 xl:gap-8 text-white text-2xl max-lg:text-xl max-xl:text-2xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
               <Link
                 href="/"
                 className="hover:border-b-2 hover:border-white pb-1"
@@ -140,31 +143,29 @@ export default function Header() {
             </nav>
 
             {/* City & Mode Toggle */}
-            <div className="flex gap-4 items-center ml-6">
+            <div className="flex gap-3 items-center ml-4">
               <div
-                className="bg-[#868383] text-black rounded-md flex items-center p-2 w-56 cursor-pointer"
+                className="bg-[#868383] text-black rounded-md flex items-center p-2 lg:p-1 lg:w-44 xl:w-56 cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
               >
-                <MapPin className="text-black mr-2 h-6 w-6" />
-                <div className="flex flex-col text-xs">
+                <MapPin className="text-black mr-2 h-6 w-6 lg:h-5 lg:w-5" />
+                <div className="flex flex-col text-xs lg:text-[0.6rem] py-2">
                   <span>Delivery From</span>
-                  <span className="text-[.6rem]">
-                    {selectedCity || "Select your address"}
-                  </span>
+                  <span>{selectedCity || "Select your address"}</span>
                 </div>
               </div>
 
               {/* Delivery / Pickup */}
-              <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica] mr-15">
+              <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica] mr-10">
                 <button
                   onClick={() => setActiveTab("delivery")}
-                  className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                  className={`px-3 py-[5px] lg:text-sm xl:text-base rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     activeTab === "delivery"
                       ? "bg-white text-black"
                       : "bg-transparent text-white border border-white"
                   }`}
                 >
-                  <PiHandCoinsFill size={20} />
+                  <PiHandCoinsFill size={20} className="max-xl:hidden" />
                   Delivery
                 </button>
                 <button
@@ -172,20 +173,20 @@ export default function Header() {
                     setActiveTab("pickup");
                     setIsPickupModalOpen(true);
                   }}
-                  className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                  className={`px-3 py-1 lg:text-sm xl:text-base rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     activeTab === "pickup"
                       ? "bg-white text-black"
                       : "bg-transparent text-white border border-white"
                   }`}
                 >
-                  <TbBus size={20} />
+                  <TbBus size={20} className="max-xl:hidden" />
                   Pickup/Dine in
                 </button>
               </div>
 
               {/* Cart & Login */}
               <Link href="/pages/cart" className="relative">
-                <ShoppingCart className="text-white h-7 w-7" />
+                <ShoppingCart className="text-white h-7 w-7 lg:h-6 lg:w-6" />
                 {totalCartCount > 0 && (
                   <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
                     {totalCartCount}
@@ -198,9 +199,9 @@ export default function Header() {
               ) : (
                 <button
                   onClick={() => setShowLoginModal(true)}
-                  className="text-white font-semibold flex items-center gap-1"
+                  className="text-white font-semibold flex items-center gap-1 text-base lg:text-sm"
                 >
-                  <CircleUserRound className="h-7 w-7" /> SignIn
+                  <CircleUserRound className="h-7 w-7 lg:h-6 lg:w-6" /> SignIn
                 </button>
               )}
             </div>

@@ -281,7 +281,7 @@ export default function Orders({
 
     if (hasUnavailableItems) {
       toast.error(
-        "Some items in your cart are not available. Please remove them to proceed."
+        "Some items in your cart are not available in this resturant. Please remove them to proceed."
       );
       return;
     }

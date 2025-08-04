@@ -14,8 +14,8 @@ export interface Store {
   restaurants_no?: string;
   isClosed: boolean;
   is_active: boolean;
-  today_opening_time: string ;
-  today_closing_time: string ;
+  today_opening_time: string;
+  today_closing_time: string;
 }
 
 interface RawRestaurant {
@@ -68,24 +68,23 @@ export default function FindStorePage({
         today_closing_time: store.today_closing_time || "",
       }));
   } else if (resturantData && resturantData.id) {
-   restaurantsArray = [
-  {
-    id: resturantData.id,
-    name: resturantData.name,
-    location: resturantData.address,
-    hours:
-      resturantData.today_opening_time && resturantData.today_closing_time
-        ? `${resturantData.today_opening_time} AM to ${resturantData.today_closing_time} PM`
-        : "Set restaurant hours first",
-    image: resturantData.logo,
-    restaurants_no: resturantData.restaurants_no,
-    isClosed: resturantData.isClosed ?? true,
-    is_active: resturantData.is_active,
-    today_opening_time: resturantData.today_opening_time || "",
-    today_closing_time: resturantData.today_closing_time || "",
-  },
-];
-
+    restaurantsArray = [
+      {
+        id: resturantData.id,
+        name: resturantData.name,
+        location: resturantData.address,
+        hours:
+          resturantData.today_opening_time && resturantData.today_closing_time
+            ? `${resturantData.today_opening_time} AM to ${resturantData.today_closing_time} PM`
+            : "Set restaurant hours first",
+        image: resturantData.logo,
+        restaurants_no: resturantData.restaurants_no,
+        isClosed: resturantData.isClosed ?? true,
+        is_active: resturantData.is_active,
+        today_opening_time: resturantData.today_opening_time || "",
+        today_closing_time: resturantData.today_closing_time || "",
+      },
+    ];
   }
 
   return (
@@ -108,7 +107,7 @@ export default function FindStorePage({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {restaurantsArray?.map((store) => (
               <StoreCard key={store.id} store={store} />
             ))}

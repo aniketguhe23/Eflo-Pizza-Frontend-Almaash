@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function AppDownloadCard() {
   return (
-    <div className="w-80 h-70 aspect-square max-sm:hidden">
+    <div className="w-80 h-70 aspect-square hidden xl:block">
       <div className="bg-[#f47335] rounded-xl p-4 text-white text-center w-full h-full flex flex-col justify-center">
         <h3 className="text-xl mb-2">Get The App Now!</h3>
         <div className="flex items-center justify-center gap-2 mb-3 border rounded-2xl">
