@@ -57,6 +57,7 @@ export default function ProjectApiList() {
     apipostChatsUserMessages: `${baseUrl}/api/chat/send`,
     apigetChatsUserList: `${baseUrl}/api/chat/user-list`,
     apigetChatsUserAdminConversations: `${baseUrl}/api/chat/user-admin`,
+    apipostReopenChatSession: `${baseUrl}/api/chat/reopenChatSession`,
     
     //Admin
     apigetAllAdmins: `${baseUrl}/api/auth/getall-admins`,
