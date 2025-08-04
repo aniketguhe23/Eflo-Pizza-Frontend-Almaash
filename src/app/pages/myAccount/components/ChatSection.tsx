@@ -6,6 +6,7 @@ import { MessageCircle, Send, User, Bot, ArrowLeft } from "lucide-react";
 import axios from "axios";
 import socket from "@/lib/socket";
 import { useUserStore } from "@/app/store/useUserStore";
+import { toast } from "react-toastify";
 
 interface ChatSession {
   admin: {
@@ -16,6 +17,7 @@ interface ChatSession {
   order_id: string | null;
   last_message: string | null;
   last_message_time: string | null;
+  status: "open" | "closed";
 }
 
 interface ChatMessage {
@@ -31,6 +33,7 @@ export default function ChatApp() {
     apipostChatsUserMessages,
     api_getOrderById,
     apigetAllAdmins,
+    apipostReopenChatSession,
   } = ProjectApiList();
   const { user } = useUserStore();
 
@@ -50,9 +53,13 @@ export default function ChatApp() {
   const [selectedOrderTemp, setSelectedOrderTemp] = useState<any>(null);
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [selectedAdminTemp, setSelectedAdminTemp] = useState<any>(null);
+  const [chatStatus, setChatStatus] = useState<"open" | "closed" | "">("");
 
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileChat, setShowMobileChat] = useState(false);
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [reopening, setReopening] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -217,6 +224,7 @@ export default function ChatApp() {
     setOrderID(chat.order_id || "");
     setUserName(chat.admin.name || "Unknown");
     setAdminId(chat.admin.id);
+    setChatStatus(chat.status || "open");
     setRefreshChat((prev) => !prev);
     if (isMobile) setShowMobileChat(true);
   };
@@ -234,7 +242,31 @@ export default function ChatApp() {
     return text.length > charLimit ? text.slice(0, charLimit) + "..." : text;
   };
 
-  console.log(chatSessions,"chatSessions-------------->")
+  const handleReopenChat = async () => {
+    let payload = {
+      orderId: orderID,
+    };
+    try {
+      setReopening(true);
+      const res = await axios.post(`${apipostReopenChatSession}`, payload);
+      if (res?.data?.status === "success") {
+        setChatStatus("open");
+        setMessages([]);
+        fetchConversations();
+        toast.success(
+          "Chat reopened successfully! Please select your chat to start the conversation "
+        );
+      } else {
+        toast.error("Failed to reopen chat.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong.");
+    } finally {
+      setReopening(false);
+      setShowConfirmModal(false);
+    }
+  };
 
   return (
     <div className="h-[100dvh] md:h-[550px] bg-gray-50 rounded-md shadow border overflow-hidden flex flex-col md:flex-row">
@@ -271,8 +303,8 @@ export default function ChatApp() {
               </div>
               <div className="flex-1">
                 <p className="font-medium text-gray-900">
-                  {/* {chat.admin?.name || "No Name"} */}
-                  #{chat.order_id || "No Order Id"}
+                  {/* {chat.admin?.name || "No Name"} */}#
+                  {chat.order_id || "No Order Id"}
                 </p>
                 <p className="text-xs text-gray-500">
                   {chat.last_message ? (
@@ -314,7 +346,14 @@ export default function ChatApp() {
           <div className="bg-gray-200 rounded-full p-2">
             <Bot size={18} className="text-gray-700" />
           </div>
-          <h3 className="font-semibold text-gray-800">{userName}</h3>
+          <h3 className="font-semibold text-gray-800">
+            {userName}
+            {chatStatus === "closed" && (
+              <span className="ml-2 text-sm text-red-500">
+                (Chat is Closed)
+              </span>
+            )}
+          </h3>
         </div>
 
         {/* Messages */}
@@ -326,39 +365,58 @@ export default function ChatApp() {
               <p className="text-sm">Select a user to start chatting</p>
             </div>
           ) : (
-            messages.map((msg, index) => (
-              <div
-                key={`${msg.role}-${index}-${msg.content.slice(0, 10)}`}
-                className={`flex items-end ${
-                  msg.role === "admin" ? "justify-end" : "justify-start"
-                }`}
-              >
-                {msg.role === "user" && (
-                  <div className="mr-2">
-                    <div className="bg-gray-300 rounded-full p-1">
-                      <User size={16} />
-                    </div>
-                  </div>
-                )}
+            <>
+              {messages.map((msg, index) => (
                 <div
-                  className={`px-4 py-2 rounded-lg max-w-xs text-sm shadow ${
-                    msg.role === "admin"
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-900 border"
+                  key={`${msg.role}-${index}-${msg.content.slice(0, 10)}`}
+                  className={`flex items-end ${
+                    msg.role === "admin" ? "justify-end" : "justify-start"
                   }`}
                 >
-                  {msg.content}
-                </div>
-                {msg.role === "admin" && (
-                  <div className="ml-2">
-                    <div className="bg-gray-300 rounded-full p-1">
-                      <Bot size={16} />
+                  {msg.role === "user" && (
+                    <div className="mr-2">
+                      <div className="bg-gray-300 rounded-full p-1">
+                        <User size={16} />
+                      </div>
                     </div>
+                  )}
+                  <div
+                    className={`px-4 py-2 rounded-lg max-w-xs text-sm shadow ${
+                      msg.role === "admin"
+                        ? "bg-blue-600 text-white"
+                        : "bg-white text-gray-900 border"
+                    }`}
+                  >
+                    {msg.content}
                   </div>
-                )}
-              </div>
-            ))
+                  {msg.role === "admin" && (
+                    <div className="ml-2">
+                      <div className="bg-gray-300 rounded-full p-1">
+                        <Bot size={16} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Show "Chat is closed" message */}
+              {chatStatus === "closed" && (
+                <div className="text-center mt-6 space-y-3">
+                  <div className="text-sm text-red-500 font-medium">
+                    ⚠️ This chat is closed. You can view messages but cannot
+                    reply.
+                  </div>
+                  <button
+                    onClick={() => setShowConfirmModal(true)}
+                    className="px-4 py-2 text-sm  rounded underline transition cursor-pointer"
+                  >
+                    Reopen Chat
+                  </button>
+                </div>
+              )}
+            </>
           )}
+
           {isLoading && (
             <div className="flex items-center gap-2 text-sm text-gray-500 animate-pulse">
               <div className="h-4 w-4 border-2 border-t-transparent border-gray-400 rounded-full animate-spin"></div>
@@ -374,15 +432,19 @@ export default function ChatApp() {
         >
           <input
             type="text"
-            placeholder="Type your message..."
+            placeholder={
+              chatStatus === "closed"
+                ? "Chat is closed"
+                : "Type your message..."
+            }
             value={input}
             onChange={handleInputChange}
-            disabled={isLoading}
+            disabled={isLoading || chatStatus === "closed"}
             className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-400 text-sm"
           />
           <button
             type="submit"
-            disabled={isLoading || !input.trim()}
+            disabled={isLoading || !input.trim() || chatStatus === "closed"}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
           >
             <Send size={18} />
@@ -481,6 +543,33 @@ export default function ChatApp() {
             >
               Start Chat
             </button>
+          </div>
+        </div>
+      )}
+
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black/60 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full space-y-4">
+            <h2 className="text-lg font-semibold">Reopen Chat</h2>
+            <p className="text-sm text-gray-600">
+              Are you sure you want to reopen this chat? The user will be able
+              to respond again.
+            </p>
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                className="px-4 py-2 text-sm text-gray-600 border rounded hover:bg-gray-100 cursor-pointer"
+                onClick={() => setShowConfirmModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                disabled={reopening}
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-60 cursor-pointer"
+                onClick={handleReopenChat}
+              >
+                {reopening ? "Reopening..." : "Yes, Reopen"}
+              </button>
+            </div>
           </div>
         </div>
       )}
