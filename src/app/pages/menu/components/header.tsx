@@ -110,7 +110,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-8  justify-end">
+          <div className="hidden lg:flex items-center gap-8  justify-start">
             {/* Nav Links */}
             <nav className="flex gap-8 text-white text-2xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
               <Link
@@ -155,7 +155,7 @@ export default function Header() {
               </div>
 
               {/* Delivery / Pickup */}
-              <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica]">
+              <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica] mr-15">
                 <button
                   onClick={() => setActiveTab("delivery")}
                   className={`px-3 py-[5px] rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
