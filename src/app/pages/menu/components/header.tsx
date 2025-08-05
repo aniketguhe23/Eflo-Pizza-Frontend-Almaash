@@ -113,7 +113,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8 justify-start py-4">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 justify-start py-2">
             {/* Nav Links */}
             <nav className="flex gap-6 xl:gap-8 text-white text-2xl max-lg:text-xl max-xl:text-2xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
               <Link
@@ -185,8 +185,8 @@ export default function Header() {
               </div>
 
               {/* Cart & Login */}
-              <Link href="/pages/cart" className="relative">
-                <ShoppingCart className="text-white h-7 w-7 lg:h-6 lg:w-6" />
+              <Link href="/pages/cart" className="relative lg:mr-2">
+                <ShoppingCart className="text-white h-7 w-7 lg:h-8 lg:w-8 " />
                 {totalCartCount > 0 && (
                   <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
                     {totalCartCount}

@@ -11,7 +11,8 @@ import ProjectApiList from "@/app/api/ProjectApiList";
 import axios from "axios";
 
 const StoresClient = () => {
-  const { api_getResturantData, api_getCities, api_getLocality } = ProjectApiList();
+  const { api_getResturantData, api_getCities, api_getLocality } =
+    ProjectApiList();
   const searchParams = useSearchParams();
   const city = searchParams.get("city");
 
@@ -31,14 +32,14 @@ const StoresClient = () => {
   }, [city]);
 
   useEffect(() => {
+    // console.log(selectedLocality,"selectedLocality--------------------->")
     const fetchRestaurantList = async () => {
       try {
         let url = `${api_getResturantData}?`;
 
-        if (!searchResturan && city) {
-          url += `city=${city}&`;
-        } else if (searchResturan || selectedLocality) {
-          url += `address=${encodeURIComponent(searchResturan || selectedLocality)}&`;
+        if (searchResturan || selectedLocality) {
+          url += `city=${searchResturan}&`;
+          url += `locality=${selectedLocality}&`;
         }
 
         if (openNow) url += `openNow=true&is_active=true&`;

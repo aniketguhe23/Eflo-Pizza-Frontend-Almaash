@@ -403,8 +403,8 @@ export default function Orders({
   //   return matchedMenuItem?.is_available === false;
   // });
 
-  console.log(menuData, "menuData==========================>");
-  console.log(mergedItems, "mergedItems======================>");
+  // console.log(menuData, "menuData==========================>");
+  // console.log(mergedItems, "mergedItems======================>");
   return (
     <>
       <div className="max-w-4xl mx-auto bg-white min-h-screen pt-10 rounded-lg mt-8 [font-family:'Barlow_Condensed',Helvetica]">
@@ -495,6 +495,14 @@ export default function Orders({
                     <h3 className="font-semibold text-lg sm:text-xl text-gray-900">
                       {item.type === "order" &&
                         (() => {
+                          if (!selectedRestaurantNumber && !restaurantNo) {
+                            return (
+                              <p className="text-sm font-medium text-yellow-600">
+                               No Restaurant Selected
+                              </p>
+                            );
+                          }
+
                           const matchedMenuItem = Object.values(menuData)
                             .flat()
                             .find((menuItem) => {
