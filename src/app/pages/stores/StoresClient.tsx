@@ -24,36 +24,49 @@ const StoresClient = () => {
   const [openNow, setOpenNow] = useState<boolean | undefined>(undefined);
   const [newlyOpen, setNewlyOpen] = useState(false);
   const [selectedLocality, setSelectedLocality] = useState(" ");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (city && !searchResturan) {
+    if (city) {
       setSearchResturant(city);
     }
   }, [city]);
 
+  // console.log(city);
+  // console.log(searchResturan);
+
   useEffect(() => {
-    // console.log(selectedLocality,"selectedLocality--------------------->")
-    const fetchRestaurantList = async () => {
-      try {
-        let url = `${api_getResturantData}?`;
+    const timer = setTimeout(() => {
+      const fetchRestaurantList = async () => {
+        try {
+          setIsLoading(true); // Start loading
+          let url = `${api_getResturantData}?`;
 
-        if (searchResturan || selectedLocality) {
-          url += `city=${searchResturan}&`;
-          url += `locality=${selectedLocality}&`;
+          if (searchResturan) {
+            url += `city=${searchResturan}&`;
+          }
+
+          if (selectedLocality.trim()) {
+            url += `locality=${selectedLocality.trim()}&`;
+          }
+
+          if (openNow) url += `openNow=true&is_active=true&`;
+          if (newlyOpen) url += `newlyOpen=true&`;
+
+          const res = await axios.get(url);
+          const fetched = res.data.data || [];
+          setResturantData(fetched);
+        } catch (error) {
+          console.error("Error fetching restaurants:", error);
+        } finally {
+          setIsLoading(false); // End loading
         }
+      };
 
-        if (openNow) url += `openNow=true&is_active=true&`;
-        if (newlyOpen) url += `newlyOpen=true&`;
+      fetchRestaurantList();
+    }, 500);
 
-        const res = await axios.get(url);
-        const fetched = res.data.data || [];
-        setResturantData(fetched);
-      } catch (error) {
-        console.error("Error fetching restaurants:", error);
-      }
-    };
-
-    fetchRestaurantList();
+    return () => clearTimeout(timer);
   }, [searchResturan, openNow, newlyOpen, selectedLocality]);
 
   useEffect(() => {
@@ -109,6 +122,7 @@ const StoresClient = () => {
         openNow={openNow}
         setNewlyOpen={setNewlyOpen}
         newlyOpen={newlyOpen}
+        isLoading={isLoading}
       />
 
       <Footer />
