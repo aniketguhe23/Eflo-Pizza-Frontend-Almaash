@@ -70,14 +70,31 @@ export default function ChatApp() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // const fetchAllAdmins = async () => {
+  //   try {
+  //     const res = await axios.get(`${apigetAllAdmins}`);
+  //     setAdminData(res.data?.data || []);
+  //   } catch (err) {
+  //     console.error("Error fetching admins:", err);
+  //   }
+  // };
+
   const fetchAllAdmins = async () => {
-    try {
-      const res = await axios.get(`${apigetAllAdmins}`);
-      setAdminData(res.data?.data || []);
-    } catch (err) {
-      console.error("Error fetching admins:", err);
+  try {
+    const res = await axios.get(`${apigetAllAdmins}`);
+    const admins = res.data?.data || [];
+
+    setAdminData(admins);
+
+    // Automatically select the first admin
+    if (admins.length > 0) {
+      setSelectedAdminTemp(admins[0]);
     }
-  };
+  } catch (err) {
+    console.error("Error fetching admins:", err);
+  }
+};
+
 
   const fetchAllOrders = async () => {
     try {
@@ -284,7 +301,7 @@ export default function ChatApp() {
         <div className="p-4 border-b">
           <button
             onClick={() => setShowOrderModal(true)}
-            className="w-full text-sm px-4 py-2 border border-blue-500 text-blue-600 rounded hover:bg-blue-50 cursor-pointer"
+            className="w-full text-sm px-4 py-2 border border-orange-500 text-orange-600 rounded hover:bg-orange-50 cursor-pointer"
           >
             {orderDetails?.Order_no || "Select an Order"}
           </button>
@@ -337,7 +354,7 @@ export default function ChatApp() {
           {isMobile && showMobileChat && (
             <button
               onClick={() => setShowMobileChat(false)}
-              className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
+              className="text-orange-600 hover:text-orange-800 flex items-center gap-2"
             >
               <ArrowLeft size={18} />
               Back
@@ -347,7 +364,7 @@ export default function ChatApp() {
             <Bot size={18} className="text-gray-700" />
           </div>
           <h3 className="font-semibold text-gray-800">
-            {userName}
+            Elfo Support
             {chatStatus === "closed" && (
               <span className="ml-2 text-sm text-red-500">
                 (Chat is Closed)
@@ -383,7 +400,7 @@ export default function ChatApp() {
                   <div
                     className={`px-4 py-2 rounded-lg max-w-xs text-sm shadow ${
                       msg.role === "admin"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-orange-500 text-white"
                         : "bg-white text-gray-900 border"
                     }`}
                   >
@@ -445,7 +462,7 @@ export default function ChatApp() {
           <button
             type="submit"
             disabled={isLoading || !input.trim() || chatStatus === "closed"}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
+            className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
           >
             <Send size={18} />
           </button>
@@ -495,7 +512,7 @@ export default function ChatApp() {
             </div>
 
             {/* Admin Dropdown */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="text-sm font-medium mb-1 block">
                 Select an Admin
               </label>
@@ -516,7 +533,7 @@ export default function ChatApp() {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
 
             {/* Confirm Button */}
             <button
@@ -539,7 +556,7 @@ export default function ChatApp() {
                 }
               }}
               disabled={!selectedOrderTemp || !selectedAdminTemp}
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
+              className="w-full bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 disabled:opacity-50 cursor-pointer"
             >
               Start Chat
             </button>
@@ -564,7 +581,7 @@ export default function ChatApp() {
               </button>
               <button
                 disabled={reopening}
-                className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-60 cursor-pointer"
+                className="px-4 py-2 text-sm bg-orange-600 text-white rounded hover:bg-orange-700 disabled:opacity-60 cursor-pointer"
                 onClick={handleReopenChat}
               >
                 {reopening ? "Reopening..." : "Yes, Reopen"}

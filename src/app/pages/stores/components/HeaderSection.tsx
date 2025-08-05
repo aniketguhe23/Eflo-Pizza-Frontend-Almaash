@@ -32,9 +32,13 @@ export default function HeaderSection({
           setIsDropdownVisible(false);
           return;
         }
-        const res = await axios.get(
-          `${api_getResturantData}?search=${encodeURIComponent(searchResturan)}`
-        );
+
+        let url = `${api_getResturantData}?`;
+
+        // url += `city=${encodeURIComponent(searchResturan)}&`;
+        url += `locality=${encodeURIComponent(searchResturan)}&`;
+
+        const res = await axios.get(url);
         const fetched = res.data.data || [];
         setSearchResturantData(fetched);
         setIsDropdownVisible(true);
@@ -112,9 +116,15 @@ export default function HeaderSection({
           </div>
 
           <div className="absolute bottom-4 right-4 flex items-center gap-5 lg:static lg:mt-4">
-            <button className="text-gray-600 hover:text-gray-700">
-              <BiSolidPhoneCall className="w-6 h-6" />
-            </button>
+            <div className="relative group">
+              <button className="text-gray-600 hover:text-gray-700">
+                <BiSolidPhoneCall className="w-6 h-6" />
+              </button>
+              <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs px-2 py-1 rounded shadow-lg z-10 whitespace-nowrap">
+                {resturantData?.contact_phone}
+              </div>
+            </div>
+
             <button className="text-gray-600 hover:text-gray-700">
               <Info className="w-5 h-5" />
             </button>
@@ -184,7 +194,7 @@ export default function HeaderSection({
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black w-4 h-4" />
               <input
                 type="text"
-                placeholder="Enter city or locality"
+                placeholder="Enter your locality"
                 className="w-full pl-3 pr-10 py-3 rounded-lg text-sm bg-gray-300 placeholder:text-gray-900 focus:outline-none"
                 value={searchResturan}
                 onChange={(e) => {

@@ -9,6 +9,7 @@ export interface Store {
   id: number;
   name: string;
   location: string;
+  locality: string;
   hours: string;
   image?: string;
   restaurants_no?: string;
@@ -22,6 +23,7 @@ interface RawRestaurant {
   id: number;
   name: string;
   address: string;
+  locality: string;
   today_opening_time: string;
   today_closing_time: string;
   logo?: string;
@@ -56,6 +58,7 @@ export default function FindStorePage({
         id: store.id,
         name: store.name,
         location: store.address,
+        locality: store.locality,
         hours:
           store.today_opening_time && store.today_closing_time
             ? `${store.today_opening_time} AM to ${store.today_closing_time} PM`
@@ -73,6 +76,7 @@ export default function FindStorePage({
         id: resturantData.id,
         name: resturantData.name,
         location: resturantData.address,
+        locality: resturantData.locality,
         hours:
           resturantData.today_opening_time && resturantData.today_closing_time
             ? `${resturantData.today_opening_time} AM to ${resturantData.today_closing_time} PM`
