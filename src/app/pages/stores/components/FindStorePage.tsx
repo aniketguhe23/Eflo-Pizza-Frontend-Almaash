@@ -38,6 +38,7 @@ interface FindStorePageProps {
   openNow: any;
   setNewlyOpen: any;
   newlyOpen: any;
+  isLoading: any;
 }
 
 export default function FindStorePage({
@@ -46,6 +47,7 @@ export default function FindStorePage({
   openNow,
   setNewlyOpen,
   newlyOpen,
+  isLoading
 }: FindStorePageProps) {
   let restaurantsArray: Store[] = [];
 
@@ -104,15 +106,21 @@ export default function FindStorePage({
           Available for Dine-In Order
         </h2>
 
-        {restaurantsArray.length === 0 ? (
-          <div className="flex  min-h-[300px]">
+        {isLoading ? (
+          <div className="min-h-[300px] flex items-center justify-center">
+            <span className="text-gray-500 text-base animate-pulse">
+              Loading restaurants...
+            </span>
+          </div>
+        ) : restaurantsArray.length === 0 ? (
+          <div className="flex min-h-[300px] items-center justify-center">
             <p className="text-gray-600 text-lg font-medium">
               No restaurants found with this search.
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {restaurantsArray?.map((store) => (
+            {restaurantsArray.map((store) => (
               <StoreCard key={store.id} store={store} />
             ))}
           </div>
