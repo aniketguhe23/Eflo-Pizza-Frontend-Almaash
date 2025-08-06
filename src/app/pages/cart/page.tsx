@@ -35,11 +35,11 @@ interface MenuItem {
 
 type Menu = Record<string, MenuItem[]>;
 
-
 const Page = () => {
   const { user } = useUserStore();
   const { api_getItemsOfResturant } = ProjectApiList();
   const restaurantNo = useCartStore((state) => state.restaurantNo);
+  const restaurantAddress = useCartStore((state) => state.restaurantAddress);
 
   const [showLeft, setShowLeft] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
@@ -48,13 +48,19 @@ const Page = () => {
     return false;
   });
   const [loading, setLoading] = useState(true);
-const [menuData, setMenuData] = useState<Menu>({});
+  const [menuData, setMenuData] = useState<Menu>({});
   const [categories, setCategories] = useState<string[]>([]);
 
   const [showRight, setShowRight] = useState(false);
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null); // ✅ Fix added
   const [hydrated, setHydrated] = useState(false);
-  const [deliveryType, setDeliveryType] = useState<any>("delivery");
+  // const [deliveryType, setDeliveryType] = useState<any>("delivery");
+  const [deliveryType, setDeliveryType] = useState<any>(
+    restaurantAddress ? "pickup" : "delivery"
+  );
+
+  // console.log(restaurantAddress)
+
   const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
     null
   );
@@ -63,13 +69,19 @@ const [menuData, setMenuData] = useState<Menu>({});
   >(null);
 
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
-    user?.address_home || null
+    restaurantAddress ? null : user?.address_home || null
   );
+
+  // const [selectedAddress, setSelectedAddress] = useState<string | null>(
+  //   user?.address_home || null
+  // );
 
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const apiUrl = `${api_getItemsOfResturant}/${selectedRestaurantNumber ? selectedRestaurantNumber : restaurantNo}/items`;
+        const apiUrl = `${api_getItemsOfResturant}/${
+          selectedRestaurantNumber ? selectedRestaurantNumber : restaurantNo
+        }/items`;
 
         const response = await axios.get(apiUrl);
         const data = response?.data?.data || {};
@@ -86,7 +98,7 @@ const [menuData, setMenuData] = useState<Menu>({});
     if (selectedRestaurantNumber || restaurantNo) {
       fetchMenuData();
     }
-  }, [api_getItemsOfResturant, selectedRestaurantNumber,restaurantNo]);
+  }, [api_getItemsOfResturant, selectedRestaurantNumber, restaurantNo]);
 
   // console.log(menuData, "menuData=================>");
 
@@ -98,7 +110,8 @@ const [menuData, setMenuData] = useState<Menu>({});
       {!user && <UserBootstrap />}
 
       <CitySelectGate>
-        <Header setDeliveryType={setDeliveryType} deliveryType={deliveryType} />
+        <Header />
+        {/* <Header setDeliveryType={setDeliveryType} deliveryType={deliveryType} /> */}
         <div className="flex h-screen overflow-hidden">
           {/* Left Sidebar */}
           <AccountSection
@@ -130,7 +143,7 @@ const [menuData, setMenuData] = useState<Menu>({});
               appliedCoupon={appliedCoupon}
               deliveryType={deliveryType}
               onRemoveCoupon={() => setAppliedCoupon(null)}
-              setDeliveryType={setDeliveryType}
+              // setDeliveryType={setDeliveryType}
               selectedRestaurant={selectedRestaurant}
               selectedAddress={selectedAddress}
               selectedRestaurantNumber={selectedRestaurantNumber}

@@ -17,20 +17,23 @@ import { PiHandCoinsFill } from "react-icons/pi";
 import { TbBus } from "react-icons/tb";
 import DineInModal from "@/components/dineIn-modal";
 
-interface deliveryProps {
-  deliveryType?: "delivery" | "pickup";
-  setDeliveryType: React.Dispatch<
-    React.SetStateAction<"delivery" | "pickup" | undefined>
-  >;
-}
+// interface deliveryProps {
+//   deliveryType?: "delivery" | "pickup";
+//   // setDeliveryType: React.Dispatch<
+//   //   React.SetStateAction<"delivery" | "pickup" | undefined>
+//   // >;
+// }
 
-export default function Header({
-  setDeliveryType,
-  deliveryType,
-}: deliveryProps) {
+export default function Header(
+  {
+    // setDeliveryType,
+    // deliveryType,
+  }
+) {
   const { data } = useHomeStore();
   const { orderItems } = useCartStore();
   const { pizzas } = useBuildYourOwnPizzaCart();
+  const restaurantAddress = useCartStore((state) => state.restaurantAddress);
 
   const { user } = useUserStore();
 
@@ -45,7 +48,10 @@ export default function Header({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"delivery" | "pickup">("delivery");
+  const [activeTab, setActiveTab] = useState<"delivery" | "pickup">(
+    restaurantAddress ? "pickup" : "delivery"
+  );
+
   const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
 
   useEffect(() => {
@@ -130,7 +136,7 @@ export default function Header({
               Build Your Own
             </Link>
             <Link href="/pages/values" onClick={() => setSidebarOpen(false)}>
-             Values
+              Values
             </Link>
             {user ? (
               <AccountDropdown />
@@ -263,7 +269,7 @@ export default function Header({
                   }}
                   className={`px-3 py-1 rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     activeTab === "pickup"
-                      ? "bg-white text-black"
+                      ? "bg-white text-black py-1.5"
                       : "bg-transparent text-white border border-white"
                   }`}
                 >

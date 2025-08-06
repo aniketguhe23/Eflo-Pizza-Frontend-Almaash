@@ -32,12 +32,13 @@ export default function DeliveryAddressModal({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [doorNumber, setDoorNumber] = useState("");
   const [landmark, setLandmark] = useState("");
-  const [addressType, setAddressType] = useState<"Home" | "Work" | "Other">(
-    "Home"
-  );
-  const [addressKey, setAddressKey] = useState<"home" | "work" | "others">(
-    "home"
-  );
+  const [addressType, setAddressType] = useState<"Home" | "Work" | "Other">("Home");
+  const [addressKey, setAddressKey] = useState<"home" | "work" | "others">("home");
+
+  const [errors, setErrors] = useState({
+    doorNumber: "",
+    landmark: "",
+  });
 
   useEffect(() => {
     if (initialData) {
@@ -53,9 +54,21 @@ export default function DeliveryAddressModal({
       setAddressType("Home");
       setAddressKey("home");
     }
+    setErrors({ doorNumber: "", landmark: "" });
   }, [initialData, isOpen]);
 
+  const validate = () => {
+    const newErrors = {
+      doorNumber: doorNumber.trim() ? "" : "Address is required",
+      landmark: landmark.trim() ? "" : "Landmark is required",
+    };
+    setErrors(newErrors);
+    return !newErrors.doorNumber && !newErrors.landmark;
+  };
+
   const handleSave = () => {
+    if (!validate()) return;
+
     const addressData = {
       phoneNumber,
       doorNumber,
@@ -63,6 +76,7 @@ export default function DeliveryAddressModal({
       addressType,
       addressKey,
     };
+
     onSave(addressData);
     onClose();
   };
@@ -70,103 +84,103 @@ export default function DeliveryAddressModal({
   if (!isOpen) return null;
 
   return (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 [font-family:'Barlow_Condensed',Helvetica] px-2 sm:px-0">
-  <div className="bg-white w-full sm:max-w-md rounded-lg shadow-lg sm:w-full">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2 sm:px-0">
+      <div className="bg-white w-full sm:max-w-md rounded-lg shadow-lg">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-4 border-b">
+          <h2 className="text-lg sm:text-xl font-bold text-center flex-1">
+            {initialData ? "EDIT DELIVERY ADDRESS" : "SAVE DELIVERY ADDRESS"}
+          </h2>
+          <button onClick={onClose} className="h-8 w-8 text-orange-500 hover:text-orange-600 font-bold text-xl">
+            <RxCross1 className="hover:text-red-600" />
+          </button>
+        </div>
 
-    {/* Header */}
-    <div className="flex items-center justify-between px-3 sm:px-4 py-3 sm:py-4 border-b">
-      <h2 className="text-lg sm:text-xl font-bold text-center flex-1">
-        {initialData ? "EDIT DELIVERY ADDRESS" : "SAVE DELIVERY ADDRESS"}
-      </h2>
-      <button
-        onClick={onClose}
-        className="h-7 w-7 sm:h-8 sm:w-8 text-orange-500 hover:text-orange-600 font-bold text-xl cursor-pointer"
-      >
-        <RxCross1 className="hover:text-red-600" />
-      </button>
-    </div>
+        {/* Map Section */}
+        <div className="relative h-40 sm:h-56 bg-gray-100 mx-4 mt-4 rounded-lg overflow-hidden">
+          <Image src="/MAPS.png" alt="Map Route" fill className="object-cover" />
+        </div>
 
-    {/* Map Section */}
-    <div className="relative h-40 sm:h-56 bg-gray-100 mx-3 sm:mx-4 mt-3 sm:mt-4 rounded-lg overflow-hidden">
-      <Image src="/MAPS.png" alt="Map Route" fill className="object-cover" />
-    </div>
+        {/* Form Section */}
+        <div className="px-4 py-4 space-y-4">
+          {/* Phone Number */}
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            placeholder="Phone Number (Optional)"
+            value={phoneNumber}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d{0,15}$/.test(value)) setPhoneNumber(value);
+            }}
+            maxLength={15}
+            className="w-full p-3 border border-orange-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+          />
 
-    {/* Form Section */}
-    <div className="px-3 sm:px-4 py-3 sm:py-4 space-y-3 sm:space-y-4">
-      <input
-        type="text"
-        inputMode="numeric"
-        pattern="[0-9]*"
-        placeholder="Phone Number (Optional)"
-        value={phoneNumber}
-        onChange={(e) => {
-          const value = e.target.value;
-          if (/^\d{0,15}$/.test(value)) setPhoneNumber(value);
-        }}
-        maxLength={15}
-        className="w-full p-2.5 sm:p-3 border border-orange-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm sm:text-base"
-      />
+          {/* Door Number */}
+          <div>
+            <input
+              type="text"
+              placeholder="Door / Flat No./ House *"
+              value={doorNumber}
+              onChange={(e) => setDoorNumber(e.target.value)}
+              className={`w-full p-3 border ${
+                errors.doorNumber ? "border-red-500" : "border-orange-300"
+              } rounded focus:outline-none focus:ring-2 focus:ring-orange-500 text-base`}
+            />
+            {errors.doorNumber && <p className="text-red-500 text-sm mt-1">{errors.doorNumber}</p>}
+          </div>
 
-      <input
-        type="text"
-        placeholder="Door / Flat No./ House"
-        value={doorNumber}
-        onChange={(e) => setDoorNumber(e.target.value)}
-        className="w-full p-2.5 sm:p-3 border border-orange-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm sm:text-base"
-      />
+          {/* Landmark */}
+          <div>
+            <input
+              type="text"
+              placeholder="Landmark *"
+              value={landmark}
+              onChange={(e) => setLandmark(e.target.value)}
+              className={`w-full p-3 border ${
+                errors.landmark ? "border-red-500" : "border-orange-300"
+              } rounded focus:outline-none focus:ring-2 focus:ring-orange-500 text-base`}
+            />
+            {errors.landmark && <p className="text-red-500 text-sm mt-1">{errors.landmark}</p>}
+          </div>
 
-      <input
-        type="text"
-        placeholder="Landmark"
-        value={landmark}
-        onChange={(e) => setLandmark(e.target.value)}
-        className="w-full p-2.5 sm:p-3 border border-orange-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm sm:text-base"
-      />
+          {/* Address Type Toggle */}
+          <div className="flex flex-col sm:flex-row gap-2">
+            {["Home", "Work", "Others"].map((type) => {
+              const isDisabled = !!initialData;
+              const isSelected = addressType === type;
 
-      {/* Address Type Toggle */}
-      <div className="flex flex-col sm:flex-row gap-2">
-        {["Home", "Work", "Others"].map((type) => {
-          const isDisabled = !!initialData;
-          const isSelected = addressType === type;
+              return (
+                <button
+                  key={type}
+                  onClick={() => {
+                    if (!isDisabled) {
+                      setAddressType(type as "Home" | "Work" | "Other");
+                      setAddressKey(type.toLowerCase() as "home" | "work" | "others");
+                    }
+                  }}
+                  disabled={isDisabled}
+                  className={`flex-1 p-2 text-lg rounded border font-medium transition-all duration-200
+                    ${isSelected ? "bg-[#FF5B00] text-white" : "border-orange-300 text-gray-700"}
+                    ${isDisabled ? "cursor-not-allowed" : "hover:bg-orange-100 cursor-pointer"}`}
+                >
+                  {type}
+                </button>
+              );
+            })}
+          </div>
 
-          return (
-            <button
-              key={type}
-              onClick={() => {
-                if (!isDisabled) {
-                  setAddressType(type as "Home" | "Work" | "Other");
-                  setAddressKey(type.toLowerCase() as "home" | "work" | "others");
-                }
-              }}
-              disabled={isDisabled}
-              className={`flex-1 p-2 text-sm sm:text-lg rounded border font-medium transition-all duration-200
-                ${
-                  isSelected
-                    ? "bg-[#FF5B00] text-white"
-                    : "border-orange-300 text-gray-700"
-                }
-                ${
-                  isDisabled
-                    ? "cursor-not-allowed"
-                    : "hover:bg-orange-100 cursor-pointer"
-                }`}
-            >
-              {type}
-            </button>
-          );
-        })}
+          {/* Submit Button */}
+          <button
+            onClick={handleSave}
+            className="w-full bg-[#FF5B00] hover:bg-orange-600 text-white font-semibold py-3 rounded text-base"
+          >
+            {initialData ? "UPDATE ADDRESS" : "SAVE ADDRESS & PROCEED"}
+          </button>
+        </div>
       </div>
-
-      {/* Submit Button */}
-      <button
-        onClick={handleSave}
-        className="w-full bg-[#FF5B00] hover:bg-orange-600 text-white font-semibold py-2.5 sm:py-3 rounded text-sm sm:text-base cursor-pointer"
-      >
-        {initialData ? "UPDATE ADDRESS" : "SAVE ADDRESS & PROCEED"}
-      </button>
     </div>
-  </div>
-</div>
-
   );
 }

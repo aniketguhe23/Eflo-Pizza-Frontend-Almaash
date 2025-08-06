@@ -14,7 +14,9 @@ export default function AddressesSection() {
   const [showModal, setShowModal] = useState(false);
   const [editAddressData, setEditAddressData] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<"home" | "work" | "others" | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<
+    "home" | "work" | "others" | null
+  >(null);
 
   const parseAddress = (addr: string) => {
     const [doorNumber = "", landmark = "", phoneNumber = ""] = addr.split(",");
@@ -87,11 +89,13 @@ export default function AddressesSection() {
   };
 
   const handleAddAddress = () => {
-    const availableTypes: { type: string; key: "home" | "work" | "others" }[] = [];
+    const availableTypes: { type: string; key: "home" | "work" | "others" }[] =
+      [];
 
     if (!user?.address_home) availableTypes.push({ type: "Home", key: "home" });
     if (!user?.address_work) availableTypes.push({ type: "Work", key: "work" });
-    if (!user?.address_others) availableTypes.push({ type: "Others", key: "others" });
+    if (!user?.address_others)
+      availableTypes.push({ type: "Others", key: "others" });
 
     if (availableTypes.length > 0) {
       const { type, key } = availableTypes[0]; // Pick the first available type
@@ -110,11 +114,13 @@ export default function AddressesSection() {
     !user?.address_home && !user?.address_work && !user?.address_others;
 
   return (
-  <div className="space-y-4 max-h-[570px] overflow-y-auto pr-2">
+    <div className="space-y-4 max-h-[570px] overflow-y-auto pr-2">
       <h3 className="text-3xl font-bold mb-4">MANAGE ADDRESSES</h3>
 
       {noAddresses && (
-        <div className="text-center text-gray-600 mb-4">No addresses found.</div>
+        <div className="text-center text-gray-600 mb-4">
+          No addresses found.
+        </div>
       )}
 
       {/* Address Cards */}
@@ -146,7 +152,9 @@ export default function AddressesSection() {
         <AddressCard
           label="OTHERS"
           value={user.address_others}
-          onEdit={() => handleEditClick("Others", "others", user.address_others)}
+          onEdit={() =>
+            handleEditClick("Others", "others", user.address_others)
+          }
           onDelete={() => {
             setDeleteTarget("others");
             setShowDeleteModal(true);

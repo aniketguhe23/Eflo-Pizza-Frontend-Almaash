@@ -34,7 +34,7 @@ export default function FeaturedSlider() {
           {/* Left Arrow */}
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 z-10 p-2 text-2xl sm:text-3xl font-bold bg-white shadow-md rounded-full -ml-4 sm:-ml-10 cursor-pointer hover:bg-amber-200"
+            className="absolute max-sm:left-2 left-0 z-10 p-2 text-2xl sm:text-3xl font-bold bg-white shadow-md rounded-full -ml-4 sm:-ml-10 cursor-pointer hover:bg-amber-200"
           >
             &lt;
           </button>
@@ -117,7 +117,7 @@ export default function FeaturedSlider() {
           {/* Right Arrow */}
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 z-10 p-2 text-2xl sm:text-3xl font-bold bg-white shadow-md rounded-full -mr-4 sm:-mr-10 cursor-pointer hover:bg-amber-200"
+            className="absolute max-sm:right-2 right-0 z-10 p-2 text-2xl sm:text-3xl font-bold bg-white shadow-md rounded-full -mr-4 sm:-mr-10 cursor-pointer hover:bg-amber-200"
           >
             &gt;
           </button>

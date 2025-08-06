@@ -77,13 +77,14 @@ export default function OrderConfirmationModal({
         </h1>
 
         {/* Address */}
-        <div className="flex items-start space-x-3 mb-8 text-left justify-center">
-          <span className="text-2xl mt-1">🏠</span>
-          <div className="text-orange-500 font-medium leading-relaxed flex justify-center items-center">
-            {orderResponse?.data?.address ?? "Address not available"}
+        {orderResponse?.data?.address && (
+          <div className="flex items-start space-x-3 mb-8 text-left justify-center">
+            <span className="text-2xl mt-1">🏠</span>
+            <div className="text-orange-500 font-medium leading-relaxed flex justify-center items-center">
+              {orderResponse?.data?.address ?? "Address not available"}
+            </div>
           </div>
-        </div>
-
+        )}
         {/* Button */}
         <button
           onClick={() => router.push("/pages/myAccount")}

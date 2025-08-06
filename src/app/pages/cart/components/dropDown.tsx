@@ -12,6 +12,7 @@ export default function AccountDropdown() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const logout = useUserStore((state) => state.logout);
   const router = useRouter();
+  const { user } = useUserStore();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,9 +41,15 @@ export default function AccountDropdown() {
       {/* Avatar Button */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="text-white text-xl font-semibold hover:underline cursor-pointer"
+        className="relative flex items-center gap-2 p-2 rounded-md cursor-pointer"
       >
-        <CircleUserRound className="h-9 w-9 text-white max-sm:text-black max-lg:text-black" />
+        <CircleUserRound className="h-9 w-9 max-xl:h-6 max-xl:w-6 max-lg:h-9 max-lg:w-9  text-white max-sm:text-black max-lg:text-black" />
+
+        {user?.firstName && (
+          <span className="absolute -bottom-4 left-1/2 -translate-x-1/2  text-white max-sm:text-black max-lg:text-black text-sm max-xl:text-xs font-medium py-1 px-3 rounded  min-w-max whitespace-nowrap">
+            {user.firstName} {user.lastName}
+          </span>
+        )}
       </button>
 
       {/* Dropdown Panel */}
@@ -81,7 +88,7 @@ export default function AccountDropdown() {
       {/* Confirmation Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-80 max-w-full text-center">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-90 max-w-full text-center">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Are you sure you want to sign out?
             </h2>

@@ -51,9 +51,9 @@ interface OrdersProps {
   selectedAddress: string | null; // 🔧 FIXED
   selectedRestaurantNumber: string | null; // 🔧 FIXED
   deliveryType?: "delivery" | "pickup";
-  setDeliveryType: React.Dispatch<
-    React.SetStateAction<"delivery" | "pickup" | undefined>
-  >;
+  // setDeliveryType: React.Dispatch<
+  //   React.SetStateAction<"delivery" | "pickup" | undefined>
+  // >;
 }
 
 export default function Orders({
@@ -213,7 +213,7 @@ export default function Orders({
 
     const payload = {
       user_id: user?.waId || null,
-      address: selectedAddress,
+      address: deliveryType == 'delivery' ? selectedAddress : "",
       restaurant_name: restaurantNo ? restaurantNo : selectedRestaurantNumber,
       type: deliveryType,
       items: mergedItems,
@@ -288,10 +288,11 @@ export default function Orders({
 
     // ------------
 
-    if (!selectedAddress) {
-      toast.error("Please select a Address before placing the order.");
+    if (deliveryType === "delivery" && !selectedAddress) {
+      toast.error("Please select an address before placing the order.");
       return;
     }
+
     if (!deliveryType) {
       toast.error("Please select a Pickup/Delivery before placing the order.");
       return;
@@ -498,7 +499,7 @@ export default function Orders({
                           if (!selectedRestaurantNumber && !restaurantNo) {
                             return (
                               <p className="text-sm font-medium text-yellow-600">
-                               No Restaurant Selected
+                                No Restaurant Selected
                               </p>
                             );
                           }
