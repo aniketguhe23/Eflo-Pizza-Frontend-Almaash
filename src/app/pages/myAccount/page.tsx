@@ -33,7 +33,7 @@ export default function MyAccount() {
 
   const [activeSection, setActiveSection] = useState("orders");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">();
+  // const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">();
 
   const sidebarItems = [
     { id: "orders", label: "ORDERS", icon: ShoppingBag },
@@ -65,7 +65,8 @@ export default function MyAccount() {
 
   return (
     <>
-      <Header setDeliveryType={setDeliveryType} deliveryType={deliveryType} />
+      {/* <Header setDeliveryType={setDeliveryType} deliveryType={deliveryType} /> */}
+      <Header  />
       <div className="min-h-screen mt-25  [font-family:'Barlow_Condensed',Helvetica] shadow-md ">
         <div className="bg-white">
           <div className="max-w-6xl mx-auto px-4 py-4">

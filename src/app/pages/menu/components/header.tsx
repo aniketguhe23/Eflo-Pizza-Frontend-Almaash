@@ -115,7 +115,7 @@ export default function Header() {
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-6 xl:gap-8 justify-start py-2">
             {/* Nav Links */}
-            <nav className="flex gap-6 xl:gap-8 text-white text-2xl max-lg:text-xl max-xl:text-2xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
+            <nav className="flex gap-6 xl:gap-8 text-white text-2xl max-lg:text-xl max-xl:text-xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
               <Link
                 href="/"
                 className="hover:border-b-2 hover:border-white pb-1"
@@ -175,7 +175,7 @@ export default function Header() {
                   }}
                   className={`px-3 py-1 lg:text-sm xl:text-base rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     activeTab === "pickup"
-                      ? "bg-white text-black"
+                      ? "bg-white text-black py-1.5"
                       : "bg-transparent text-white border border-white"
                   }`}
                 >
@@ -186,9 +186,9 @@ export default function Header() {
 
               {/* Cart & Login */}
               <Link href="/pages/cart" className="relative lg:mr-2">
-                <ShoppingCart className="text-white h-7 w-7 lg:h-8 lg:w-8 " />
+                <ShoppingCart className="text-white h-8 w-8 max-xl:h-6 max-xl:w-6" />{" "}
                 {totalCartCount > 0 && (
-                  <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
+                  <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 max-xl:h-3 max-xl:w-3 flex items-center justify-center text-sm max-xl:text-xs font-bold">
                     {totalCartCount}
                   </span>
                 )}

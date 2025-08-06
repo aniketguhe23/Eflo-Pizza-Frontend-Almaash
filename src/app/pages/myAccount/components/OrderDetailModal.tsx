@@ -8,7 +8,6 @@ interface OrderModalProps {
 }
 
 export default function OrderModal({ onClose, order }: OrderModalProps) {
-
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] flex flex-col overflow-hidden">
@@ -42,21 +41,26 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
                 </p>
               </div>
             </div>
+            {order?.address && (
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-1">
+                  🏠
+                </div>
+                <div className="text-sm">
+                  {/* <p className="text-sm">{order?.address}</p> */}
+                   Address : <span className="">{order?.address}</span>
+                </div>
+              </div>
+            )}
 
-            <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-1">
-                🏠
-              </div>
-              <div>
-                <p className="text-sm">{order?.address}</p>
-              </div>
-            </div>
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-1">
-              🍽️
+                🍽️
               </div>
               <div>
-                <p className="text-sm">Order Type : <span className="uppercase">{order?.type}</span></p>
+                <p className="text-sm">
+                  Order Type : <span className="uppercase">{order?.type}</span>
+                </p>
               </div>
             </div>
           </div>
@@ -108,9 +112,7 @@ export default function OrderModal({ onClose, order }: OrderModalProps) {
                       <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">
                         {quantity}
                       </span>
-                      <span className="font-bold text-orange-500">
-                         {price}
-                      </span>
+                      <span className="font-bold text-orange-500">{price}</span>
                       <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
                         <span className="text-xl font-bold text-orange-700">
                           {name?.charAt(0) || "P"}

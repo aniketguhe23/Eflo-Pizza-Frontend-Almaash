@@ -377,42 +377,43 @@ export default function BuildPizza() {
           </div>
         ))}
 
-        <div className="flex flex-col sm:flex-row justify-between items-center bg-[#f47834] text-black px-4 sm:px-6 py-2 w-full rounded sticky bottom-0 z-20 gap-3 sm:gap-0">
-          {/* Quantity Selector */}
-          <div className="flex items-center gap-2 sm:gap-4 text-base sm:text-xl font-bold">
-            <span>Qty:</span>
-            <button
-              onClick={() => setPizzaQuantity((prev) => Math.max(1, prev - 1))}
-              className="bg-black text-white w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full"
-            >
-              -
-            </button>
-            <span>{pizzaQuantity}</span>
-            <button
-              onClick={() => setPizzaQuantity((prev) => prev + 1)}
-              className="bg-black text-white w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full"
-            >
-              +
-            </button>
-          </div>
+        <div className="flex flex-col md:flex-row justify-between items-center bg-[#f47834] text-black px-4 md:px-6 py-3 w-full rounded sticky bottom-0 z-20 gap-3 md:gap-0">
+  {/* Quantity Selector */}
+  <div className="flex items-center gap-2 md:gap-4 text-base md:text-lg font-bold">
+    <span>Qty:</span>
+    <button
+      onClick={() => setPizzaQuantity((prev) => Math.max(1, prev - 1))}
+      className="bg-black text-white w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full"
+    >
+      -
+    </button>
+    <span>{pizzaQuantity}</span>
+    <button
+      onClick={() => setPizzaQuantity((prev) => prev + 1)}
+      className="bg-black text-white w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full"
+    >
+      +
+    </button>
+  </div>
 
-          {/* Total Price */}
-          <div className="text-base sm:text-xl font-bold text-center">
-            Total: INR {totalPrice * pizzaQuantity}
-          </div>
+  {/* Total Price */}
+  <div className="text-base md:text-lg font-bold text-center">
+    Total: INR {totalPrice * pizzaQuantity}
+  </div>
 
-          {/* Add to Cart Button */}
-          <button
-            onClick={() => {
-              if (validateSelections()) {
-                setConfirmModalOpen(true);
-              }
-            }}
-            className="bg-black text-white text-sm sm:text-xl font-bold px-6 sm:px-56 py-2 uppercase tracking-wider hover:opacity-90 transition-all cursor-pointer w-full sm:w-auto"
-          >
-            Add to Cart
-          </button>
-        </div>
+  {/* Add to Cart Button */}
+  <button
+    onClick={() => {
+      if (validateSelections()) {
+        setConfirmModalOpen(true);
+      }
+    }}
+    className="bg-black text-white text-sm md:text-base font-bold px-6 md:px-12 py-2 uppercase tracking-wider hover:opacity-90 transition-all cursor-pointer w-full md:w-auto"
+  >
+    Add to Cart
+  </button>
+</div>
+
       </div>
 
       {modalOption && (

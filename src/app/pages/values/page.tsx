@@ -85,7 +85,7 @@ const Page = () => {
       <PizzaQualitySection />
       <PizzaDeliverySection />
       <StoneBakedSection />
-      <div className="relative z-10 -mb-35 px-40 pb-10 pt-10 max-sm:hidden">
+      <div className="relative z-10 -mb-35 px-40 pb-10 max-sm:hidden max-lg:hidden">
         <FoodDeliveryHero />
       </div>
       <Footer />

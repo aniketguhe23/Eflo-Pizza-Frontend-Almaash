@@ -234,9 +234,12 @@ export default function AccountComponent({
       )}
 
       <div
+        onClick={() => {
+          if (!showLeft) setShowLeft(true);
+        }}
         className={`transition-all duration-300 ${
           showLeft ? "w-[450px]" : "w-[80px] max-sm:w-[50px]"
-        } h-screen bg-gray-300 p-4 max-sm:p-1 max-sm:pt-8 flex flex-col gap-6 relative pt-15 overflow-hidden`}
+        } h-screen bg-gray-300 p-4 max-sm:p-1 max-sm:pt-8 flex flex-col gap-6 relative pt-15 overflow-hidden cursor-pointer`}
       >
         <div className="h-full overflow-y-auto flex flex-col gap-6 pb-28 no-scrollbar">
           {/* Account */}
@@ -313,7 +316,9 @@ export default function AccountComponent({
               </div>
             </div>
           )}
-          {showLeft &&
+          {!restaurantAddress &&
+            deliveryType == "delivery" &&
+            showLeft &&
             user &&
             (selectedAddress && !showSelector ? (
               // ✅ Show selected address card by default
@@ -488,7 +493,10 @@ export default function AccountComponent({
                     </p>
                     <button
                       className="text-[#ED722E] text-sm font-semibold underline hover:no-underline"
-                      onClick={() => setEditRestaurant(true)}
+                      onClick={() => {
+                        setEditRestaurant(true),
+                          setSelectedRestaurantNumber(null);
+                      }}
                     >
                       CHANGE
                     </button>
@@ -572,7 +580,10 @@ export default function AccountComponent({
           {/* Toggle Button */}
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full px-1">
             <button
-              onClick={() => setShowLeft(!showLeft)}
+              onClick={(e) => {
+                e.stopPropagation(); // prevent from bubbling up
+                setShowLeft(!showLeft);
+              }}
               className="w-full py-2 rounded-md bg-white text-orange-500 shadow font-semibold flex items-center justify-center gap-2 cursor-pointer"
             >
               {showLeft ? (

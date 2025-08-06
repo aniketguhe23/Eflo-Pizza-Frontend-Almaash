@@ -182,7 +182,7 @@ export default function Header() {
               }}
               className={`px-3 py-1 text-base lg:text-sm xl:text-base rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                 activeTab === "pickup"
-                  ? "bg-white text-black"
+                  ? "bg-white text-black py-1.5"
                   : "bg-transparent text-white border border-white"
               }`}
             >
@@ -191,11 +191,11 @@ export default function Header() {
             </button>
           </div>
 
-          <div className="flex justify-end items-center gap-5 w-[20%]">
+          <div className="flex justify-end items-center gap-5 w-[20%] max-xl:gap-3">
             <Link href="/pages/cart" className="relative">
-              <ShoppingCart className="text-white h-8 w-8" />
+              <ShoppingCart className="text-white h-8 w-8 max-xl:h-5 max-xl:w-5" />
               {totalCartCount > 0 && (
-                <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
+                <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 max-xl:h-3 max-xl:w-3 flex items-center justify-center text-sm max-xl:text-xs font-bold">
                   {totalCartCount}
                 </span>
               )}
@@ -206,9 +206,9 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="text-white text-base font-semibold hover:underline flex justify-center items-center gap-1 cursor-pointer"
+                className="text-white text-base font-semibold hover:underline flex justify-center items-center gap-1 cursor-pointer max-xl:text-xs"
               >
-                <CircleUserRound className="text-white h-9 w-9" /> SignIn
+                <CircleUserRound className="text-white h-9 w-9 max-xl:h-6 max-xl:w-6" /> SignIn
               </button>
             )}
           </div>
