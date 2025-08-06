@@ -55,10 +55,7 @@ const Page = () => {
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null); // ✅ Fix added
   const [hydrated, setHydrated] = useState(false);
   // const [deliveryType, setDeliveryType] = useState<any>("delivery");
-  const [deliveryType, setDeliveryType] = useState<any>(
-    restaurantAddress ? "pickup" : "delivery"
-  );
-
+ 
   // console.log(restaurantAddress)
 
   const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
@@ -71,6 +68,15 @@ const Page = () => {
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
     restaurantAddress ? null : user?.address_home || null
   );
+
+ const [deliveryType, setDeliveryType] = useState<any>("delivery");
+ 
+ useEffect(() => {
+  if (restaurantAddress) {
+    setDeliveryType("pickup");
+  }
+}, [restaurantAddress]);
+
 
   // const [selectedAddress, setSelectedAddress] = useState<string | null>(
   //   user?.address_home || null
