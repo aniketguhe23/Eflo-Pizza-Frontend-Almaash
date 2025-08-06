@@ -212,7 +212,7 @@ export default function Orders({
     ];
 
     const payload = {
-      user_id: user?.waId || null,
+      user_id: user?.waId,
       address: deliveryType == 'delivery' ? selectedAddress : "",
       restaurant_name: restaurantNo ? restaurantNo : selectedRestaurantNumber,
       type: deliveryType,
@@ -287,12 +287,16 @@ export default function Orders({
     }
 
     // ------------
+    
+        if (!user?.waId) {
+          toast.error("Please Login to proceed.");
+          return;
+        }
 
     if (deliveryType === "delivery" && !selectedAddress) {
       toast.error("Please select an address before placing the order.");
       return;
     }
-
     if (!deliveryType) {
       toast.error("Please select a Pickup/Delivery before placing the order.");
       return;
