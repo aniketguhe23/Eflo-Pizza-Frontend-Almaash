@@ -307,81 +307,79 @@ export default function BuildPizza({
               {formatCategoryName(category)}
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 max-sm:grid-cols-2 gap-6 px-6">
-              {(data?.[category] || []).map((option: ExtendedPizzaOption) => {
-                const name = option.name;
-                const description =
-                  category === "sizes" && option.size ? option.size : "";
-                const image =
-                  option.image_url || option.image || "/placeholder.svg";
+            {Array.isArray(data?.[category]) && data[category].length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 max-sm:grid-cols-2 gap-6 px-6">
+                {(data?.[category] || []).map((option: ExtendedPizzaOption) => {
+                  const name = option.name;
+                  const description =
+                    category === "sizes" && option.size ? option.size : "";
+                  const image =
+                    option.image_url || option.image || "/placeholder.svg";
 
-                const current = selectedOptions[category];
-                const isSelected = isMultiSelection(current)
-                  ? current.some((sel) => sel.name === name)
-                  : current?.name === name;
+                  const current = selectedOptions[category];
+                  const isSelected = isMultiSelection(current)
+                    ? current.some((sel) => sel.name === name)
+                    : current?.name === name;
 
-                // Selected variant details if available
-                let selectedVariantText = "";
-                if (isSelected) {
-                  if (isMultiSelection(current)) {
-                    const sel = current.find((s) => s.name === name);
-                    if (sel) {
-                      selectedVariantText = `${sel.size}${
-                        sel.qty && sel.qty > 1 ? ` x${sel.qty}` : ""
-                      } • INR ${sel.price}`;
+                  let selectedVariantText = "";
+                  if (isSelected) {
+                    if (isMultiSelection(current)) {
+                      const sel = current.find((s) => s.name === name);
+                      if (sel) {
+                        selectedVariantText = `${sel.size}${
+                          sel.qty && sel.qty > 1 ? ` x${sel.qty}` : ""
+                        } • INR ${sel.price}`;
+                      }
+                    } else if (current) {
+                      selectedVariantText = `${current.size}${
+                        (current as any).qty && (current as any).qty > 1
+                          ? ` x${(current as any).qty}`
+                          : ""
+                      } • INR ${current.price}`;
                     }
-                  } else if (current) {
-                    selectedVariantText = `${current.size}${
-                      (current as any).qty && (current as any).qty > 1
-                        ? ` x${(current as any).qty}`
-                        : ""
-                    } • INR ${current.price}`;
                   }
-                }
 
-                // Show only one price if category is doughTypes, crustTypes, sizes
-                const isSinglePriceCategory = [
-                  "doughTypes",
-                  "crustTypes",
-                  "sizes",
-                ].includes(category);
+                  const isSinglePriceCategory = [
+                    "doughTypes",
+                    "crustTypes",
+                    "sizes",
+                  ].includes(category);
 
-                const unselectedPrices = !isSelected ? (
-                  isSinglePriceCategory ? (
-                    <span className="text-md sm:text-lg font-bold uppercase mb-2">
-                      INR {option.price ?? "N/A"}
-                    </span>
-                  ) : (
-                    <div className="mb-2 flex flex-row gap-2 justify-center sm:justify-start">
-                      {option.light_price !== undefined && (
-                        <span className="text-md sm:text-lg font-bold uppercase">
-                          INR {option.light_price}
-                        </span>
-                      )}
-                      {option.regular_price !== undefined && (
-                        <span className="text-md sm:text-lg font-bold uppercase">
-                          / {option.regular_price}
-                        </span>
-                      )}
-                      {option.extra_price !== undefined && (
-                        <span className="text-md sm:text-lg font-bold uppercase">
-                          / {option.extra_price}
-                        </span>
-                      )}
-                    </div>
-                  )
-                ) : null;
+                  const unselectedPrices = !isSelected ? (
+                    isSinglePriceCategory ? (
+                      <span className="text-md sm:text-lg font-bold uppercase mb-2">
+                        INR {option.price ?? "N/A"}
+                      </span>
+                    ) : (
+                      <div className="mb-2 flex flex-row gap-2 justify-center sm:justify-start">
+                        {option.light_price !== undefined && (
+                          <span className="text-md sm:text-lg font-bold uppercase">
+                            INR {option.light_price}
+                          </span>
+                        )}
+                        {option.regular_price !== undefined && (
+                          <span className="text-md sm:text-lg font-bold uppercase">
+                            / {option.regular_price}
+                          </span>
+                        )}
+                        {option.extra_price !== undefined && (
+                          <span className="text-md sm:text-lg font-bold uppercase">
+                            / {option.extra_price}
+                          </span>
+                        )}
+                      </div>
+                    )
+                  ) : null;
 
-                return (
-                  <>
+                  return (
                     <div
                       key={option.id}
-                      className={`rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start justify-center shadow-lg transition-all gap-4 sm:gap-6 ${
+                      className={`rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-center shadow-lg transition-all gap-4 sm:gap-6 ${
                         isSelected ? "bg-[#f47834]" : "bg-[#fbe0d0]"
                       }`}
                     >
                       {image !== "/placeholder.svg" && (
-                        <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden bg-white flex items-center justify-center">
+                        <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden bg-white flex items-center justify-center flex-shrink-0">
                           <Image
                             src={image}
                             alt={name}
@@ -392,7 +390,7 @@ export default function BuildPizza({
                         </div>
                       )}
 
-                      <div className="flex flex-col items-center sm:items-start text-center sm:text-left w-full sm:w-auto">
+                      <div className="flex flex-col items-center text-center w-full">
                         <h3 className="text-lg sm:text-xl md:text-2xl font-bold uppercase mb-1 break-words">
                           {name}
                         </h3>
@@ -423,10 +421,14 @@ export default function BuildPizza({
                         </button>
                       </div>
                     </div>
-                  </>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500 text-lg">
+                Not available for this Pizza Size
+              </p>
+            )}
           </div>
         ))}
 
@@ -455,7 +457,7 @@ export default function BuildPizza({
           </div>
           <div className="flex items-center gap-8">
             <button
-              className="bg-black text-white px-6 py-3 rounded cursor-pointer font-bold hover:bg-gray-900"
+              className="bg-black text-white px-6 py-3 rounded cursor-pointer font-bold hover:bg-gray-900 max-sm:px-3 max-sm:py-2"
               onClick={() => {
                 if (validateSelections()) {
                   setConfirmModalOpen(true);
