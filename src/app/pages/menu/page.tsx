@@ -8,7 +8,37 @@ import Footer from "@/components/footer";
 import ChooseFromMenu from "./components/choose-from-menu";
 import MenuSearch from "./components/menu-search";
 import BackToTopButton from "@/components/backToTop/BackToTopButton";
-import Loader from "@/components/loader/Loader"; // use your existing loader
+import Loader from "@/components/loader/Loader";
+import { useSearchParams } from "next/navigation";
+
+// Child component that uses useSearchParams
+function MenuPageContent({
+  menuData,
+  setMenuData,
+}: {
+  menuData: Record<string, any[]> | null;
+  setMenuData: React.Dispatch<
+    React.SetStateAction<Record<string, any[]> | null>
+  >;
+}) {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("from") === "homepage") {
+      window.scrollTo({
+        top: 500,
+        behavior: "smooth",
+      });
+    }
+  }, [searchParams]);
+
+  return (
+    <>
+      <MenuSearch menuData={menuData} />
+      <ChooseFromMenu menuData={menuData} setMenuData={setMenuData} />
+    </>
+  );
+}
 
 const Page = () => {
   const [showHeader, setShowHeader] = useState(true);
@@ -36,28 +66,23 @@ const Page = () => {
 
   return (
     <div>
-      <div>
-        <Header />
-      </div>
+      <Header />
 
       <div className="pt-20 relative z-10 -mt-20">
         <HeroSection />
       </div>
 
-      <MenuSearch menuData={menuData} />
-
-      {/* ✅ Wrap with Suspense */}
+      {/* Wrap useSearchParams inside Suspense */}
       <Suspense fallback={<Loader />}>
-        <ChooseFromMenu menuData={menuData} setMenuData={setMenuData} />
+        <MenuPageContent menuData={menuData} setMenuData={setMenuData} />
       </Suspense>
 
       <div className="relative z-10 -mb-35 px-40 pb-10 max-sm:hidden max-lg:hidden">
         <FoodDeliveryHero />
       </div>
+
       <Footer />
-      <div className="relative z-10 ">
-        <BackToTopButton />
-      </div>
+      <BackToTopButton />
     </div>
   );
 };
