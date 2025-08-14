@@ -9,6 +9,8 @@ export default function ProjectApiList() {
     api_getFooterData: `${baseUrl}/api/getall/footer/all`,
 
     // menu apis
+    api_getBreadSize: `${baseUrl}/api/bread-size/get`,
+    api_getCategory: `${baseUrl}/api/menu/categories/get`,
     api_getMenuItems: `${baseUrl}/api/home/get-menu-items`,
     api_getMainMenuItems: `${baseUrl}/api/menu/categorytree/get`,
     api_getToppings: `${baseUrl}/api/topping/get`,

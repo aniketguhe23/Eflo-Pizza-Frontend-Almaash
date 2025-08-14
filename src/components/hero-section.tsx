@@ -36,12 +36,12 @@ export default function HeroSection() {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-6 sm:mt-8 justify-center text-white">
-          <Link href="/pages/menu">
+          <Link href="/pages/menu?from=homepage">
             <button className="bg-[#f47335] hover:bg-[#f47335] px-6 sm:px-10 py-2 sm:py-3 rounded-md font-bold text-lg sm:text-xl cursor-pointer">
               {data?.hero_button_1 ?? "ORDER NOW"}
             </button>
           </Link>
-          <Link href="/pages/build">
+          <Link href="/pages/build?from=homepage">
             <button className="bg-[#f47335] hover:bg-[#f47335] px-6 sm:px-8 py-2 sm:py-3 rounded-md font-bold text-lg sm:text-xl cursor-pointer">
               {data?.hero_button_2 ?? "BUILD YOUR OWN"}
             </button>

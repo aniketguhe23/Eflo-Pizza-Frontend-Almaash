@@ -94,13 +94,12 @@ const MenuSearch = ({ menuData }: any) => {
                   key={index}
                   className="flex items-center justify-around bg-[#fff4ee] border border-orange-100 mb-5 hover:bg-[#ffb992] transition-shadow duration-300"
                 >
-                  <div className="rounded-full overflow-hidden border-2 border-orange-300 bg-white flex items-center justify-center my-2">
+                  <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-orange-300 bg-white flex items-center justify-center my-2 relative">
                     <Image
                       src={item.image}
                       alt={item.name}
-                      width={130}
-                      height={130}
-                      className="object-cover w-full h-full rounded-full"
+                      fill
+                      className="object-cover"
                     />
                   </div>
 
@@ -115,7 +114,7 @@ const MenuSearch = ({ menuData }: any) => {
                     <div className="mt-5">
                       <button
                         onClick={() => handleSelect(item)}
-                        className="bg-[#f47834] hover:bg-orange-600 text-white text-xl font-extrabold py-2 px-6 rounded-xl transition-all duration-200 shadow-md uppercase tracking-wider cursor-pointer border border-black"
+                        className="bg-[#f47834] hover:bg-orange-600 text-white text-md font-extrabold py-2 px-6 rounded-xl transition-all duration-200 shadow-md uppercase tracking-wider cursor-pointer border border-black"
                       >
                         SELECT
                       </button>

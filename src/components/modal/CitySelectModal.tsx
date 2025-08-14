@@ -20,7 +20,7 @@ export default function CitySelectModal({
 }: CitySelectModalProps) {
   const { api_getCities } = ProjectApiList();
 
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("Bhopal");
   const [cities, setCities] = useState<City[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,6 +43,8 @@ export default function CitySelectModal({
 
     fetchCities();
   }, []);
+
+  // console.log(cities,"cities-===========>")
 
  const handleSave = () => {
   if (selected) {

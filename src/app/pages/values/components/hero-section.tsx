@@ -19,8 +19,8 @@ const HeroSection = () => {
 
       {/* Centered content */}
       <div className="relative z-20 text-center text-white [font-family:'Barlow_Condensed',Helvetica] px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold uppercase">
-          {valueData?.hero_title ?? "Our Valuessssss"}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold uppercase">
+          {valueData?.hero_title ?? "Our Values"}
         </h1>
         <p className="mt-2 text-lg sm:text-xl md:text-2xl text-orange-500">
           {valueData?.hero_subtitle ?? "Home > Our Values "}

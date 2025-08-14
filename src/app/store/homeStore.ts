@@ -7,10 +7,24 @@ export interface Variant {
   price: number;
 }
 
+// export interface MenuItem {
+//   name: string;
+//   imageUrl: string;
+//   variants: Variant[];
+// }
+
+
 export interface MenuItem {
   name: string;
-  imageUrl: string;
-  variants: Variant[];
+  image: string; // matches FeaturedSlider's `item.image`
+  description?: string;
+  category?: string;
+  prices: {
+    small?: number | null;
+    medium?: number | null;
+    large?: number | null;
+    [key: string]: number | null | undefined;
+  };
 }
 
 export interface HomeContent {

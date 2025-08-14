@@ -5,5 +5,7 @@ export interface PizzaOption {
   description?: string;
   price?: number;
   image?: string;
+  size?: string;
   inclusive?: boolean;
+  
 }

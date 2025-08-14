@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Loader from "./loader/Loader";
 import Link from "next/link";
+import { useHomeStore } from "@/app/store/homeStore";
 
 interface FooterData {
   footer_logo: string;
@@ -66,9 +67,25 @@ interface FooterData {
 }
 
 export default function Footer() {
+  const { menuItems } = useHomeStore();
   const [loading, setLoading] = useState(true);
   const [footerData, setFooterData] = useState<FooterData | null>(null);
-  const { api_getFooterData } = ProjectApiList();
+  const [categoryData, setCategoryData] = useState<any>();
+  const { api_getFooterData, api_getCategory } = ProjectApiList();
+
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      try {
+        const response = await axios.get(api_getCategory);
+        setCategoryData(response?.data?.data);
+      } catch (error) {
+        console.error("Error fetching home data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCategoryData();
+  }, []);
 
   useEffect(() => {
     const fetchValueData = async () => {
@@ -95,6 +112,8 @@ export default function Footer() {
         <Loader />
       </div>
     );
+
+  // console.log(categoryData, "categoryData---------------------->.");
   return (
     <footer className="bg-[#ed722e] text-black px-6 py-10 pt-50 max-sm:pt-10 text-sm md:text-base">
       <div className="max-w-7xl mx-auto grid grid-cols-1 max-sm:grid-cols-2 md:grid-cols-5 gap-8">
@@ -212,14 +231,9 @@ export default function Footer() {
             ELFO&apos;S MENU
           </h3>
           <ul className="space-y-1 text-gray-900">
-            <li>Cheese Pizza</li>
-            <li>Tandoori Feast Pizza</li>
-            <li>Stuffed garlic Sticks!</li>
-            <li>Cheese Pizza</li>
-            <li>Tandoori Feast Pizza</li>
-            <li>Stuffed garlic Sticks!</li>
-            <li>Cheese Pizza</li>
-            <li>Tandoori Feast Pizza</li>
+            {categoryData?.slice(0, 8).map((item: any, index: any) => (
+              <li key={index}>{item.name}</li>
+            ))}
           </ul>
         </div>
         {/* Legal */}

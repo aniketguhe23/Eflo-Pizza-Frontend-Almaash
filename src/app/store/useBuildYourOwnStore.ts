@@ -7,6 +7,14 @@ export interface PizzaOption {
   size?: string;
   image_url?: string;
   image?: string;
+  light_price?: number;
+  regular_price?: number;
+  extra_price?: number;
+  is_vegan?: boolean;
+  is_vegetarian?: boolean;
+  pizza_size?: string;
+  inclusive?: boolean; // if you want to support inclusive options
+   [k: string]: any;
 }
 
 export interface HomeData {

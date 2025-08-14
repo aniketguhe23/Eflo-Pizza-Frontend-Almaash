@@ -44,10 +44,10 @@ export default function FeaturedSlider() {
             ref={scrollRef}
             className="flex gap-4 overflow-x-auto no-scrollbar py-10 px-2"
           >
-            {menuItems?.map((item, index) => (
+            {menuItems?.map((item: any, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl px-5 py-8 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-shadow duration-300 flex-shrink-0 snap-start flex flex-col items-center"
+                className="bg-white rounded-xl px-5 py-8 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-shadow duration-300 flex-shrink-0 snap-start flex flex-col items-center relative"
                 style={{
                   width: "90vw",
                   maxWidth: "350px",
@@ -59,43 +59,46 @@ export default function FeaturedSlider() {
 
                 <p className="text-sm sm:text-base text-[#f47335] mb-5 font-bold text-center">
                   INR{" "}
-                  {item?.variants.map((variant, idx) => (
-                    <span key={idx}>
-                      {variant.price}
-                      {idx !== item.variants.length - 1 && " / "}
-                    </span>
-                  ))}
+                  {Object.entries(item.prices)
+                    .filter(([_, price]) => price != null)
+                    .map(([size, price], idx, arr) => (
+                      <span key={size}>
+                        {price as number}
+                        {idx !== arr.length - 1 && " / "}
+                      </span>
+                    ))}
                 </p>
 
                 <div className="w-40 h-40 sm:w-48 sm:h-48 relative mb-6">
                   <Image
-                    src={item.imageUrl}
+                    src={item.image}
                     alt={item.name}
                     fill
                     className="object-cover rounded-md"
                   />
                 </div>
 
+                {/* Description Fixed Height */}
+                {/* {item.description && (
+                  <div className="h-20 overflow-hidden mb-4 px-2">
+                    <p className="text-sm text-gray-600 line-clamp-3">
+                      {item.description}
+                    </p>
+                  </div>
+                )} */}
+
                 <button
                   className="bg-[#f47335] hover:bg-[#f47335] text-white px-5 py-2 sm:px-6 sm:py-2 rounded-lg text-sm sm:text-base font-semibold mb-4 cursor-pointer [font-family:'Antonio',Helvetica]"
                   onClick={() => {
                     const transformedItem = {
                       name: item.name,
-                      image: item.imageUrl,
-                      category: "GENERAL",
+                      image: item.image,
+                      description: item.description,
+                      category: item.category || "GENERAL",
                       prices: {
-                        small: Number(
-                          item.variants.find((v) => v.size === "small")
-                            ?.price ?? 0
-                        ),
-                        medium: Number(
-                          item.variants.find((v) => v.size === "medium")
-                            ?.price ?? 0
-                        ),
-                        large: Number(
-                          item.variants.find((v) => v.size === "large")
-                            ?.price ?? 0
-                        ),
+                        small: Number(item.prices?.small ?? 0),
+                        medium: Number(item.prices?.medium ?? 0),
+                        large: Number(item.prices?.large ?? 0),
                       },
                     };
 

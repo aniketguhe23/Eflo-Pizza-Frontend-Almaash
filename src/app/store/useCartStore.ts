@@ -9,7 +9,7 @@ export interface OrderItem {
   quantity: number;
   image: string;
   type?: string;
-  dough?: "original" | "sour";
+  dough?: "pan style" | "thin style";
   crust?: "original" | "garlic";
   toppings?: string[];
   suggestions?: string[];
