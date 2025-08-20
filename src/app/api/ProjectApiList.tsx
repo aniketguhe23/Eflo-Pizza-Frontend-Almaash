@@ -7,6 +7,7 @@ export default function ProjectApiList() {
     api_getHomeData: `${baseUrl}/api/getall/home/all`,
     api_getValueData: `${baseUrl}/api/getall/value/all`,
     api_getFooterData: `${baseUrl}/api/getall/footer/all`,
+    api_getPolicyData: `${baseUrl}/api/policies/get`,
 
     // menu apis
     api_getBreadSize: `${baseUrl}/api/bread-size/get`,
