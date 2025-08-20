@@ -20,11 +20,10 @@ interface PolicyData {
 export default function PoliciesContent() {
   const [policies, setPolicies] = useState<PolicyData | null>(null);
   const [loading, setLoading] = useState(true);
-    const { api_getPolicyData } = ProjectApiList();
-  
+  const { api_getPolicyData } = ProjectApiList();
 
   const searchParams = useSearchParams();
-  const type = searchParams.get("type"); // e.g. "termsConditions", "cookie", etc.
+  const type = searchParams.get("type");
 
   useEffect(() => {
     const fetchPolicies = async () => {
@@ -54,29 +53,13 @@ export default function PoliciesContent() {
   if (!policies)
     return <p className="text-center text-red-500">Failed to load policies.</p>;
 
-  // Mapping between query param and actual data
   const policyMap: Record<string, { label: string; content: string }> = {
-    termsConditions: {
-      label: "Terms & Conditions",
-      content: policies.terms_conditions,
-    },
+    termsConditions: { label: "Terms & Conditions", content: policies.terms_conditions },
     cookie: { label: "Cookie Policy", content: policies.cookie_policy },
-    privacyPolicy: {
-      label: "Privacy Policy",
-      content: policies.privacy_policy,
-    },
-    accessibility: {
-      label: "Accessibility Info",
-      content: policies.accessibility_info,
-    },
-    supplyChain: {
-      label: "Supply Chain Policy",
-      content: policies.supply_chain_policy,
-    },
-    fssaiDetails: {
-      label: "FSSAI Details",
-      content: policies.fssai_details,
-    },
+    privacyPolicy: { label: "Privacy Policy", content: policies.privacy_policy },
+    accessibility: { label: "Accessibility Info", content: policies.accessibility_info },
+    supplyChain: { label: "Supply Chain Policy", content: policies.supply_chain_policy },
+    fssaiDetails: { label: "FSSAI Details", content: policies.fssai_details },
   };
 
   const selected = type ? policyMap[type] : null;
@@ -89,7 +72,7 @@ export default function PoliciesContent() {
             {selected.label}
           </h2>
           <div
-            className="policy-content-page rounded-2xl shadow-md bg-white p-6 select-none"
+            className="policy-content prose prose-lg mx-auto bg-white p-6 rounded-2xl shadow-md"
             dangerouslySetInnerHTML={{ __html: selected.content }}
           />
         </div>
@@ -98,15 +81,6 @@ export default function PoliciesContent() {
           Please select a policy type from the query params.
         </p>
       )}
-
-      <style jsx>{`
-        .policy-content-page {
-          user-select: none !important;
-          background: #fff;
-          line-height: 1.7;
-          font-size: 1rem;
-        }
-      `}</style>
     </div>
   );
 }
