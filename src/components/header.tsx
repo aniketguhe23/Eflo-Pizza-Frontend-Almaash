@@ -79,19 +79,16 @@ export default function Header() {
         />
       )}
 
-      <header
-        className={`fixed top-0 left-0 w-full z-50 flex flex-col lg:flex-row items-center justify-between px-4 xl:px-12 border-b border-white ${
-          data?.nav_bg_color ? `bg-[${data?.nav_bg_color}]` : "bg-[#f47335]"
-        }`}
-      >
-        <div className="flex items-center justify-between w-full lg:w-auto py-2">
-          <div className="flex items-center gap-2 xl:gap-1  ">
+      <header className="fixed top-0 left-0 w-full z-50 bg-[#f47335]  px-4 lg:px-8 xl:px-12 py-2">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
             <Image
               src={data?.nav_logo_img || "/elephant.png"}
               alt="Elfo's Pizza Logo"
               width={200}
               height={200}
-              className="w-16 h-16"
+              className="w-16 h-16 lg:w-12 lg:h-12"
             />
             <h1 className="text-white max-xl:hidden text-2xl lg:text-3xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica] ">
               {data?.nav_logo_text || "ELFO'S PIZZA"}
@@ -101,116 +98,117 @@ export default function Header() {
             </h1>
           </div>
 
-          <div className="flex gap-5">
-            <Link href="/pages/cart" className="relative lg:hidden">
-              <ShoppingCart className="text-white h-8 w-8" />
+          {/* Cart & Menu Toggle */}
+          <div className="flex gap-4 items-center lg:hidden">
+            <Link href="/pages/cart" className="relative">
+              <ShoppingCart className="text-white h-7 w-7" />
               {totalCartCount > 0 && (
                 <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold">
                   {totalCartCount}
                 </span>
               )}
             </Link>
-
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden text-white"
+              className="text-white"
             >
-              <Menu size={30} />
-            </button>
-          </div>
-        </div>
-
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8 [font-family:'Barlow_Condensed',Helvetica] text-2xl max-lg:text-xl ">
-          <Link
-            href="/"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            HOME
-          </Link>
-          <Link
-            href="/pages/values"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            VALUES
-          </Link>
-          <Link
-            href="/pages/build"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            BUILD YOUR OWN
-          </Link>
-          <Link
-            href="/pages/menu"
-            className="text-white font-semibold hover:border-b-2 hover:border-white pb-1"
-          >
-            MENU
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-4 mt-4 lg:mt-0 w-full lg:w-[50%] max-sm:hidden max-lg:hidden">
-          <div
-            className="bg-[#c05a29] text-black rounded-md flex items-center p-2 w-[60%] lg:w-[40%] cursor-pointer"
-            onClick={() => setIsModalOpen(true)}
-          >
-            <MapPin className="text-black mr-2 h-6 w-6" />
-            <div className="flex flex-col">
-              <span className="text-[.8rem]">Delivery From</span>
-              <span className="text-[.6rem]">
-                {selectedCity || "Select your address"}
-              </span>
-            </div>
-          </div>
-
-          <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica] ">
-            <button
-              onClick={() => setActiveTab("delivery")}
-              className={`px-3 py-[5px] text-base lg:text-sm xl:text-base rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                activeTab === "delivery"
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white border border-white"
-              }`}
-            >
-              <PiHandCoinsFill size={20} className="max-xl:hidden" />
-              Delivery
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("pickup");
-                setIsPickupModalOpen(true);
-              }}
-              className={`px-3 py-1 text-base lg:text-sm xl:text-base rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                activeTab === "pickup"
-                  ? "bg-white text-black py-1.5"
-                  : "bg-transparent text-white border border-white"
-              }`}
-            >
-              <TbBus size={20} className="max-xl:hidden" />
-              Pickup/Dine in
+              <Menu size={28} />
             </button>
           </div>
 
-          <div className="flex justify-end items-center gap-5 w-[20%] max-xl:gap-3">
-            <Link href="/pages/cart" className="relative">
-              <ShoppingCart className="text-white h-8 w-8 max-xl:h-5 max-xl:w-5" />
-              {totalCartCount > 0 && (
-                <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 max-xl:h-3 max-xl:w-3 flex items-center justify-center text-sm max-xl:text-xs font-bold">
-                  {totalCartCount}
-                </span>
-              )}
-            </Link>
-
-            {user ? (
-              <AccountDropdown />
-            ) : (
-              <button
-                onClick={() => setShowLoginModal(true)}
-                className="text-white text-base font-semibold hover:underline flex justify-center items-center gap-1 cursor-pointer max-xl:text-xs"
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 justify-start py-2">
+            {/* Nav Links */}
+            <nav className="flex gap-6 xl:gap-8 text-white text-2xl max-lg:text-xl max-xl:text-xl font-semibold [font-family:'Barlow_Condensed',Helvetica]">
+              <Link
+                href="/"
+                className="hover:border-b-2 hover:border-white pb-1"
               >
-                <CircleUserRound className="text-white h-9 w-9 max-xl:h-6 max-xl:w-6" /> SignIn
-              </button>
-            )}
+                HOME
+              </Link>
+              <Link
+                href="/pages/values"
+                className="hover:border-b-2 hover:border-white pb-1"
+              >
+                VALUES
+              </Link>
+              <Link
+                href="/pages/build"
+                className="hover:border-b-2 hover:border-white pb-1"
+              >
+                BUILD YOUR OWN
+              </Link>
+              <Link
+                href="/pages/menu"
+                className="hover:border-b-2 hover:border-white pb-1"
+              >
+                MENU
+              </Link>
+            </nav>
+
+            {/* City & Mode Toggle */}
+            <div className="flex gap-3 items-center ml-4">
+              <div
+                className="bg-[#c05a29] text-black rounded-md flex items-center p-2 lg:p-1 lg:w-44 xl:w-56 cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <MapPin className="text-black mr-2 h-6 w-6 lg:h-5 lg:w-5" />
+                <div className="flex flex-col text-xs lg:text-[0.6rem] py-2">
+                  <span>Delivery In</span>
+                  <span>{selectedCity || "Select your address"}</span>
+                </div>
+              </div>
+
+              {/* Delivery / Pickup */}
+              <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica] mr-10">
+                <button
+                  onClick={() => setActiveTab("delivery")}
+                  className={`px-3 py-[5px] lg:text-sm xl:text-base rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === "delivery"
+                      ? "bg-white text-black"
+                      : "bg-transparent text-white border border-white"
+                  }`}
+                >
+                  <PiHandCoinsFill size={20} className="max-xl:hidden" />
+                  Delivery
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab("pickup");
+                    setIsPickupModalOpen(true);
+                  }}
+                  className={`px-3 py-1 lg:text-sm xl:text-base rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === "pickup"
+                      ? "bg-white text-black py-1.5"
+                      : "bg-transparent text-white border border-white"
+                  }`}
+                >
+                  <TbBus size={20} className="max-xl:hidden" />
+                  Pickup/Dine in
+                </button>
+              </div>
+
+              {/* Cart & Login */}
+              <Link href="/pages/cart" className="relative lg:mr-2">
+                <ShoppingCart className="text-white h-8 w-8 max-xl:h-6 max-xl:w-6" />{" "}
+                {totalCartCount > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-white text-[#f47335] rounded-full w-4 h-4 max-xl:h-3 max-xl:w-3 flex items-center justify-center text-sm max-xl:text-xs font-bold">
+                    {totalCartCount}
+                  </span>
+                )}
+              </Link>
+
+              {user ? (
+                <AccountDropdown />
+              ) : (
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="text-white font-semibold flex items-center gap-1 text-base lg:text-sm"
+                >
+                  <CircleUserRound className="h-7 w-7 lg:h-6 lg:w-6" /> SignIn
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -266,7 +264,7 @@ export default function Header() {
             >
               <MapPin className="w-5 h-5" />
               <div className="flex flex-col">
-                <span className="text-sm font-semibold">Delivery From</span>
+                <span className="text-xs font-semibold">Delivery In</span>
                 <span className="text-xs">
                   {selectedCity || "Select your address"}
                 </span>

@@ -20,7 +20,9 @@ export default function ChooseFromMenu({
   const { api_getMainMenuItems, api_getItemsOfResturant } = ProjectApiList();
 
   const headingRefs = useRef<Record<string, HTMLHeadingElement | null>>({});
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<
+    { name: string; created_at: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
   const scrollToCategory = (category: string) => {
@@ -47,8 +49,19 @@ export default function ChooseFromMenu({
         const response = await axios.get(apiUrl);
         const data = response?.data?.data || {};
 
+        const categoryArray = Object.keys(data).map((name) => ({
+          name,
+          created_at: data[name][0]?.created_at || new Date().toISOString(), // take from first item
+        }));
+
+        // sort by created_at ASC
+        categoryArray.sort(
+          (a, b) =>
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+
+        setCategories(categoryArray);
         setMenuData(data);
-        setCategories(Object.keys(data));
       } catch (error) {
         console.error("Error fetching menu data:", error);
       } finally {
@@ -87,17 +100,17 @@ export default function ChooseFromMenu({
       ) : (
         <div className="mt-16 space-y-20">
           {categories.map((category) => (
-            <section key={category}>
+            <section key={category.name}>
               <h2
                 ref={(el) => {
-                  headingRefs.current[category] = el;
+                  headingRefs.current[category.name] = el;
                 }}
                 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10"
               >
-                {category}
+                {category.name}
               </h2>
               <MenuItems
-                items={menuData?.[category] || []}
+                items={menuData?.[category.name] || []}
                 searchResturanNo={searchResturanNo}
                 searchResturanName={searchResturanName}
               />

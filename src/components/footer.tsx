@@ -182,43 +182,43 @@ export default function Footer() {
           <h3 className="font-bold [font-family:'Barlow_Condensed',Helvetica] text-2xl">
             {footerData?.quick_link_text || "QUICK LINKS"}
           </h3>
-          <ul className="space-y-1 text-gray-900">
-            <li className="cursor-pointer">
+          <ul className="space-y-1 text-gray-900 ">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.home_url || "#"}>
                 {footerData?.home_text || "Home"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.current_page_url || "#"}>
                 {footerData?.current_page_text || "Current page"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.menu_url || "#"}>
                 {footerData?.menu_text || "Menu"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.aboutus_url || "#"}>
                 {footerData?.aboutus_text || "About Us"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.careers_url || "#"}>
                 {footerData?.careers_text || "Careers"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.meet_out_team_url || "#"}>
                 {footerData?.meet_out_team_text || "Meet Our Team"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.gift_card_url || "#"}>
                 {footerData?.gift_card_text || "Gift Cards"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.press_url || "#"}>
                 {footerData?.press_text || "Press"}
               </Link>
@@ -231,8 +231,12 @@ export default function Footer() {
             ELFO&apos;S MENU
           </h3>
           <ul className="space-y-1 text-gray-900">
-            {categoryData?.slice(0, 8).map((item: any, index: any) => (
-              <li key={index}>{item.name}</li>
+            {categoryData?.slice(0, 8).map((item: any, index: number) => (
+              <li key={index}>
+                <Link href={`/pages/menu`} className="hover:underline">
+                  {item.name}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>
@@ -244,44 +248,45 @@ export default function Footer() {
               : "LEGAL"}
           </h3>
           <ul className="space-y-1 text-gray-900">
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.terms_url || "#"}>
                 {footerData?.terms_text || "Terms & Conditions"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.cookie_url || "#"}>
                 {footerData?.cookie_text || "Cookie Policy"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.privacy_url || "#"}>
                 {footerData?.privacy_text || "Privacy Policy"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.accessibility_url || "#"}>
                 {footerData?.accessibility_text || "Accessibility Statement"}
               </Link>
             </li>
-            <li className="cursor-pointer">
-              <Link href={footerData?.applicant_url || "#"}>
-                {footerData?.applicant_text || "Applicant Privacy Notice"}
-              </Link>
-            </li>
-            <li className="cursor-pointer">
-              <Link href={footerData?.mp_url || "#"}>
-                {footerData?.mp_text || "MP Transparency In"}
-              </Link>
-            </li>
-            <li className="cursor-pointer">
+
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.supply_url || "#"}>
                 {footerData?.supply_text || "Supply Chains Act"}
               </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer hover:underline">
               <Link href={footerData?.fssai_url || "#"}>
                 {footerData?.fssai_text || "FSSAI LICENSE"}
+              </Link>
+            </li>
+            <li className="cursor-pointer hover:underline">
+              <Link href={footerData?.applicant_url || "#"}>
+                {footerData?.applicant_text || "Applicant Privacy Notice"}
+              </Link>
+            </li>
+            <li className="cursor-pointer hover:underline">
+              <Link href={footerData?.mp_url || "#"}>
+                {footerData?.mp_text || "MP Transparency In"}
               </Link>
             </li>
           </ul>

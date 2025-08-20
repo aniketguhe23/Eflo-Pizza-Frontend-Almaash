@@ -18,7 +18,8 @@ import CitySelectGate from "@/components/modal/CitySelectGate";
 export default function Home() {
   const { api_getHomeData, api_getHomeMenuItems } = ProjectApiList();
 
-  const { data, loading, setData, setLoading, setMenuItems } = useHomeStore();
+  const { data, loading, setData, setLoading, setMenuItems, menuItems } =
+    useHomeStore();
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -57,6 +58,8 @@ export default function Home() {
     setLoading,
   ]);
 
+  // console.log(menuItems?.length,"menuItems==============>.")
+
   if (loading)
     return (
       <div className="fixed in set-0 z-50 h-full w-full flex items-center justify-center bg-white">
@@ -76,7 +79,7 @@ export default function Home() {
         <HeroSection />
         <JoinRewardFree />
         <SpecialtiesSection />
-        <FeaturedSlider />
+        {menuItems?.length > 0 && <FeaturedSlider />}
         <WhyAtElfos />
         <div className="relative z-10 -mb-35 px-40 pb-10 max-sm:hidden max-lg:hidden">
           <FoodDeliveryHero />

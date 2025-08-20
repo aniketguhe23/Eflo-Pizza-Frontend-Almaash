@@ -33,3 +33,21 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none;    /* Firefox */
 }
+
+
+.policy-content h2 {
+  @apply text-2xl font-bold mb-4;
+}
+.policy-content p {
+  @apply mb-3 leading-relaxed;
+}
+.policy-content ul {
+  @apply list-disc pl-6 mb-3;
+}
+.policy-content li {
+  @apply mb-1;
+}
+
+.policy-content {
+ user-select: none !important;
+}

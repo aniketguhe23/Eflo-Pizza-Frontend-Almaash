@@ -18,7 +18,7 @@ export default function BuildContent() {
   const searchParams = useSearchParams();
 
   const { loading, setData, setLoading } = useHomeDataStore();
-  const [pizzaSize, setPizzaSize] = useState("Medium");
+  const [pizzaSize, setPizzaSize] = useState("Small");
 
   const updatePizzaSize = (size: string) => {
     if (["Small", "Medium", "Large"].includes(size)) {
