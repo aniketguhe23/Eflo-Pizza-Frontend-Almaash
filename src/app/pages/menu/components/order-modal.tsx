@@ -200,14 +200,15 @@ const OrderModal: React.FC<OrderModalProps> = ({
   // console.log(item, "item ============>");
 
   return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl max-h-[95vh] overflow-y-auto mx-2 sm:mx-4 md:mx-0 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-700 hover:text-black text-2xl font-bold cursor-pointer z-50"
-        >
-          <RxCross1 className="hover:text-red-600" />
-        </button>
+<div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
+  <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[97vh] overflow-y-auto mx-2 sm:mx-4 md:mx-6 relative">
+    <button
+      onClick={onClose}
+      className="absolute top-4 right-4 text-gray-700 hover:text-black text-2xl font-bold cursor-pointer z-50"
+    >
+      <RxCross1 className="hover:text-red-600" />
+    </button>
+
 
         {isDessert ? (
           <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
@@ -288,41 +289,52 @@ const OrderModal: React.FC<OrderModalProps> = ({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-[1400px] mx-auto">
-           {/* Left Image */}
-<div className="bg-[#fde8dc] flex flex-col justify-between items-center p-3 sm:p-6 relative min-h-[420px] sm:min-h-[480px] md:min-h-[520px]">
-  {/* Image + Bread Info */}
-  <div className="flex flex-col items-center justify-center flex-grow">
-    <Image
-      src={item.image || "/pizza.png"}
-      alt={item.name}
-      width={300}
-      height={300}
-      className={`object-contain transition-all duration-300 ease-in-out
-        ${size === "small" ? "w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rotate-3" : ""}
-        ${size === "medium" ? "w-[180px] h-[180px] sm:w-[230px] sm:h-[230px] rotate-6" : ""}
-        ${size === "large" ? "w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] rotate-12" : ""}
+            {/* Left Image */}
+            <div className="bg-[#fde8dc] flex flex-col justify-between items-center sm:pt-6 relative min-h-[420px] sm:min-h-[480px] md:min-h-[520px]">
+              {/* Image + Bread Info */}
+              <div className="flex flex-col items-center justify-center flex-grow">
+                <Image
+                  src={item.image || "/pizza.png"}
+                  alt={item.name}
+                  width={300}
+                  height={300}
+                  className={`object-contain transition-all duration-300 ease-in-out
+        ${
+          size === "small"
+            ? "w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rotate-3"
+            : ""
+        }
+        ${
+          size === "medium"
+            ? "w-[180px] h-[180px] sm:w-[230px] sm:h-[230px] rotate-6"
+            : ""
+        }
+        ${
+          size === "large"
+            ? "w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] rotate-12"
+            : ""
+        }
       `}
-    />
+                />
 
-    {selectedBread && (
+                {/* {selectedBread && (
       <div className="bg-white p-2 rounded-lg shadow-md text-center text-xs sm:text-sm md:text-base mt-3">
         <p className="font-semibold">
           {selectedBread.name} – {selectedBread.size}
         </p>
       </div>
-    )}
-  </div>
+    )} */}
+              </div>
 
-  {/* Description fixed at bottom */}
-  {item.description && (
-    <div className="w-full p-3 border-t border-gray-300 h-20 max-sm:h-16 flex items-center overflow-y-auto no-scrollbar">
-      <p className="text-xs sm:text-sm md:text-base whitespace-normal break-words">
-        {item.description}
-      </p>
-    </div>
-  )}
-</div>
-
+              {/* Description fixed at bottom */}
+              {item.description && (
+                <div className="w-full p-3 py-5 border-t bg-[#f9f2ee] border-gray-300 h-28 max-sm:h-16 flex items-center overflow-y-auto no-scrollbar">
+                  <p className="text-xs sm:text-sm md:text-base whitespace-normal break-words">
+                    {item.description}
+                  </p>
+                </div>
+              )}
+            </div>
 
             {/* Right Options */}
             <div className="p-3 sm:p-6 flex flex-col justify-center space-y-3 sm:space-y-4">
@@ -405,75 +417,74 @@ const OrderModal: React.FC<OrderModalProps> = ({
               </div>
 
               {/* Toppings */}
-           <div className="min-h-[120px] flex flex-col">
-  <p className="font-semibold text-xs sm:text-sm md:text-base mb-1">
-    Add topping
-  </p>
+              <div className="min-h-[120px] flex flex-col">
+                <p className="font-semibold text-xs sm:text-sm md:text-base mb-1">
+                  Add topping
+                </p>
 
-  {Array.isArray(toppingData) && toppingData.length > 0 ? (
-    <div className="relative flex-1">
-      {/* Scroll Left Button */}
-      <button
-        onClick={scrollLeft}
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
-      >
-        <IoChevronBack className="text-lg sm:text-xl" />
-      </button>
+                {Array.isArray(toppingData) && toppingData.length > 0 ? (
+                  <div className="relative flex-1">
+                    {/* Scroll Left Button */}
+                    <button
+                      onClick={scrollLeft}
+                      className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+                    >
+                      <IoChevronBack className="text-lg sm:text-xl" />
+                    </button>
 
-      {/* Scrollable List */}
-      <div
-        ref={toppingScrollRef}
-        className="flex gap-2 overflow-x-auto flex-nowrap pb-2 no-scrollbar px-8"
-      >
-        {toppingData.map((topping) => (
-          <div
-            key={topping.id}
-            className={`w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center border-2 rounded-lg p-1 transition-all ${
-              toppings.includes(topping.name)
-                ? "border-orange-500"
-                : "border-transparent"
-            } ${
-              sizePrice <= 0
-                ? "pointer-events-none opacity-50"
-                : "cursor-pointer"
-            }`}
-            onClick={() => {
-              if (sizePrice > 0) toggleTopping(topping.name);
-            }}
-          >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 relative mb-1">
-              <Image
-                src={topping.image_url}
-                alt={topping.name}
-                fill
-                className="object-contain rounded-full"
-              />
-            </div>
-            <p className="text-[9px] sm:text-[10px] md:text-xs mt-1 font-medium truncate w-full">
-              {topping.name}
-            </p>
-            <p className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-500">
-              ₹{Number(topping.regular_price).toFixed(0)}
-            </p>
-          </div>
-        ))}
-      </div>
+                    {/* Scrollable List */}
+                    <div
+                      ref={toppingScrollRef}
+                      className="flex gap-2 overflow-x-auto flex-nowrap pb-2 no-scrollbar px-8"
+                    >
+                      {toppingData.map((topping) => (
+                        <div
+                          key={topping.id}
+                          className={`w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center border-2 rounded-lg p-1 transition-all ${
+                            toppings.includes(topping.name)
+                              ? "border-orange-500"
+                              : "border-transparent"
+                          } ${
+                            sizePrice <= 0
+                              ? "pointer-events-none opacity-50"
+                              : "cursor-pointer"
+                          }`}
+                          onClick={() => {
+                            if (sizePrice > 0) toggleTopping(topping.name);
+                          }}
+                        >
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 relative mb-1">
+                            <Image
+                              src={topping.image_url}
+                              alt={topping.name}
+                              fill
+                              className="object-contain rounded-full"
+                            />
+                          </div>
+                          <p className="text-[9px] sm:text-[10px] md:text-xs mt-1 font-medium truncate w-full">
+                            {topping.name}
+                          </p>
+                          <p className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-500">
+                            ₹{Number(topping.regular_price).toFixed(0)}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
 
-      {/* Scroll Right Button */}
-      <button
-        onClick={scrollRight}
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
-      >
-        <IoChevronForward className="text-lg sm:text-xl" />
-      </button>
-    </div>
-  ) : (
-    <div className="flex-1 flex items-center justify-center text-gray-500 text-sm mt-2">
-      Toppings are not available for this size
-    </div>
-  )}
-</div>
-
+                    {/* Scroll Right Button */}
+                    <button
+                      onClick={scrollRight}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-1 hover:bg-orange-100"
+                    >
+                      <IoChevronForward className="text-lg sm:text-xl" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex-1 flex items-center justify-center text-gray-500 text-sm mt-2">
+                    Toppings are not available for this size
+                  </div>
+                )}
+              </div>
 
               {/* Add to Cart */}
               <div className="flex justify-center items-center">

@@ -150,7 +150,7 @@ export default function Header() {
               >
                 <MapPin className="text-black mr-2 h-6 w-6 lg:h-5 lg:w-5" />
                 <div className="flex flex-col text-xs lg:text-[0.6rem] py-2">
-                  <span>Delivery From</span>
+                  <span>Delivery In</span>
                   <span>{selectedCity || "Select your address"}</span>
                 </div>
               </div>
@@ -262,7 +262,7 @@ export default function Header() {
             >
               <MapPin className="w-5 h-5" />
               <div className="flex flex-col">
-                <span className="text-sm font-semibold">Delivery From</span>
+                <span className="text-sm font-semibold">Delivery In</span>
                 <span className="text-xs">
                   {selectedCity || "Select your address"}
                 </span>

@@ -24,7 +24,7 @@ export default function WhyAtElfosModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full relative flex flex-col overflow-hidden">
         
-        {/* Image - same style as cards */}
+        {/* Image */}
         <div className="w-full h-64 relative overflow-hidden">
           <Image src={image} alt={title} fill className="object-cover" />
         </div>
@@ -32,7 +32,11 @@ export default function WhyAtElfosModal({
         {/* Content */}
         <div className="p-6 text-center flex flex-col flex-1">
           <h2 className="text-2xl font-bold mb-4">{title}</h2>
-          <p className="text-lg text-gray-700 mb-6">{description}</p>
+
+          {/* Scrollable description */}
+          <div className="text-lg text-gray-700 mb-6 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
+            {description}
+          </div>
 
           {/* Bottom Close Button */}
           <button
