@@ -356,7 +356,7 @@ export default function Orders({
         dough: item.dough,
         crust: item.crust,
         toppings: item.toppings,
-        suggestions: item.suggestions,
+        // suggestions: item.suggestions,
       },
       fromSuggestion: item.fromSuggestion,
     })),
@@ -409,7 +409,7 @@ export default function Orders({
   // });
 
   // console.log(menuData, "menuData==========================>");
-  // console.log(mergedItems, "mergedItems======================>");
+  console.log(mergedItems, "mergedItems======================>");
   return (
     <>
       <div className="max-w-4xl mx-auto bg-white min-h-screen pt-10 rounded-lg mt-8 [font-family:'Barlow_Condensed',Helvetica]">
