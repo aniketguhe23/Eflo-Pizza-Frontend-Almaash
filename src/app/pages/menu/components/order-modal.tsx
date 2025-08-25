@@ -200,72 +200,71 @@ const OrderModal: React.FC<OrderModalProps> = ({
   // console.log(item, "item ============>");
 
   return (
-<div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
-  <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[97vh] overflow-y-auto mx-2 sm:mx-4 md:mx-6 relative">
-    <button
-      onClick={onClose}
-      className="absolute top-4 right-4 text-gray-700 hover:text-black text-2xl font-bold cursor-pointer z-50"
-    >
-      <RxCross1 className="hover:text-red-600" />
-    </button>
-
-
-      {isDessert ? (
-  <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
-    <Image
-      src={item.image}
-      alt={item.name}
-      width={250}
-      height={250}
-      className="mb-4 sm:mb-6 object-contain rounded-full"
-    />
-    <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
-      {item.name}
-    </h2>
-
-    {/* Size selection (like isDrink) */}
-    <div className="flex bg-white rounded-full overflow-hidden mb-4 sm:mb-6">
-      {(["small", "medium", "large"] as const).map((s) => (
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 [font-family:'Barlow_Condensed',Helvetica]">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[97vh] overflow-y-auto mx-2 sm:mx-4 md:mx-6 relative">
         <button
-          key={s}
-          onClick={() => {
-            const selectedPrice = item.prices[s] ?? 0;
-            if (selectedPrice === 0) {
-              toast.error("Size not available");
-              return;
-            }
-            setSize(s);
-          }}
-          className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
-            size === s
-              ? "bg-orange-500 text-white"
-              : "text-black hover:text-orange-500"
-          }`}
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-700 hover:text-black text-2xl font-bold cursor-pointer z-50"
         >
-          {s === "small"
-            ? "SMALL"
-            : s === "medium"
-            ? "MEDIUM"
-            : "LARGE"}
+          <RxCross1 className="hover:text-red-600" />
         </button>
-      ))}
-    </div>
 
-    {/* Add to cart */}
-    <button
-      onClick={() => {
-        if (sizePrice <= 0) {
-          toast.error("Please select size");
-          return;
-        }
-        handleAddToCart();
-      }}
-      className="bg-black text-white py-2 px-4 sm:px-6 text-sm hover:bg-gray-900 cursor-pointer"
-    >
-      ADD TO CART – INR {sizePrice}
-    </button>
-  </div>
-)  : isDrink ? (
+        {isDessert ? (
+          <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
+            <Image
+              src={item.image}
+              alt={item.name}
+              width={250}
+              height={250}
+              className="mb-4 sm:mb-6 object-contain rounded-full"
+            />
+            <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
+              {item.name}
+            </h2>
+
+            {/* Size selection (like isDrink) */}
+            <div className="flex bg-white rounded-full overflow-hidden mb-4 sm:mb-6">
+              {(["small", "medium", "large"] as const).map((s) => (
+                <button
+                  key={s}
+                  onClick={() => {
+                    const selectedPrice = item.prices[s] ?? 0;
+                    if (selectedPrice === 0) {
+                      toast.error("Size not available");
+                      return;
+                    }
+                    setSize(s);
+                  }}
+                  className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
+                    size === s
+                      ? "bg-orange-500 text-white"
+                      : "text-black hover:text-orange-500"
+                  }`}
+                >
+                  {s === "small"
+                    ? "SMALL"
+                    : s === "medium"
+                    ? "MEDIUM"
+                    : "LARGE"}
+                </button>
+              ))}
+            </div>
+
+            {/* Add to cart */}
+            <button
+              onClick={() => {
+                if (sizePrice <= 0) {
+                  toast.error("Please select size");
+                  return;
+                }
+                handleAddToCart();
+              }}
+              className="bg-black text-white py-2 px-4 sm:px-6 text-sm hover:bg-gray-900 cursor-pointer"
+            >
+              ADD TO CART – INR {sizePrice}
+            </button>
+          </div>
+        ) : isDrink ? (
           <div className="bg-[#fde8dc] p-4 sm:p-8 text-center flex flex-col items-center">
             <Image
               src={item.image}
@@ -297,7 +296,11 @@ const OrderModal: React.FC<OrderModalProps> = ({
                       : "text-black hover:text-orange-500"
                   }`}
                 >
-                  {s === "small" ? "SMALL (250 ml)" : "LARGE (400 ml)"}
+                  {s === "small"
+                    ? "SMALL (250 ml)"
+                    : s === "medium"
+                    ? "MEDIUM (350 ml)"
+                    : "LARGE (400 ml)"}{" "}
                 </button>
               ))}
             </div>
