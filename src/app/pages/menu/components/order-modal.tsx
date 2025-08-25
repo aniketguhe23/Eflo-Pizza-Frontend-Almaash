@@ -81,8 +81,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
     setSelectedBread(defaultBread || null);
   }, [breadSize]);
 
-  const isDrink = item.category === "DRINKS";
-  const isDessert = item.category === "DESSERTS";
+  const isDrink = item.category === "DRINK'S";
+  const isDessert = item.category === "DESSERT";
 
   const toggleTopping = (topping: string) => {
     // if (sizePrice > 0) {
@@ -210,34 +210,62 @@ const OrderModal: React.FC<OrderModalProps> = ({
     </button>
 
 
-        {isDessert ? (
-          <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
-            <Image
-              src={item.image}
-              alt={item.name}
-              width={250}
-              height={250}
-              className="mb-4 sm:mb-6 object-contain rounded-full"
-            />
-            <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
-              {item.name}
-            </h2>
-            <button
-              // onClick={handleAddToCart}
-              onClick={() => {
-                const price = item.prices.small ?? 0;
-                if (price <= 0) {
-                  toast.error("Size not available");
-                  return;
-                }
-                handleAddToCart();
-              }}
-              className="bg-black text-white py-2 px-4 sm:px-6 text-sm hover:bg-gray-900 cursor-pointer"
-            >
-              ADD TO CART – INR {item.prices.small}
-            </button>
-          </div>
-        ) : isDrink ? (
+      {isDessert ? (
+  <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
+    <Image
+      src={item.image}
+      alt={item.name}
+      width={250}
+      height={250}
+      className="mb-4 sm:mb-6 object-contain rounded-full"
+    />
+    <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
+      {item.name}
+    </h2>
+
+    {/* Size selection (like isDrink) */}
+    <div className="flex bg-white rounded-full overflow-hidden mb-4 sm:mb-6">
+      {(["small", "medium", "large"] as const).map((s) => (
+        <button
+          key={s}
+          onClick={() => {
+            const selectedPrice = item.prices[s] ?? 0;
+            if (selectedPrice === 0) {
+              toast.error("Size not available");
+              return;
+            }
+            setSize(s);
+          }}
+          className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
+            size === s
+              ? "bg-orange-500 text-white"
+              : "text-black hover:text-orange-500"
+          }`}
+        >
+          {s === "small"
+            ? "SMALL"
+            : s === "medium"
+            ? "MEDIUM"
+            : "LARGE"}
+        </button>
+      ))}
+    </div>
+
+    {/* Add to cart */}
+    <button
+      onClick={() => {
+        if (sizePrice <= 0) {
+          toast.error("Please select size");
+          return;
+        }
+        handleAddToCart();
+      }}
+      className="bg-black text-white py-2 px-4 sm:px-6 text-sm hover:bg-gray-900 cursor-pointer"
+    >
+      ADD TO CART – INR {sizePrice}
+    </button>
+  </div>
+)  : isDrink ? (
           <div className="bg-[#fde8dc] p-4 sm:p-8 text-center flex flex-col items-center">
             <Image
               src={item.image}
