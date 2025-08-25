@@ -6,10 +6,29 @@ interface CategoryTabsProps {
 }
 
 export default function CategoryTabs({ categories, onTabClick }: CategoryTabsProps) {
+  // Define your desired order
+  const categoryOrder = [
+    "BASICS",
+    "SPECIALS",
+    "FEASTS",
+    "GOURMET",
+    "SIDERS",
+    "PASTAS",
+    "DRINK'S",
+    "DESSERT",
+  ];
+
+  // Sort categories based on the defined order
+  const sortedCategories = [...categories].sort(
+    (a, b) =>
+      categoryOrder.indexOf(a.name.toUpperCase()) -
+      categoryOrder.indexOf(b.name.toUpperCase())
+  );
+
   return (
     <div className="flex justify-center overflow-x-auto scrollbar-hide max-sm:pl-16">
       <div className="flex space-x-8 sm:space-x-16 pb-2 px-4 sm:px-10">
-        {categories.map((cat) => (
+        {sortedCategories.map((cat) => (
           <button
             key={cat.name}
             onClick={() => onTabClick(cat.name)}

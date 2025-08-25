@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Loader from "@/components/loader/Loader";
 import ProjectApiList from "@/app/api/ProjectApiList";
+import BackendUrl from "@/app/api/BackendUrl";
 
 interface PolicyData {
   id: number;
   terms_conditions: string;
+  terms_conditions_pdf: string; // ✅ include PDF
   cookie_policy: string;
   privacy_policy: string;
   accessibility_info: string;
@@ -41,7 +43,7 @@ export default function PoliciesContent() {
     };
 
     fetchPolicies();
-  }, []);
+  }, [api_getPolicyData]);
 
   if (loading)
     return (
@@ -53,12 +55,28 @@ export default function PoliciesContent() {
   if (!policies)
     return <p className="text-center text-red-500">Failed to load policies.</p>;
 
-  const policyMap: Record<string, { label: string; content: string }> = {
-    termsConditions: { label: "Terms & Conditions", content: policies.terms_conditions },
+  const policyMap: Record<
+    string,
+    { label: string; content: string; pdf?: string }
+  > = {
+    termsConditions: {
+      label: "Terms & Conditions",
+      content: policies.terms_conditions,
+      pdf: policies.terms_conditions_pdf, // ✅ attach PDF
+    },
     cookie: { label: "Cookie Policy", content: policies.cookie_policy },
-    privacyPolicy: { label: "Privacy Policy", content: policies.privacy_policy },
-    accessibility: { label: "Accessibility Info", content: policies.accessibility_info },
-    supplyChain: { label: "Supply Chain Policy", content: policies.supply_chain_policy },
+    privacyPolicy: {
+      label: "Privacy Policy",
+      content: policies.privacy_policy,
+    },
+    accessibility: {
+      label: "Accessibility Info",
+      content: policies.accessibility_info,
+    },
+    supplyChain: {
+      label: "Supply Chain Policy",
+      content: policies.supply_chain_policy,
+    },
     fssaiDetails: { label: "FSSAI Details", content: policies.fssai_details },
   };
 
@@ -71,10 +89,24 @@ export default function PoliciesContent() {
           <h2 className="text-3xl text-center font-bold mb-6 text-gray-800 underline decoration-gray-400">
             {selected.label}
           </h2>
+
           <div
             className="policy-content prose prose-lg mx-auto bg-white p-6 rounded-2xl shadow-md"
             dangerouslySetInnerHTML={{ __html: selected.content }}
           />
+
+          {selected.pdf && (
+            <div className="mt-6 text-center">
+              <h3 className="text-xl font-semibold mb-3 text-gray-700">
+                Terms & Conditions (PDF)
+              </h3>
+              <iframe
+                src={`${BackendUrl}/${selected.pdf}`}
+                className="w-full h-[600px] border rounded-lg shadow"
+                title="Terms & Conditions PDF"
+              />
+            </div>
+          )}
         </div>
       ) : (
         <p className="text-center text-gray-500">

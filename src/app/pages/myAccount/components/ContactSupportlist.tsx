@@ -8,6 +8,7 @@ import { useUserStore } from "@/app/store/useUserStore";
 interface SupportRequest {
   id: number;
   order_id: string;
+  resolutionMessage: string;
   user_id: string;
   restaurant_id: string;
   subject: string;
@@ -48,7 +49,9 @@ export default function ContactSupportList() {
 
   return (
     <div className="flex flex-col items-center text-center space-y-6 p-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">Your Support Requests</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">
+        Your Support Requests
+      </h2>
 
       <div className="w-full max-w-3xl overflow-y-auto max-h-[550px] border border-gray-300 rounded-lg p-4 no-scrollbar">
         {supportRequests.length === 0 ? (
@@ -72,6 +75,7 @@ export default function ContactSupportList() {
                   <span className="font-semibold">Message:</span>{" "}
                   {support.message}
                 </p>
+
                 <p>
                   <span className="font-semibold">Status:</span>{" "}
                   <span
@@ -93,6 +97,10 @@ export default function ContactSupportList() {
                     dateStyle: "medium",
                     timeStyle: "short",
                   })}
+                </p>
+                <p className="text-yellow-600">
+                  <span className="font-semibold ">Expected:</span>{" "}
+                  {support.resolutionMessage}
                 </p>
               </div>
             ))}
