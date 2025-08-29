@@ -25,6 +25,18 @@ export default function ChooseFromMenu({
   >([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Define the manual category order
+  const categoryOrder = [
+    "BASICS",
+    "SPECIALS",
+    "FEASTS",
+    "GOURMET",
+    "SIDERS",
+    "PASTAS",
+    "DRINK'S",
+    "DESSERT",
+  ];
+
   const scrollToCategory = (category: string) => {
     const heading = headingRefs.current[category];
     if (heading) {
@@ -51,16 +63,17 @@ export default function ChooseFromMenu({
 
         const categoryArray = Object.keys(data).map((name) => ({
           name,
-          created_at: data[name][0]?.created_at || new Date().toISOString(), // take from first item
+          created_at: data[name][0]?.created_at || new Date().toISOString(),
         }));
 
-        // sort by created_at ASC
-        categoryArray.sort(
+        // ✅ Sort categories by our defined order instead of created_at
+        const sortedCategories = [...categoryArray].sort(
           (a, b) =>
-            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+            categoryOrder.indexOf(a.name.toUpperCase()) -
+            categoryOrder.indexOf(b.name.toUpperCase())
         );
 
-        setCategories(categoryArray);
+        setCategories(sortedCategories);
         setMenuData(data);
       } catch (error) {
         console.error("Error fetching menu data:", error);
