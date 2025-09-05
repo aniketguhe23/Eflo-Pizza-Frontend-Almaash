@@ -25,17 +25,39 @@ export default function ChooseFromMenu({
   >([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Define the manual category order
+  // ✅ Fixed manual category order
   const categoryOrder = [
     "BASICS",
     "SPECIALS",
     "FEASTS",
     "GOURMET",
-    "SIDERS",
+    "SIDES",
     "PASTAS",
-    "DRINK'S",
-    "DESSERT",
+    "DRINKS",
+    "DESSERTS",
   ];
+
+  // ✅ Normalizer (removes apostrophes, spaces, lowercase)
+  const normalize = (str: string) =>
+    str.replace(/['’]/g, "").toLowerCase().trim();
+
+  // ✅ Match category name to closest order entry
+  const findClosestMatch = (catName: string) => {
+    const normCat = normalize(catName);
+
+    // Exact normalized match
+    let match = categoryOrder.find((order) => normalize(order) === normCat);
+    if (match) return match;
+
+    // Partial match
+    match = categoryOrder.find(
+      (order) =>
+        normalize(order).includes(normCat) || normCat.includes(normalize(order))
+    );
+    if (match) return match;
+
+    return null; // No match
+  };
 
   const scrollToCategory = (category: string) => {
     const heading = headingRefs.current[category];
@@ -66,14 +88,21 @@ export default function ChooseFromMenu({
           created_at: data[name][0]?.created_at || new Date().toISOString(),
         }));
 
-        // ✅ Sort categories by our defined order instead of created_at
-        const sortedCategories = [...categoryArray].sort(
-          (a, b) =>
-            categoryOrder.indexOf(a.name.toUpperCase()) -
-            categoryOrder.indexOf(b.name.toUpperCase())
+        // ✅ Sort according to defined order using fuzzy matching
+        const sortedCategories = categoryOrder
+          .map((orderName) =>
+            categoryArray.find((cat) => findClosestMatch(cat.name) === orderName)
+          )
+          .filter(
+            (cat): cat is { name: string; created_at: string } => Boolean(cat)
+          );
+
+        // ✅ Optionally push unmatched categories to the end
+        const unmatchedCategories = categoryArray.filter(
+          (cat) => !findClosestMatch(cat.name)
         );
 
-        setCategories(sortedCategories);
+        setCategories([...sortedCategories, ...unmatchedCategories]);
         setMenuData(data);
       } catch (error) {
         console.error("Error fetching menu data:", error);

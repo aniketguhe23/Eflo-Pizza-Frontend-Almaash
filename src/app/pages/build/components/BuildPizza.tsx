@@ -417,7 +417,7 @@ export default function BuildPizza({
                           }`}
                           onClick={() => handleOptionSelect(category, option)}
                         >
-                          {isSelected ? "Selected" : "Add"}
+                          {isSelected ? "Selected" : "Select"}
                         </button>
                       </div>
                     </div>
@@ -432,7 +432,7 @@ export default function BuildPizza({
           </div>
         ))}
 
-        <div className="sticky bottom-0 left-0 right-0 bg-[#f47834] px-6 py-2 rounded-md flex items-center justify-between ">
+        <div className="sticky bottom-0 left-0 right-0 bg-[#f47834] px-6 py-2 rounded-md flex items-center justify-between  z-11">
           {/* Qty Section */}
           <div className="flex items-center gap-3">
             <span className="font-bold text-lg">Qty:</span>

@@ -6,29 +6,48 @@ interface CategoryTabsProps {
 }
 
 export default function CategoryTabs({ categories, onTabClick }: CategoryTabsProps) {
-  // Define your desired order
+  // Fixed order
   const categoryOrder = [
     "BASICS",
     "SPECIALS",
     "FEASTS",
     "GOURMET",
-    "SIDERS",
+    "SIDES",
     "PASTAS",
-    "DRINK'S",
-    "DESSERT",
+    "DRINKS",
+    "DESSERTS",
   ];
 
-  // Sort categories based on the defined order
-  const sortedCategories = [...categories].sort(
-    (a, b) =>
-      categoryOrder.indexOf(a.name.toUpperCase()) -
-      categoryOrder.indexOf(b.name.toUpperCase())
-  );
+  // Helper: normalize names (remove apostrophes, spaces, lowercase)
+  const normalize = (str: string) =>
+    str.replace(/['’]/g, "").toLowerCase().trim();
+
+  // Try to find closest match from order list
+  const findClosestMatch = (catName: string) => {
+    const normCat = normalize(catName);
+
+    // Exact normalized match
+    let match = categoryOrder.find((order) => normalize(order) === normCat);
+    if (match) return match;
+
+    // Partial match
+    match = categoryOrder.find((order) => normalize(order).includes(normCat) || normCat.includes(normalize(order)));
+    if (match) return match;
+
+    return null; // no match found
+  };
+
+  // Build ordered categories
+  const orderedCategories = categoryOrder
+    .map((orderName) =>
+      categories.find((cat) => findClosestMatch(cat.name) === orderName)
+    )
+    .filter((cat): cat is { name: string; created_at: string } => Boolean(cat));
 
   return (
     <div className="flex justify-center overflow-x-auto scrollbar-hide max-sm:pl-16">
       <div className="flex space-x-8 sm:space-x-16 pb-2 px-4 sm:px-10">
-        {sortedCategories.map((cat) => (
+        {orderedCategories.map((cat) => (
           <button
             key={cat.name}
             onClick={() => onTabClick(cat.name)}
