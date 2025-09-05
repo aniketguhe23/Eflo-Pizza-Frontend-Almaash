@@ -524,7 +524,7 @@ export default function Orders({
                               className={`text-sm font-medium ${isAvailable ? "text-green-600" : "text-red-500"
                                 }`}
                             >
-                              {isAvailable ? "Available" : "Not Available"}
+                              {isAvailable ? "Available at this Restaurant" : "Not Available at this Restaurant"}
                             </p>
                           );
                         })()}
@@ -622,7 +622,7 @@ export default function Orders({
 
             <div className="px-4 py-6">
               <h2 className="text-center font-semibold text-gray-900 mb-4">
-                Bill Detail
+                Bill Details
               </h2>
               <button
                 className="w-full mb-6 bg-orange-200 hover:bg-orange-300 text-gray-900 font-semibold px-3 py-2 rounded cursor-pointer"

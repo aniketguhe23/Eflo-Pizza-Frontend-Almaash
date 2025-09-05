@@ -20,6 +20,21 @@ interface StoreCardProps {
   store: Store;
 }
 
+// helper function to format time to hh:mm AM/PM
+function formatTime(time: string) {
+  if (!time) return "";
+  const [hour, minute] = time.split(":");
+  const date = new Date();
+  date.setHours(Number(hour));
+  date.setMinutes(Number(minute));
+  return date.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
+
 export default function StoreCard({ store }: StoreCardProps) {
   return (
     <div className="border border-gray-200 rounded-lg shadow-sm bg-white w-full max-w-md mx-auto">
@@ -67,10 +82,11 @@ export default function StoreCard({ store }: StoreCardProps) {
               <span className="text-sm sm:text-base">
                 <span className="text-black">Open from</span>{" "}
                 {store.today_opening_time && store.today_closing_time
-                  ? `${store.today_opening_time} to ${store.today_closing_time}`
+                  ? `${formatTime(store.today_opening_time)} to ${formatTime(store.today_closing_time)}`
                   : "Set restaurant hours first"}
               </span>
             </div>
+
 
             {/* Dine-In / Closed Button */}
             {store?.isClosed === true || store?.is_active === false ? (

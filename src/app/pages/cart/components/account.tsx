@@ -416,7 +416,7 @@ export default function AccountComponent({
                               setShowSelector(false); // ✅ Hide selector after choosing
                             }}
                           >
-                            DELIVERY HERE
+                            DELIVER HERE
                           </button>
                         </div>
                       );

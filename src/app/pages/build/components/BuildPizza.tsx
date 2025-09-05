@@ -239,36 +239,40 @@ export default function BuildPizza({
   };
 
   const validateSelections = () => {
-    const requiredSelections: Category[] = [
-      "sizes",
-      "doughTypes",
-      "crustTypes",
-    ];
+  const requiredSelections: Category[] = [
+    "sizes",
+    "doughTypes",
+    "crustTypes",
+    "sauces",        // ✅ mandatory
+    "cheeseOptions", // ✅ mandatory
+  ];
 
-    const missing = requiredSelections.filter((category) => {
-      const value = selectedOptions[category];
-      if (!value) return true;
-      if (!Array.isArray(value)) {
-        return (
-          value.name === null || value.size.trim() === "" || value.price === 0
-        );
-      }
-      return false;
-    });
+  const missing = requiredSelections.filter((category) => {
+    const value = selectedOptions[category];
 
-    if (missing.length > 0) {
-      toast.error(
-        missing.length === requiredSelections.length
-          ? "Please select Size, Dough Type, and Crust Type to continue!"
-          : `Please select ${missing
-              .map(formatCategoryName)
-              .join(", ")} before proceeding.`,
-        { position: "top-right", autoClose: 5000, theme: "dark" }
+    if (!value) return true;
+
+    if (Array.isArray(value)) {
+      // Multi-select categories (sauces, cheese) → must have at least one
+      return value.length === 0;
+    } else {
+      // Single-select categories
+      return (
+        value.name === null || value.size.trim() === "" || value.price === 0
       );
-      return false;
     }
-    return true;
-  };
+  });
+
+  if (missing.length > 0) {
+    toast.error(
+      `Please select ${missing.map(formatCategoryName).join(", ")} before proceeding.`,
+      { position: "top-right", autoClose: 5000, theme: "dark" }
+    );
+    return false;
+  }
+  return true;
+};
+
 
   return (
     <>
