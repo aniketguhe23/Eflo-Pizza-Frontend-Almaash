@@ -89,8 +89,7 @@ export default function Orders({
   const getResturantBasicSettings = async () => {
     try {
       const res = await axios.get(
-        `${api_getResturantBasicSettings}/${
-          restaurantNo ? restaurantNo : selectedRestaurantNumber
+        `${api_getResturantBasicSettings}/${restaurantNo ? restaurantNo : selectedRestaurantNumber
         }`
       );
       const basicSettingData = res.data.data;
@@ -147,14 +146,14 @@ export default function Orders({
   const pizzaItemsTotal = pizzas.reduce((sum, pizza) => {
     const pizzaPrice = pizza?.selections
       ? Object.values(pizza.selections).reduce((acc, option) => {
-          if (Array.isArray(option)) {
-            return (
-              acc +
-              option.reduce((innerSum, o) => innerSum + (o?.price || 0), 0)
-            );
-          }
-          return acc + (option?.price || 0);
-        }, 0)
+        if (Array.isArray(option)) {
+          return (
+            acc +
+            option.reduce((innerSum, o) => innerSum + (o?.price || 0), 0)
+          );
+        }
+        return acc + (option?.price || 0);
+      }, 0)
       : 0;
     return sum + pizzaPrice * (pizza.quantity || 1);
   }, 0);
@@ -259,9 +258,9 @@ export default function Orders({
       return;
     }
     /* ─── 1️⃣  BLOCK if any cart item is not available ─── */
-    if (!menuData || Object.keys(menuData).length === 0) {
-      return; // ⛔ Skip check if menuData not loaded
-    }
+    // if (!menuData || Object.keys(menuData).length === 0) {
+    //   return; // ⛔ Skip check if menuData not loaded
+    // }
 
     const hasUnavailableItems = mergedItems.some((item) => {
       if (item.type !== "order") return false; // skip custom pizzas
@@ -287,11 +286,11 @@ export default function Orders({
     }
 
     // ------------
-    
-        if (!user?.waId) {
-          toast.error("Please Login to proceed.");
-          return;
-        }
+
+    if (!user?.waId) {
+      toast.error("Please Login to proceed.");
+      return;
+    }
 
     if (deliveryType === "delivery" && !selectedAddress) {
       toast.error("Please select an address before placing the order.");
@@ -522,9 +521,8 @@ export default function Orders({
 
                           return (
                             <p
-                              className={`text-sm font-medium ${
-                                isAvailable ? "text-green-600" : "text-red-500"
-                              }`}
+                              className={`text-sm font-medium ${isAvailable ? "text-green-600" : "text-red-500"
+                                }`}
                             >
                               {isAvailable ? "Available" : "Not Available"}
                             </p>

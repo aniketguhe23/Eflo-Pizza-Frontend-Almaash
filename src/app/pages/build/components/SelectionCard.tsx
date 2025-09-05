@@ -188,7 +188,7 @@ export default function SelectionCardModal({
                 onClick={handleConfirmClick}
                 className="bg-black text-white font-bold px-4 sm:px-6 py-2 rounded hover:bg-gray-900 cursor-pointer text-sm sm:text-base"
               >
-                {isSelected ? "REMOVE" : "ADD TO CART"}
+                {isSelected ? "REMOVE" : "SELECT"}
               </button>
             </div>
           </div>
@@ -255,7 +255,7 @@ export default function SelectionCardModal({
             onClick={handleConfirmClick}
             className="bg-black text-white font-bold px-4 sm:px-6 py-2 rounded-md hover:bg-gray-900 cursor-pointer text-sm sm:text-base"
           >
-            {isSelected ? "REMOVE" : "ADD TO CART"}
+            {isSelected ? "REMOVE" : "SELECT"}
           </button>
         </div>
       </div>
@@ -334,7 +334,7 @@ export default function SelectionCardModal({
             onClick={handleConfirmClick}
             className="font-bold px-4 sm:px-6 py-2 rounded cursor-pointer text-sm sm:text-base bg-black text-white hover:bg-gray-900"
           >
-            {isSelected ? "REMOVE" : "ADD TO CART"}
+            {isSelected ? "REMOVE" : "SELECT"}
           </button>
         </div>
       </>
