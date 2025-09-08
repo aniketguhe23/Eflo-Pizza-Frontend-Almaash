@@ -6,6 +6,7 @@ import axios from "axios";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 interface Coupon {
   id: string;
@@ -40,21 +41,41 @@ const DiscountComponent: React.FC<DiscountComponentProps> = ({
   const [manualCode, setManualCode] = useState("");
   const [showCustom, setShowCustom] = useState(false); // ✅ toggle between regular/custom
 
-  const handleManualApply = () => {
-    const found = couponData.find(
-      (c) => c.code.toUpperCase() === manualCode.toUpperCase()
-    );
-    if (found) {
-      if (found.isExpired) {
-        alert("❌ This coupon has expired.");
-      } else {
-        onApplyCoupon(found);
-        setShowRight(false);
-      }
-    } else {
-      alert("❌ Invalid coupon code.");
+  const [itemTotal, setItemTotal] = useState(0);
+
+  useEffect(() => {
+    const savedTotal = localStorage.getItem("itemTotal");
+    if (savedTotal) {
+      setItemTotal(JSON.parse(savedTotal));
     }
-  };
+  }, []);
+
+const handleManualApply = () => {
+  const found = couponData.find(
+    (c) => c.code.toUpperCase() === manualCode.toUpperCase()
+  );
+
+  if (found) {
+    if (
+      found.minOrderAmount &&
+      itemTotal < found.minOrderAmount
+    ) {
+      toast.error(
+        `⚠️ Minimum order amount for this coupon is ₹${found.minOrderAmount}. Your current total is ₹${itemTotal}.`
+      );
+      return;
+    }
+
+    if (found.isExpired) {
+      alert("❌ This coupon has expired.");
+    } else {
+      onApplyCoupon(found);
+      setShowRight(false);
+    }
+  } else {
+    alert("❌ Invalid coupon code.");
+  }
+};
 
   const fetchCoupons = useCallback(async () => {
     setLoading(true);
@@ -169,15 +190,13 @@ const DiscountComponent: React.FC<DiscountComponentProps> = ({
                   setManualCode(coupon.code);
                 }
               }}
-              className={`bg-[#FFE6DB] p-4 sm:p-6 rounded-[16px] sm:rounded-[20px] ${
-                isSelected
+              className={`bg-[#FFE6DB] p-4 sm:p-6 rounded-[16px] sm:rounded-[20px] ${isSelected
                   ? "border-4 border-orange-500"
                   : "border-2 border-[#ED722E]"
-              } shadow text-center flex flex-col items-center space-y-2 ${
-                coupon.isExpired
+                } shadow text-center flex flex-col items-center space-y-2 ${coupon.isExpired
                   ? "opacity-50 cursor-not-allowed"
                   : "cursor-pointer hover:shadow-lg"
-              } transition`}
+                } transition`}
             >
               {/* Coupon content */}
               <div className="flex justify-center items-center gap-4 flex-wrap">
