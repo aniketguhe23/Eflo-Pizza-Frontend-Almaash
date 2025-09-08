@@ -68,7 +68,7 @@ export default function DeliveryAddressModalNew({
   const validate = () => {
     const newErrors = {
       doorNumber: doorNumber.trim() ? "" : "Address is required",
-      landmark: landmark.trim() ? "" : "Landmark is required",
+      landmark: landmark.trim() ? "" : "Address is required",
     };
     setErrors(newErrors);
     return !newErrors.doorNumber && !newErrors.landmark;

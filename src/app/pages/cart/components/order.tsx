@@ -160,6 +160,13 @@ export default function Orders({
 
   const itemTotal = orderItemsTotal + pizzaItemsTotal;
 
+  // Save itemTotal to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("itemTotal", itemTotal.toString());
+    }
+  }, [itemTotal]);
+
   let discount = 0;
   if (appliedCoupon) {
     if (appliedCoupon.discountAmount) {
@@ -254,7 +261,7 @@ export default function Orders({
 
   const handleProceedToPay = () => {
 
-     if (!user?.waId) {
+    if (!user?.waId) {
       toast.error("Please Login to proceed.");
       return;
     }
@@ -294,7 +301,7 @@ export default function Orders({
 
     // ------------
 
-   
+
     if (deliveryType === "delivery" && !selectedAddress) {
       toast.error("Please select an address before placing the order.");
       return;
@@ -321,16 +328,16 @@ export default function Orders({
       }
     }
 
-if (
-  deliveryType === "delivery" &&
-  Number(resturantBasicSettings?.min_order_amount) &&
-  itemTotal < Number(resturantBasicSettings?.min_order_amount)
-) {
-  toast.error(
-    `⚠️ Minimum order amount for this restaurant is ₹${resturantBasicSettings?.min_order_amount} for Delivery. Your current total is ₹${itemTotal}.`
-  );
-  return;
-}
+    if (
+      deliveryType === "delivery" &&
+      Number(resturantBasicSettings?.min_order_amount) &&
+      itemTotal < Number(resturantBasicSettings?.min_order_amount)
+    ) {
+      toast.error(
+        `⚠️ Minimum order amount for this restaurant is ₹${resturantBasicSettings?.min_order_amount} for Delivery. Your current total is ₹${itemTotal}.`
+      );
+      return;
+    }
 
 
     if (
@@ -645,9 +652,13 @@ if (
                 </div>
                 <div className="flex justify-between">
                   <span className="text-orange-500">
-                    {appliedCoupon?.code
-                      ? `Saved You...`
-                      : "Item Discount"}
+                    {appliedCoupon?.code ? (
+                      <>
+                        {appliedCoupon.code} <i className="pl-2">saved you...</i>
+                      </>
+                    ) : (
+                      "Item Discount"
+                    )}
                     {/* {appliedCoupon?.code
                       ? `${appliedCoupon.code} Discount`
                       : "Item Discount"} */}
@@ -668,17 +679,19 @@ if (
                   <span className="text-gray-600">Packaging Charges</span>
                   <span className="font-semibold">
                     ₹{" "}
-                    {deliveryType == "delivery"
-                      ? resturantBasicSettings?.packaging_charge_amount
-                      : "0"}
+                    {deliveryType === "delivery"
+                      ? resturantBasicSettings?.packaging_charge_amount || 0
+                      : 0}
                   </span>
+
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 text-sm">Inclusive of GST & VAT.</span>
+                  <span className="text-gray-600 text-sm">GST and All Other
+                    Charges</span>
                   <span className="font-semibold">
                     {" "}
                     ₹ {gstAmount.toFixed(2)}
-                     {/* ({gstPercentage}%) */}
+                    {/* ({gstPercentage}%) */}
                   </span>
                 </div>
                 <div className="border-t pt-3 mt-3 flex justify-between">
