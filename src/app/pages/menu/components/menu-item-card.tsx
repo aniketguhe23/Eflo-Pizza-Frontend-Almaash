@@ -42,14 +42,16 @@ export default function MenuItemCard({
 
   const isDisabled = !item.is_available;
 
+
+
+
   return (
     <>
       <div
-        className={`rounded-lg p-2 sm:p-2 max-[640px]:p-1 shadow-md overflow-hidden flex flex-col items-center transition-all duration-300 ease-in-out ${
-          isDisabled
+        className={`rounded-lg p-2 sm:p-2 max-[640px]:p-1 shadow-md overflow-hidden flex flex-col items-center transition-all duration-300 ease-in-out ${isDisabled
             ? "bg-gray-200 opacity-60 cursor-not-allowed"
             : "bg-white hover:shadow-[0_0_20px_6px_rgba(244,120,52,0.25)] hover:scale-[1.03]"
-        } group max-w-[90vw] sm:max-w-none`}
+          } group max-w-[90vw] sm:max-w-none`}
       >
         <h3 className="font-bold text-xl sm:text-xl max-[640px]:text-base text-center mb-1">
           {item.name}
@@ -64,9 +66,8 @@ export default function MenuItemCard({
             alt={item.name}
             width={150}
             height={150}
-            className={`w-full h-full object-contain transition-transform duration-300 ease-in-out ${
-              isDisabled ? "" : "group-hover:scale-110"
-            }`}
+            className={`w-full h-full object-contain transition-transform duration-300 ease-in-out ${isDisabled ? "" : "group-hover:scale-110"
+              }`}
             unoptimized={item.image.startsWith("http")}
           />
         </div>

@@ -24,6 +24,10 @@ export default function ProjectApiList() {
     api_updateUserProfile: `${baseUrl}/api/user/updateUserAddress`,
     api_updateUserProfileDetails: `${baseUrl}/api/user/updateUserDetails`,
     api_deleteUserAddress: `${baseUrl}/api/user/delete-address`,
+    
+    api_addUserAddress: `${baseUrl}/api/user/addUserAddress-new`,
+    api_updateUserAddress: `${baseUrl}/api/user/updateUserAddress-new`,
+    api_deleteUserAddressNew: `${baseUrl}/api/user/deleteUserAddress-new`,
 
     // otpless apis
     api_otplessCallback: `${baseUrl}/api/otp-authRoutes/auth/otpless/callback`,

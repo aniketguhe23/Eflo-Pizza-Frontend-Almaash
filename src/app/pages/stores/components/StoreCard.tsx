@@ -83,7 +83,7 @@ export default function StoreCard({ store }: StoreCardProps) {
                 <span className="text-black">Open from</span>{" "}
                 {store.today_opening_time && store.today_closing_time
                   ? `${formatTime(store.today_opening_time)} to ${formatTime(store.today_closing_time)}`
-                  : "Set restaurant hours first"}
+                  : "Temporarily close"}
               </span>
             </div>
 

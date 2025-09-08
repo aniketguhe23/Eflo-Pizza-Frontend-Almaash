@@ -383,38 +383,41 @@ export default function ChatApp() {
             </div>
           ) : (
             <>
-              {messages.map((msg, index) => (
-                <div
-                  key={`${msg.role}-${index}-${msg.content.slice(0, 10)}`}
-                  className={`flex items-end ${
-                    msg.role === "admin" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  {msg.role === "user" && (
-                    <div className="mr-2">
-                      <div className="bg-gray-300 rounded-full p-1">
-                        <User size={16} />
-                      </div>
-                    </div>
-                  )}
-                  <div
-                    className={`px-4 py-2 rounded-lg max-w-xs text-sm shadow ${
-                      msg.role === "admin"
-                        ? "bg-orange-500 text-white"
-                        : "bg-white text-gray-900 border"
-                    }`}
-                  >
-                    {msg.content}
-                  </div>
-                  {msg.role === "admin" && (
-                    <div className="ml-2">
-                      <div className="bg-gray-300 rounded-full p-1">
-                        <Bot size={16} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+             {messages.map((msg, index) => (
+  <div
+    key={`${msg.role}-${index}-${msg.content.slice(0, 10)}`}
+    className={`flex items-end ${
+      msg.role === "user" ? "justify-end" : "justify-start"
+    }`}
+  >
+    {msg.role === "admin" && (
+      <div className="mr-2">
+        <div className="bg-gray-300 rounded-full p-1">
+          <Bot size={16} />
+        </div>
+      </div>
+    )}
+
+    <div
+      className={`px-4 py-2 rounded-lg max-w-xs text-sm shadow ${
+        msg.role === "user"
+          ? "bg-orange-500 text-white"
+          : "bg-white text-gray-900 border"
+      }`}
+    >
+      {msg.content}
+    </div>
+
+    {msg.role === "user" && (
+      <div className="ml-2">
+        <div className="bg-gray-300 rounded-full p-1">
+          <User size={16} />
+        </div>
+      </div>
+    )}
+  </div>
+))}
+
 
               {/* Show "Chat is closed" message */}
               {chatStatus === "closed" && (
