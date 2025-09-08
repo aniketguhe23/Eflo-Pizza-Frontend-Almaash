@@ -53,7 +53,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
   );
   const [size, setSize] = useState<"small" | "medium" | "large">("small");
   const [dough, setDough] = useState<"pan style" | "thin style">("pan style");
-  const [crust, setCrust] = useState<"garlic" | "original">("original");
+  const [crust, setCrust] = useState<"garlic" | "original" | "jain">("original");
   const [toppings, setToppings] = useState<string[]>([]);
   const [breadSize, setBreadSize] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -82,8 +82,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
     setSelectedBread(defaultBread || null);
   }, [breadSize]);
 
-  const isDrink = item.category === "DRINK'S";
-  const isDessert = item.category === "DESSERT";
+  const isDrink = item.category === "DRINKS";
+  const isDessert = item.category === "DESSERTS";
 
   const toggleTopping = (topping: string) => {
     // if (sizePrice > 0) {
@@ -393,6 +393,36 @@ const OrderModal: React.FC<OrderModalProps> = ({
                   </button>
                 ))}
               </div>
+                {/* Crust Selection */}
+              <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-xs sm:text-sm md:text-base">
+                <button
+                  onClick={() => setCrust("garlic")}
+                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "garlic"
+                      ? "bg-orange-500 text-white"
+                      : "text-black"
+                    }`}
+                >
+                  Garlic Crust
+                </button>
+                <button
+                  onClick={() => setCrust("original")}
+                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "original"
+                      ? "bg-orange-500 text-white"
+                      : "text-black"
+                    }`}
+                >
+                  Original Crust
+                </button>
+                <button
+                  onClick={() => setCrust("jain")}
+                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "jain"
+                      ? "bg-orange-500 text-white"
+                      : "text-black"
+                    }`}
+                >
+                  Jain Crust
+                </button>
+              </div>
 
               {/* Dough Selection */}
               <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-xs sm:text-sm md:text-base">
@@ -416,27 +446,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
                 </button>
               </div>
 
-              {/* Crust Selection */}
-              <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-xs sm:text-sm md:text-base">
-                <button
-                  onClick={() => setCrust("garlic")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "garlic"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
-                    }`}
-                >
-                  Garlic Crust
-                </button>
-                <button
-                  onClick={() => setCrust("original")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "original"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
-                    }`}
-                >
-                  Original Crust
-                </button>
-              </div>
+            
 
               {/* Toppings */}
               <div className="min-h-[120px] flex flex-col">
