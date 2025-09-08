@@ -129,7 +129,7 @@ const DiscountComponent: React.FC<DiscountComponentProps> = ({
       </div>
 
       {/* Toggle Regular / Custom */}
-      <div className="flex justify-center gap-4 mb-6">
+      {/* <div className="flex justify-center gap-4 mb-6">
         <button
           className={`px-4 py-2 rounded-full text-sm font-bold ${
             !showCustom ? "bg-orange-500 text-white" : "bg-gray-200"
@@ -146,11 +146,11 @@ const DiscountComponent: React.FC<DiscountComponentProps> = ({
         >
           Custom Coupons
         </button>
-      </div>
+      </div> */}
 
       {/* Title */}
-      <h2 className="text-center font-bold text-xl sm:text-2xl text-black mb-4 sm:mb-6 tracking-wide">
-        {showCustom ? "CUSTOM COUPONS" : "AVAILABLE COUPONS"}
+      <h2 className="text-start font-bold text-base  text-black mb-4 sm:mb-6 tracking-wide">
+        {showCustom ? "CUSTOM COUPONS" : "Available Coupons."}
       </h2>
 
       {/* Coupon List */}
