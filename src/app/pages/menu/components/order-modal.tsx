@@ -41,6 +41,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
 }) => {
   const { api_getToppings, api_getBreadSize } = ProjectApiList();
 
+
   const addItem = useCartStore((state) => state?.addItem);
   const setRestaurantNo = useCartStore((state) => state.setRestaurantNo);
   const setRestaurantAddress = useCartStore(
@@ -106,8 +107,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
   const sizePrice = item.prices[size] ?? 0;
   const toppingsPrice = Array.isArray(toppingData)
     ? toppingData
-        .filter((t) => toppings.includes(t.name))
-        .reduce((acc, curr) => acc + Number(curr.regular_price || 0), 0)
+      .filter((t) => toppings.includes(t.name))
+      .reduce((acc, curr) => acc + Number(curr.regular_price || 0), 0)
     : 0;
 
   const totalPrice = sizePrice + toppingsPrice;
@@ -235,17 +236,16 @@ const OrderModal: React.FC<OrderModalProps> = ({
                     }
                     setSize(s);
                   }}
-                  className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
-                    size === s
+                  className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${size === s
                       ? "bg-orange-500 text-white"
                       : "text-black hover:text-orange-500"
-                  }`}
+                    }`}
                 >
                   {s === "small"
                     ? "SMALL"
                     : s === "medium"
-                    ? "MEDIUM"
-                    : "LARGE"}
+                      ? "MEDIUM"
+                      : "LARGE"}
                 </button>
               ))}
             </div>
@@ -290,17 +290,16 @@ const OrderModal: React.FC<OrderModalProps> = ({
                     }
                     setSize(s);
                   }}
-                  className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
-                    size === s
+                  className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${size === s
                       ? "bg-orange-500 text-white"
                       : "text-black hover:text-orange-500"
-                  }`}
+                    }`}
                 >
                   {s === "small"
                     ? "SMALL (250 ml)"
                     : s === "medium"
-                    ? "MEDIUM (350 ml)"
-                    : "LARGE (400 ml)"}{" "}
+                      ? "MEDIUM (350 ml)"
+                      : "LARGE (400 ml)"}{" "}
                 </button>
               ))}
             </div>
@@ -330,21 +329,18 @@ const OrderModal: React.FC<OrderModalProps> = ({
                   width={300}
                   height={300}
                   className={`object-contain transition-all duration-300 ease-in-out
-        ${
-          size === "small"
-            ? "w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rotate-3"
-            : ""
-        }
-        ${
-          size === "medium"
-            ? "w-[180px] h-[180px] sm:w-[230px] sm:h-[230px] rotate-6"
-            : ""
-        }
-        ${
-          size === "large"
-            ? "w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] rotate-12"
-            : ""
-        }
+        ${size === "small"
+                      ? "w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rotate-3"
+                      : ""
+                    }
+        ${size === "medium"
+                      ? "w-[180px] h-[180px] sm:w-[230px] sm:h-[230px] rotate-6"
+                      : ""
+                    }
+        ${size === "large"
+                      ? "w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] rotate-12"
+                      : ""
+                    }
       `}
                 />
 
@@ -390,9 +386,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
                       setSize(s);
                       handleSizeChange(s);
                     }}
-                    className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                      size === s ? "bg-orange-500 text-white" : "text-black"
-                    }`}
+                    className={`w-full py-1 font-semibold uppercase cursor-pointer ${size === s ? "bg-orange-500 text-white" : "text-black"
+                      }`}
                   >
                     {s}
                   </button>
@@ -403,21 +398,19 @@ const OrderModal: React.FC<OrderModalProps> = ({
               <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-xs sm:text-sm md:text-base">
                 <button
                   onClick={() => setDough("pan style")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    dough === "pan style"
+                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${dough === "pan style"
                       ? "bg-orange-500 text-white"
                       : "text-black"
-                  }`}
+                    }`}
                 >
                   Pan Style
                 </button>
                 <button
                   onClick={() => setDough("thin style")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    dough === "thin style"
+                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${dough === "thin style"
                       ? "bg-orange-500 text-white"
                       : "text-black"
-                  }`}
+                    }`}
                 >
                   Thin Style
                 </button>
@@ -427,21 +420,19 @@ const OrderModal: React.FC<OrderModalProps> = ({
               <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-xs sm:text-sm md:text-base">
                 <button
                   onClick={() => setCrust("garlic")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    crust === "garlic"
+                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "garlic"
                       ? "bg-orange-500 text-white"
                       : "text-black"
-                  }`}
+                    }`}
                 >
                   Garlic Crust
                 </button>
                 <button
                   onClick={() => setCrust("original")}
-                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${
-                    crust === "original"
+                  className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "original"
                       ? "bg-orange-500 text-white"
                       : "text-black"
-                  }`}
+                    }`}
                 >
                   Original Crust
                 </button>
@@ -471,15 +462,13 @@ const OrderModal: React.FC<OrderModalProps> = ({
                       {toppingData.map((topping) => (
                         <div
                           key={topping.id}
-                          className={`w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center border-2 rounded-lg p-1 transition-all ${
-                            toppings.includes(topping.name)
+                          className={`w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center border-2 rounded-lg p-1 transition-all ${toppings.includes(topping.name)
                               ? "border-orange-500"
                               : "border-transparent"
-                          } ${
-                            sizePrice <= 0
+                            } ${sizePrice <= 0
                               ? "pointer-events-none opacity-50"
                               : "cursor-pointer"
-                          }`}
+                            }`}
                           onClick={() => {
                             if (sizePrice > 0) toggleTopping(topping.name);
                           }}
@@ -523,11 +512,10 @@ const OrderModal: React.FC<OrderModalProps> = ({
                   onClick={handleAddToCart}
                   disabled={totalPrice <= 0 || sizePrice <= 0}
                   className={`bg-black text-white py-2 px-4 sm:px-6 md:px-10 mt-4 text-xs sm:text-sm md:text-base rounded-md 
-          ${
-            totalPrice > 0 && sizePrice > 0
-              ? "cursor-pointer hover:bg-gray-900"
-              : "cursor-not-allowed opacity-70"
-          }
+          ${totalPrice > 0 && sizePrice > 0
+                      ? "cursor-pointer hover:bg-gray-900"
+                      : "cursor-not-allowed opacity-70"
+                    }
         `}
                 >
                   ADD TO CART – INR {totalPrice}

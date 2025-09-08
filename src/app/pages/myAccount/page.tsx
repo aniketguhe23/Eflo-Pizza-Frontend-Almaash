@@ -25,6 +25,7 @@ import { useFetchUser } from "@/app/hook/useFetchUser";
 import ChatSection from "./components/ChatSection";
 import RefundRequestedTab from "./components/RefundRequestedTab";
 import ContactSupportlist from "./components/ContactSupportlist";
+import AddressesSectionNew from "./components/AddressesSectionNew";
 
 export default function MyAccount() {
   const { isSessionExpired } = useFetchUser(); // ✅ call the hook
@@ -155,7 +156,8 @@ export default function MyAccount() {
       {activeSection === "app" && <AppSection />}
       {activeSection === "rewards" && <RewardsSection />}
       {activeSection === "payments" && <PaymentsSection />}
-      {activeSection === "addresses" && <AddressesSection />}
+      {activeSection === "addresses" && <AddressesSectionNew />}
+      {/* {activeSection === "addresses" && <AddressesSection />} */}
       {activeSection === "chatSection" && <ChatSection />}
       {activeSection === "RefundRequested" && <RefundRequestedTab />}
       {activeSection === "contactSupportlist" && <ContactSupportlist />}

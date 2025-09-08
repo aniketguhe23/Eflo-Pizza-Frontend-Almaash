@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import OrderModal from "./order-modal";
 import Image from "next/image";
 
-const MenuSearch = ({ menuData }: any) => {
+const MenuSearch = ({ menuData, searchResturanNo, searchResturanName, }: any) => {
   const [query, setQuery] = useState("");
   const [allItems, setAllItems] = useState<any[]>([]);
   const [filteredItems, setFilteredItems] = useState<any[]>([]);
@@ -88,51 +88,51 @@ const MenuSearch = ({ menuData }: any) => {
 
           {/* Search Results */}
           {/* Search Results */}
-        {query && (
-  <div className="absolute w-full bg-[#fff4ee] border border-orange-200 shadow-lg rounded-md mt-2 z-30 max-h-110 overflow-auto no-scrollbar">
-    {filteredItems.length > 0 ? (
-      filteredItems.map((item, index) => (
-        <div
-          key={index}
-          className="flex items-center bg-[#fff4ee] border border-orange-100 mb-5 hover:bg-[#ffb992] transition-shadow duration-300 p-4"
-        >
-          {/* Left side - fixed image column */}
-          <div className="flex-shrink-0 w-32 h-32 rounded-full overflow-hidden border-2 border-orange-300 bg-white flex items-center justify-center relative">
-            <Image
-              src={item.image}
-              alt={item.name}
-              fill
-              className="object-cover"
-            />
-          </div>
+          {query && (
+            <div className="absolute w-full bg-[#fff4ee] border border-orange-200 shadow-lg rounded-md mt-2 z-30 max-h-110 overflow-auto no-scrollbar">
+              {filteredItems.length > 0 ? (
+                filteredItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center bg-[#fff4ee] border border-orange-100 mb-5 hover:bg-[#ffb992] transition-shadow duration-300 p-4"
+                  >
+                    {/* Left side - fixed image column */}
+                    <div className="flex-shrink-0 w-32 h-32 rounded-full overflow-hidden border-2 border-orange-300 bg-white flex items-center justify-center relative">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
 
-          {/* Right side - text and button */}
-          <div className="flex flex-col justify-start items-start flex-grow ml-6">
-            <h3 className="text-2xl font-extrabold uppercase tracking-wide text-[#1e1e1e] [font-family:'Barlow_Condensed',Helvetica]">
-              {item.name}
-            </h3>
-            <p className="text-xl font-bold mt-2 tracking-wide text-[#222] [font-family:'Nunito_Sans',Helvetica]">
-              INR {item.prices.small || "-"} / {item.prices.medium || "-"} /{" "}
-              {item.prices.large || "-"}
-            </p>
-            <div className="mt-5">
-              <button
-                onClick={() => handleSelect(item)}
-                className="bg-[#f47834] hover:bg-orange-600 text-white text-md font-extrabold py-2 px-6 rounded-xl transition-all duration-200 shadow-md uppercase tracking-wider cursor-pointer border border-black"
-              >
-                SELECT
-              </button>
+                    {/* Right side - text and button */}
+                    <div className="flex flex-col justify-start items-start flex-grow ml-6">
+                      <h3 className="text-2xl font-extrabold uppercase tracking-wide text-[#1e1e1e] [font-family:'Barlow_Condensed',Helvetica]">
+                        {item.name}
+                      </h3>
+                      <p className="text-xl font-bold mt-2 tracking-wide text-[#222] [font-family:'Nunito_Sans',Helvetica]">
+                        INR {item.prices.small || "-"} / {item.prices.medium || "-"} /{" "}
+                        {item.prices.large || "-"}
+                      </p>
+                      <div className="mt-5">
+                        <button
+                          onClick={() => handleSelect(item)}
+                          className="bg-[#f47834] hover:bg-orange-600 text-white text-md font-extrabold py-2 px-6 rounded-xl transition-all duration-200 shadow-md uppercase tracking-wider cursor-pointer border border-black"
+                        >
+                          SELECT
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="p-6 text-center text-lg font-semibold text-gray-600">
+                  No item found
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      ))
-    ) : (
-      <div className="p-6 text-center text-lg font-semibold text-gray-600">
-        No item found
-      </div>
-    )}
-  </div>
-)}
+          )}
 
         </div>
       </div>
@@ -142,8 +142,10 @@ const MenuSearch = ({ menuData }: any) => {
         <OrderModal
           isOpen={isOpen}
           item={selectedItem}
-          searchResturanNo={selectedItem} // ✅ already passed
-          searchResturanName={selectedItem?.name || ""} // ✅ FIX: add this line
+          searchResturanNo={searchResturanNo}
+          searchResturanName={searchResturanName || ""}
+          // searchResturanNo={selectedItem} // ✅ already passed
+          // searchResturanName={selectedItem?.name || ""} // ✅ FIX: add this line
           onClose={() => setIsOpen(false)}
         />
       )}

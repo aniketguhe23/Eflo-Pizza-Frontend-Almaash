@@ -253,6 +253,13 @@ export default function Orders({
   // console.log(resturantBasicSettings?.min_dinein_time);
 
   const handleProceedToPay = () => {
+
+     if (!user?.waId) {
+      toast.error("Please Login to proceed.");
+      return;
+    }
+
+
     if (!selectedRestaurantNumber && !restaurantNo) {
       toast.error("Please select a restaurant before placing the order.");
       return;
@@ -287,11 +294,7 @@ export default function Orders({
 
     // ------------
 
-    if (!user?.waId) {
-      toast.error("Please Login to proceed.");
-      return;
-    }
-
+   
     if (deliveryType === "delivery" && !selectedAddress) {
       toast.error("Please select an address before placing the order.");
       return;
@@ -318,15 +321,17 @@ export default function Orders({
       }
     }
 
-    if (
-      Number(resturantBasicSettings?.min_order_amount) &&
-      itemTotal < Number(resturantBasicSettings?.min_order_amount)
-    ) {
-      toast.error(
-        `⚠️ Minimum order amount for this restaurant is ₹${resturantBasicSettings?.min_order_amount}. Your current total is ₹${itemTotal}.`
-      );
-      return;
-    }
+if (
+  deliveryType === "delivery" &&
+  Number(resturantBasicSettings?.min_order_amount) &&
+  itemTotal < Number(resturantBasicSettings?.min_order_amount)
+) {
+  toast.error(
+    `⚠️ Minimum order amount for this restaurant is ₹${resturantBasicSettings?.min_order_amount} for Delivery. Your current total is ₹${itemTotal}.`
+  );
+  return;
+}
+
 
     if (
       appliedCoupon?.minOrderAmount &&
@@ -408,7 +413,7 @@ export default function Orders({
   // });
 
   // console.log(menuData, "menuData==========================>");
-  console.log(mergedItems, "mergedItems======================>");
+  // console.log(mergedItems, "mergedItems======================>");
   return (
     <>
       <div className="max-w-4xl mx-auto bg-white min-h-screen pt-10 rounded-lg mt-8 [font-family:'Barlow_Condensed',Helvetica]">
@@ -641,8 +646,11 @@ export default function Orders({
                 <div className="flex justify-between">
                   <span className="text-orange-500">
                     {appliedCoupon?.code
-                      ? `${appliedCoupon.code} Discount`
+                      ? `Saved You...`
                       : "Item Discount"}
+                    {/* {appliedCoupon?.code
+                      ? `${appliedCoupon.code} Discount`
+                      : "Item Discount"} */}
                   </span>
                   <div className="flex items-center gap-2">
                     {appliedCoupon?.code && (
@@ -666,10 +674,11 @@ export default function Orders({
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 text-sm">GST</span>
+                  <span className="text-gray-600 text-sm">Inclusive of GST & VAT.</span>
                   <span className="font-semibold">
                     {" "}
-                    ₹ {gstAmount.toFixed(2)} ({gstPercentage}%)
+                    ₹ {gstAmount.toFixed(2)}
+                     {/* ({gstPercentage}%) */}
                   </span>
                 </div>
                 <div className="border-t pt-3 mt-3 flex justify-between">
@@ -685,7 +694,7 @@ export default function Orders({
                 onClick={handleProceedToPay}
                 className="w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white text-base font-semibold py-3 rounded cursor-pointer"
               >
-                Proceed to Pay
+                Continue
               </button>
             </div>
           </>

@@ -11,6 +11,7 @@ type User = {
     address_home: string;
     address_work: string;
     address_others: string;
+    addresses: [];
 };
 
 type UserStore = {

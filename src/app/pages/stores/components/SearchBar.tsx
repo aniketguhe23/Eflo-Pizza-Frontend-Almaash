@@ -53,11 +53,11 @@ export default function SearchBar({
           </div>
           <button
             className="bg-[#f47335] hover:bg-orange-600 text-white px-4 text-sm flex items-center justify-center"
-            onClick={() => {
-              setSearchQuery(" "), setSelectedLocality(""), setSelectedCity("");
-            }}
+            // onClick={() => {
+            //   setSearchQuery(" "), setSelectedLocality(""), setSelectedCity("");
+            // }}
           >
-            Clear
+            Search
           </button>
         </div>
 

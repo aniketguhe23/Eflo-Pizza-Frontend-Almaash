@@ -18,6 +18,8 @@ import useBuildYourOwnPizzaCart from "@/app/store/useBuildYourOwnPizzaCart";
 import axios from "axios";
 import ProjectApiList from "@/app/api/ProjectApiList";
 import { GiForkKnifeSpoon } from "react-icons/gi";
+import DeliveryAddressModalNew from "./saveAddressModalNew";
+import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
 
 interface AccountComponentProps {
   showLeft: boolean;
@@ -52,7 +54,7 @@ export default function AccountComponent({
   const restaurantNo = useCartStore((state) => state.restaurantNo);
   const restaurantAddress = useCartStore((state) => state.restaurantAddress);
 
-  const { api_updateUserProfile, api_getResturantData } = ProjectApiList();
+  const { api_updateUserProfile, api_getResturantData, api_addUserAddress, api_updateUserAddress, api_deleteUserAddressNew } = ProjectApiList();
 
   const [showSelector, setShowSelector] = useState(false);
   const [resturantData, setResturantData] = useState<any[]>([]);
@@ -66,6 +68,12 @@ export default function AccountComponent({
   const [editAddressData, setEditAddressData] = useState<any>(null);
   const [restaurantSearch, setRestaurantSearch] = useState("");
   const [editRestaurant, setEditRestaurant] = useState(false);
+
+  // const [showModal, setShowModal] = useState(false);
+  // const [editAddressData, setEditAddressData] = useState<any>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTargetIndex, setDeleteTargetIndex] = useState<number | null>(null);
+
 
   // const restaurantOptions = [
   //   {
@@ -84,14 +92,20 @@ export default function AccountComponent({
       rest.address.toLowerCase().includes(restaurantSearch.toLowerCase())
   );
 
-  const parseAddress = (addr: string) => {
-    const [doorNumber = "", landmark = "", phoneNumber = ""] = addr.split(",");
-    return {
-      doorNumber: doorNumber.trim(),
-      landmark: landmark.trim(),
-      phoneNumber: phoneNumber.trim(),
-    };
-  };
+  // const parseAddress = (addr: string) => {
+  //   const [doorNumber = "", landmark = "", phoneNumber = ""] = addr.split(",");
+  //   return {
+  //     doorNumber: doorNumber.trim(),
+  //     landmark: landmark.trim(),
+  //     phoneNumber: phoneNumber.trim(),
+  //   };
+  // };
+
+  const parseAddress = (addr: any) => ({
+    doorNumber: addr.houseNo,
+    landmark: addr.address,
+    phoneNumber: addr.phone,
+  });
 
   const itemTotal = orderItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -118,41 +132,91 @@ export default function AccountComponent({
   const total =
     itemTotal + pizzaItemsTotal + addOnsTotal - discount + gstAndCharges;
 
+  // const handleSave = async ({
+  //   phoneNumber,
+  //   doorNumber,
+  //   landmark,
+  //   addressType,
+  //   addressKey,
+  // }: {
+  //   phoneNumber: string;
+  //   doorNumber: string;
+  //   landmark: string;
+  //   addressType: string;
+  //   addressKey?: "home" | "work" | "others";
+  // }) => {
+  //   const fullAddress = `${doorNumber}, ${landmark}, ${phoneNumber}`;
+  //   const key = addressKey || addressType.toLowerCase();
+
+  //   try {
+  //     const response = await axios.put(
+  //       `${api_updateUserProfile}/${user?.waId}`,
+  //       {
+  //         addressType: key,
+  //         addressValue: fullAddress,
+  //       }
+  //     );
+
+  //     if (response.data.status === "success") {
+  //       setSelectedAddress(fullAddress);
+  //       setShowSelector(false);
+  //       setEditAddressData(null);
+  //       window.location.reload();
+  //     }
+  //   } catch (error) {
+  //     console.error("Axios error:", error);
+  //   }
+  // };
+
   const handleSave = async ({
     phoneNumber,
     doorNumber,
     landmark,
     addressType,
-    addressKey,
+    index,
   }: {
     phoneNumber: string;
     doorNumber: string;
     landmark: string;
     addressType: string;
-    addressKey?: "home" | "work" | "others";
+    index?: number;
   }) => {
-    const fullAddress = `${doorNumber}, ${landmark}, ${phoneNumber}`;
-    const key = addressKey || addressType.toLowerCase();
+    const payload = {
+      phone: phoneNumber,
+      houseNo: doorNumber,
+      address: landmark,
+      type: addressType.toLowerCase(),
+    };
 
     try {
-      const response = await axios.put(
-        `${api_updateUserProfile}/${user?.waId}`,
-        {
-          addressType: key,
-          addressValue: fullAddress,
-        }
-      );
-
-      if (response.data.status === "success") {
-        setSelectedAddress(fullAddress);
-        setShowSelector(false);
-        setEditAddressData(null);
-        window.location.reload();
+      if (index !== undefined) {
+        await axios.put(`${api_updateUserAddress}/${user?.waId}/${index}`, payload);
+      } else {
+        await axios.post(`${api_addUserAddress}/${user?.waId}`, payload);
       }
+
+      setShowModal(false);
+      setEditAddressData(null);
+      window.location.reload();
     } catch (error) {
-      console.error("Axios error:", error);
+      console.error("Failed to save address:", error);
     }
   };
+
+  // Delete Address
+  const handleDeleteAddress = async () => {
+    if (deleteTargetIndex === null) return;
+    try {
+      await axios.delete(`${api_deleteUserAddressNew}/${user?.waId}/${deleteTargetIndex}`);
+      setShowDeleteModal(false);
+      setDeleteTargetIndex(null);
+      window.location.reload();
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
+
 
   const handlePlaceOrder = async () => {
     const mergedItems = [
@@ -212,6 +276,10 @@ export default function AccountComponent({
     fetchRestaurantList();
   }, [restaurantSearch, selectedCity]);
 
+
+  // console.log(restaurantAddress,"restaurantAddress")
+  // console.log(selectedRestaurantNumber,"selectedRestaurantNumber")
+
   return (
     <>
       {/* Login / Signup */}
@@ -237,9 +305,8 @@ export default function AccountComponent({
         onClick={() => {
           if (!showLeft) setShowLeft(true);
         }}
-        className={`transition-all duration-300 ${
-          showLeft ? "w-[450px]" : "w-[80px] max-sm:w-[50px]"
-        } h-screen bg-gray-300 p-4 max-sm:p-1 max-sm:pt-8 flex flex-col gap-6 relative pt-15 overflow-hidden cursor-pointer`}
+        className={`transition-all duration-300 ${showLeft ? "w-[450px]" : "w-[80px] max-sm:w-[50px]"
+          } h-screen bg-gray-300 p-4 max-sm:p-1 max-sm:pt-8 flex flex-col gap-6 relative pt-15 overflow-hidden cursor-pointer`}
       >
         <div className="h-full overflow-y-auto flex flex-col gap-6 pb-28 no-scrollbar">
           {/* Account */}
@@ -359,43 +426,22 @@ export default function AccountComponent({
                 </div>
 
                 {/* Address Cards */}
+                {/* Address Cards */}
                 <div className="max-h-72 overflow-x-auto pb-2">
                   <div className="flex gap-4 px-1">
-                    {["home", "work", "others"].map((key) => {
-                      const label = key.toUpperCase();
-                      const value =
-                        user[
-                          `address_${key}` as
-                            | "address_home"
-                            | "address_work"
-                            | "address_others"
-                        ];
-                      if (!value) return null;
-                      const parsed = parseAddress(value);
-
+                    {user.addresses?.map((addr: any, index: number) => {
+                      const label = addr.type?.toUpperCase() || `ADDRESS ${index + 1}`;
                       return (
                         <div
-                          key={key}
+                          key={index}
                           className="min-w-[250px] max-w-sm border rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow flex-shrink-0 flex flex-col justify-between h-32"
                         >
                           <div className="p-4">
                             <div className="flex justify-between items-center mb-2">
-                              <p className="font-semibold text-sm text-gray-800">
-                                {label}
-                              </p>
+                              <p className="font-semibold text-sm text-gray-800">{label}</p>
                               <button
                                 onClick={() =>
-                                  setEditAddressData({
-                                    phoneNumber: parsed.phoneNumber,
-                                    doorNumber: parsed.doorNumber,
-                                    landmark: parsed.landmark,
-                                    addressType:
-                                      label[0] + label.slice(1).toLowerCase(),
-                                    addressKey: key as
-                                      | "home"
-                                      | "work"
-                                      | "others",
-                                  })
+                                  setEditAddressData({ ...addr, index })
                                 }
                                 className="text-xs text-blue-600 hover:underline cursor-pointer"
                               >
@@ -403,17 +449,17 @@ export default function AccountComponent({
                               </button>
                             </div>
                             <p className="text-xs text-gray-600 leading-snug">
-                              {parsed.doorNumber}, {parsed.landmark}
+                              {addr.houseNo}, {addr.address}
                               <br />
-                              {parsed.phoneNumber}
+                              {addr.phone}
                             </p>
                           </div>
 
                           <button
                             className="w-full text-[#ED722E] text-sm border-t rounded-b-md border-black px-4 py-1 cursor-pointer hover:bg-[#ED722E] hover:text-white transition-colors"
                             onClick={() => {
-                              setSelectedAddress(value);
-                              setShowSelector(false); // ✅ Hide selector after choosing
+                              setSelectedAddress(`${addr.houseNo}, ${addr.address}, ${addr.phone}`);
+                              setShowSelector(false); // hide selector after choosing
                             }}
                           >
                             DELIVER HERE
@@ -421,24 +467,22 @@ export default function AccountComponent({
                         </div>
                       );
                     })}
+
+                    {/* Add New Address Button */}
+                    {user.addresses.length < 10 && ( // limit to 10 addresses, change if needed
+                      <div className=" max-w-sm flex items-center justify-center rounded-lg bg-white h-32">
+                        <button
+                          onClick={() => setShowModal(true)}
+                          className="text-white font-semibold text-xs px-6 py-2 border border-[#ED722E] rounded bg-[#ED722E] hover:text-white transition-colors"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Add New Button */}
-                {!(
-                  user.address_home &&
-                  user.address_work &&
-                  user.address_others
-                ) && (
-                  <div className="text-center mt-4">
-                    <button
-                      onClick={() => setShowModal(true)}
-                      className="bg-[#ED722E] text-white px-4 py-2 rounded hover:bg-orange-600 text-sm"
-                    >
-                      ADD NEW
-                    </button>
-                  </div>
-                )}
+
               </div>
             ))}
 
@@ -520,11 +564,10 @@ export default function AccountComponent({
                               setSelectedRestaurantNumber(rest.restaurants_no);
                               setEditRestaurant(false);
                             }}
-                            className={`w-full text-left border rounded px-3 py-2 text-sm transition cursor-pointer ${
-                              selectedRestaurantNumber === rest.restaurants_no
-                                ? "border-orange-500 bg-orange-50"
-                                : "border-gray-300 hover:border-orange-400"
-                            }`}
+                            className={`w-full text-left border rounded px-3 py-2 text-sm transition cursor-pointer ${selectedRestaurantNumber === rest.restaurants_no
+                              ? "border-orange-500 bg-orange-50"
+                              : "border-gray-300 hover:border-orange-400"
+                              }`}
                           >
                             <p className="font-semibold text-gray-800">
                               {rest.name}
@@ -597,7 +640,7 @@ export default function AccountComponent({
       </div>
 
       {/* Modal for Address */}
-      <DeliveryAddressModal
+      <DeliveryAddressModalNew
         isOpen={showModal || !!editAddressData}
         onClose={() => {
           setShowModal(false);
@@ -605,6 +648,14 @@ export default function AccountComponent({
         }}
         onSave={handleSave}
         initialData={editAddressData}
+      />
+      <ConfirmDeleteModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setDeleteTargetIndex(null);
+        }}
+        onConfirm={handleDeleteAddress}
       />
     </>
   );
