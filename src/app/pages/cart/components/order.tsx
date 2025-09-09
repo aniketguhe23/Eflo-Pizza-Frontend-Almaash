@@ -167,14 +167,35 @@ export default function Orders({
     }
   }, [itemTotal]);
 
+  // let discount = 0;
+  // if (appliedCoupon) {
+  //   if (appliedCoupon.discountAmount) {
+  //     discount = Number(appliedCoupon.discountAmount);
+  //   } else if (appliedCoupon.discountPercent) {
+  //     discount = (itemTotal * Number(appliedCoupon.discountPercent)) / 100;
+  //   }
+  // }
+
   let discount = 0;
-  if (appliedCoupon) {
-    if (appliedCoupon.discountAmount) {
-      discount = Number(appliedCoupon.discountAmount);
-    } else if (appliedCoupon.discountPercent) {
-      discount = (itemTotal * Number(appliedCoupon.discountPercent)) / 100;
+if (appliedCoupon) {
+  const { discountAmount, discountPercent } = appliedCoupon;
+
+  if (discountAmount && discountPercent) {
+    const percentDiscount = (itemTotal * Number(discountPercent)) / 100;
+
+    // ✅ Rule: Pick smaller discount between percent and amount
+    if (percentDiscount <= Number(discountAmount)) {
+      discount = percentDiscount;
+    } else {
+      discount = Number(discountAmount);
     }
+  } else if (discountAmount) {
+    discount = Number(discountAmount);
+  } else if (discountPercent) {
+    discount = (itemTotal * Number(discountPercent)) / 100;
   }
+}
+
 
   const gstPercentage = resturantBasicSettings?.gst_percentage || 0;
   const subtotal = itemTotal - discount;

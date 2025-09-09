@@ -83,19 +83,21 @@ export default function Header() {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <Image
-              src={data?.nav_logo_img || "/elephant.png"}
-              alt="Elfo's Pizza Logo"
-              width={200}
-              height={200}
-              className="w-16 h-16 lg:w-12 lg:h-12"
-            />
-            <h1 className="text-white max-xl:hidden text-2xl lg:text-3xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica] ">
-              {data?.nav_logo_text || "ELFO'S PIZZA"}
-            </h1>
-            <h1 className="text-white xl:hidden lg:hidden text-xl lg:text-xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica] ">
-              {data?.nav_logo_text || "ELFO'S PIZZA"}
-            </h1>
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src={data?.nav_logo_img || "/elephant.png"}
+                alt="Elfo's Pizza Logo"
+                width={200}
+                height={200}
+                className="w-16 h-16 lg:w-12 lg:h-12"
+              />
+              <h1 className="text-white max-xl:hidden text-2xl lg:text-3xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica]">
+                {data?.nav_logo_text || "ELFO'S PIZZA"}
+              </h1>
+              <h1 className="text-white xl:hidden lg:hidden text-xl lg:text-xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica]">
+                {data?.nav_logo_text || "ELFO'S PIZZA"}
+              </h1>
+            </Link>
           </div>
 
           {/* Cart & Menu Toggle */}
@@ -163,11 +165,10 @@ export default function Header() {
               <div className="hidden lg:flex items-center [font-family:'Barlow_Condensed',Helvetica] mr-10">
                 <button
                   onClick={() => setActiveTab("delivery")}
-                  className={`px-3 py-[5px] lg:text-sm xl:text-base rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                    activeTab === "delivery"
+                  className={`px-3 py-[5px] lg:text-sm xl:text-base rounded-l-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${activeTab === "delivery"
                       ? "bg-white text-black"
                       : "bg-transparent text-white border border-white"
-                  }`}
+                    }`}
                 >
                   <PiHandCoinsFill size={20} className="max-xl:hidden" />
                   Delivery
@@ -177,11 +178,10 @@ export default function Header() {
                     setActiveTab("pickup");
                     setIsPickupModalOpen(true);
                   }}
-                  className={`px-3 py-1 lg:text-sm xl:text-base rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                    activeTab === "pickup"
+                  className={`px-3 py-1 lg:text-sm xl:text-base rounded-r-md font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${activeTab === "pickup"
                       ? "bg-white text-black py-1.5"
                       : "bg-transparent text-white border border-white"
-                  }`}
+                    }`}
                 >
                   <TbBus size={20} className="max-xl:hidden" />
                   Pickup/Dine in
@@ -277,11 +277,10 @@ export default function Header() {
                   setActiveTab("delivery");
                   setMobileMenuOpen(false);
                 }}
-                className={`w-1/2 py-3 rounded-l-md font-semibold flex flex-col items-center justify-center gap-1 ${
-                  activeTab === "delivery"
+                className={`w-1/2 py-3 rounded-l-md font-semibold flex flex-col items-center justify-center gap-1 ${activeTab === "delivery"
                     ? "bg-[#f47335] text-white"
                     : "border border-[#f47335] text-[#f47335]"
-                }`}
+                  }`}
               >
                 <PiHandCoinsFill size={20} />
                 <span>Delivery</span>
@@ -292,11 +291,10 @@ export default function Header() {
                   setIsPickupModalOpen(true);
                   setMobileMenuOpen(false);
                 }}
-                className={`w-1/2 py-3 rounded-r-md font-semibold flex flex-col items-center justify-center gap-1 ${
-                  activeTab === "pickup"
+                className={`w-1/2 py-3 rounded-r-md font-semibold flex flex-col items-center justify-center gap-1 ${activeTab === "pickup"
                     ? "bg-[#f47335] text-white"
                     : "border border-[#f47335] text-[#f47335]"
-                }`}
+                  }`}
               >
                 <TbBus size={20} />
                 <span>Pickup/Dine in</span>
