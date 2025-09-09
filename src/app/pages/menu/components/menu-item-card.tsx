@@ -43,14 +43,14 @@ export default function MenuItemCard({
   const isDisabled = !item.is_available;
 
 
-
+  // console.log(item?.category,"item====================>")
 
   return (
     <>
       <div
         className={`rounded-lg p-2 sm:p-2 max-[640px]:p-1 shadow-md overflow-hidden flex flex-col items-center transition-all duration-300 ease-in-out ${isDisabled
-            ? "bg-gray-200 opacity-60 cursor-not-allowed"
-            : "bg-white hover:shadow-[0_0_20px_6px_rgba(244,120,52,0.25)] hover:scale-[1.03]"
+          ? "bg-gray-200 opacity-60 cursor-not-allowed"
+          : "bg-white hover:shadow-[0_0_20px_6px_rgba(244,120,52,0.25)] hover:scale-[1.03]"
           } group max-w-[90vw] sm:max-w-none`}
       >
         <h3 className="font-bold text-xl sm:text-xl max-[640px]:text-base text-center mb-1">
@@ -85,11 +85,14 @@ export default function MenuItemCard({
           </button>
         )}
 
-        <Link href="/pages/build">
-          <p className="cursor-pointer text-sm sm:text-lg font-semibold [font-family:'Antonio',Helvetica] hover:underline">
-            MAKE IT MY OWN
-          </p>
-        </Link>
+        {!["SIDES", "PASTAS", "DRINKS", "DESSERTS"].includes(item?.category) && (
+          <Link href="/pages/build">
+            <p className="cursor-pointer text-sm sm:text-lg font-semibold [font-family:'Antonio',Helvetica] hover:underline">
+              MAKE IT MY OWN
+            </p>
+          </Link>
+        )}
+
       </div>
 
       <OrderModal
