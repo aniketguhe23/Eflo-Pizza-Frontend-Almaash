@@ -47,7 +47,8 @@ export default function AccountDropdown() {
 
         {user?.firstName && (
           <span className="absolute -bottom-4 left-1/2 -translate-x-1/2  text-white max-sm:text-black max-lg:text-black text-sm max-xl:text-xs font-medium py-1 px-3 rounded  min-w-max whitespace-nowrap">
-            {user.firstName} {user.lastName}
+            {user.firstName} 
+            {/* {user.lastName} */}
           </span>
         )}
       </button>

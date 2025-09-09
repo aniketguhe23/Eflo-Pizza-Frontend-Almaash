@@ -50,32 +50,32 @@ const DiscountComponent: React.FC<DiscountComponentProps> = ({
     }
   }, []);
 
-const handleManualApply = () => {
-  const found = couponData.find(
-    (c) => c.code.toUpperCase() === manualCode.toUpperCase()
-  );
+  const handleManualApply = () => {
+    const found = couponData.find(
+      (c) => c.code.toUpperCase() === manualCode.toUpperCase()
+    );
 
-  if (found) {
-    if (
-      found.minOrderAmount &&
-      itemTotal < found.minOrderAmount
-    ) {
-      toast.error(
-        `⚠️ Minimum order amount for this coupon is ₹${found.minOrderAmount}. Your current total is ₹${itemTotal}.`
-      );
-      return;
-    }
+    if (found) {
+      if (
+        found.minOrderAmount &&
+        itemTotal < found.minOrderAmount
+      ) {
+        toast.error(
+          `⚠️ Minimum order amount for this coupon is ₹${found.minOrderAmount}. Your current total is ₹${itemTotal}.`
+        );
+        return;
+      }
 
-    if (found.isExpired) {
-      alert("❌ This coupon has expired.");
+      if (found.isExpired) {
+        alert("❌ This coupon has expired.");
+      } else {
+        onApplyCoupon(found);
+        setShowRight(false);
+      }
     } else {
-      onApplyCoupon(found);
-      setShowRight(false);
+      alert("❌ Invalid coupon code.");
     }
-  } else {
-    alert("❌ Invalid coupon code.");
-  }
-};
+  };
 
   const fetchCoupons = useCallback(async () => {
     setLoading(true);
@@ -191,8 +191,8 @@ const handleManualApply = () => {
                 }
               }}
               className={`bg-[#FFE6DB] p-4 sm:p-6 rounded-[16px] sm:rounded-[20px] ${isSelected
-                  ? "border-4 border-orange-500"
-                  : "border-2 border-[#ED722E]"
+                ? "border-4 border-orange-500"
+                : "border-2 border-[#ED722E]"
                 } shadow text-center flex flex-col items-center space-y-2 ${coupon.isExpired
                   ? "opacity-50 cursor-not-allowed"
                   : "cursor-pointer hover:shadow-lg"
@@ -221,18 +221,21 @@ const handleManualApply = () => {
                   On Order Above ₹{coupon.minOrderAmount}
                 </p>
               )}
-
-              {coupon.discountAmount && (
+              {/* Discount logic */}
+              {coupon.discountPercent && coupon.discountAmount ? (
+                <p className="text-sm sm:text-[15px] text-green-700 font-semibold">
+                  Flat {coupon.discountPercent}% OFF <br /> Upto ₹{coupon.discountAmount}
+                </p>
+              ) : coupon.discountPercent ? (
+                <p className="text-sm sm:text-[15px] text-green-700 font-semibold">
+                  Flat {coupon.discountPercent}% OFF
+                </p>
+              ) : coupon.discountAmount ? (
                 <p className="text-sm sm:text-[15px] text-green-700 font-semibold">
                   Flat ₹{coupon.discountAmount} OFF
                 </p>
-              )}
+              ) : null}
 
-              {coupon.discountPercent && (
-                <p className="text-sm sm:text-[15px] text-green-700 font-semibold">
-                  {coupon.discountPercent}% OFF
-                </p>
-              )}
 
               {coupon.expiresAt && (
                 <p className="text-xs text-gray-500 italic">

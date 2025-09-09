@@ -215,13 +215,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
      {isDessert ? (
   // 🍰 DESSERTS FLOW
   <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
-    <Image
-      src={item.image}
-      alt={item.name}
-      width={250}
-      height={250}
-      className="mb-4 sm:mb-6 object-contain rounded-full"
-    />
+    <Image src={item.image} alt={item.name} width={200} height={200} />
     <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
       {item.name}
     </h2>
@@ -278,7 +272,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
   </div>
 ) : isPasta ? (
   // 🍝 PASTAS FLOW
-  <div className="bg-[#f7f0ff] p-4 sm:p-8 text-center flex flex-col items-center">
+  <div className="bg-[#fff3e6] p-4 sm:p-8 text-center flex flex-col items-center">
     <Image src={item.image} alt={item.name} width={250} height={250} />
     <h2 className="text-xl sm:text-2xl font-bold uppercase">{item.name}</h2>
     <p className="text-gray-600 text-sm mt-2">{item.description}</p>

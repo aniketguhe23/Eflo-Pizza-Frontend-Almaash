@@ -79,6 +79,7 @@ export default function Header() {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center gap-2">
+             <Link href="/" className="flex items-center gap-2">
             <Image
               src={data?.nav_logo_img || "/elephant.png"}
               alt="Elfo's Pizza Logo"
@@ -92,6 +93,7 @@ export default function Header() {
             <h1 className="text-white xl:hidden lg:hidden text-xl lg:text-xl sm:text-xl font-bold uppercase [font-family:'Barlow_Condensed',Helvetica] ">
               {data?.nav_logo_text || "ELFO'S PIZZA"}
             </h1>
+            </Link>
           </div>
 
           {/* Cart & Menu Toggle */}
