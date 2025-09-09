@@ -84,6 +84,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
 
   const isDrink = item.category === "DRINKS";
   const isDessert = item.category === "DESSERTS";
+  const isSide = item.category === "SIDES";
+  const isPasta = item.category === "PASTAS";
 
   const toggleTopping = (topping: string) => {
     // if (sizePrice > 0) {
@@ -210,114 +212,85 @@ const OrderModal: React.FC<OrderModalProps> = ({
           <RxCross1 className="hover:text-red-600" />
         </button>
 
-        {isDessert ? (
-          <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
-            <Image
-              src={item.image}
-              alt={item.name}
-              width={250}
-              height={250}
-              className="mb-4 sm:mb-6 object-contain rounded-full"
-            />
-            <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
-              {item.name}
-            </h2>
+     {isDessert ? (
+  // 🍰 DESSERTS FLOW
+  <div className="bg-[#ffe6db] p-4 sm:p-8 text-center flex flex-col items-center">
+    <Image
+      src={item.image}
+      alt={item.name}
+      width={250}
+      height={250}
+      className="mb-4 sm:mb-6 object-contain rounded-full"
+    />
+    <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-wider mb-3 sm:mb-4">
+      {item.name}
+    </h2>
+    <p className="text-gray-600 text-sm mb-5">{item.description}</p>
 
-            {/* Size selection (like isDrink) */}
-            <div className="flex bg-white rounded-full overflow-hidden mb-4 sm:mb-6">
-              {(["small", "medium", "large"] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => {
-                    const selectedPrice = item.prices[s] ?? 0;
-                    if (selectedPrice === 0) {
-                      toast.error("Size not available");
-                      return;
-                    }
-                    setSize(s);
-                  }}
-                  className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${size === s
-                      ? "bg-orange-500 text-white"
-                      : "text-black hover:text-orange-500"
-                    }`}
-                >
-                  {s === "small"
-                    ? "SMALL"
-                    : s === "medium"
-                      ? "MEDIUM"
-                      : "LARGE"}
-                </button>
-              ))}
-            </div>
+    <button
+      onClick={handleAddToCart}
+      className="bg-black text-white py-2 px-6 text-sm hover:bg-gray-900 cursor-pointer"
+    >
+      ADD TO CART – INR {item.prices.small}
+    </button>
+  </div>
+) : isDrink ? (
+  // 🥤 DRINKS FLOW
+  <div className="bg-[#fde8dc] p-4 sm:p-8 text-center flex flex-col items-center">
+    <Image src={item.image} alt={item.name} width={200} height={200} />
+    <h2 className="text-xl sm:text-2xl font-bold uppercase">{item.name}</h2>
+    <p className="text-gray-600 text-sm mt-2">{item.description}</p>
 
-            {/* Add to cart */}
-            <button
-              onClick={() => {
-                if (sizePrice <= 0) {
-                  toast.error("Please select size");
-                  return;
-                }
-                handleAddToCart();
-              }}
-              className="bg-black text-white py-2 px-4 sm:px-6 text-sm hover:bg-gray-900 cursor-pointer"
-            >
-              ADD TO CART – INR {sizePrice}
-            </button>
-          </div>
-        ) : isDrink ? (
-          <div className="bg-[#fde8dc] p-4 sm:p-8 text-center flex flex-col items-center">
-            <Image
-              src={item.image}
-              alt={item.name}
-              width={200}
-              height={200}
-              className="mb-4 sm:mb-6 object-contain w-[150px] h-[150px] sm:w-[200px] sm:h-[200px]"
-            />
-            <h2 className="text-xl sm:text-2xl font-bold uppercase">
-              {item.name}
-            </h2>
+    {/* <div className="flex bg-white rounded-full overflow-hidden mt-4 sm:mt-6">
+      {(["small", "medium", "large"] as const).map((s) => (
+        <button
+          key={s}
+          onClick={() => setSize(s)}
+          className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${
+            size === s ? "bg-orange-500 text-white" : "text-black"
+          }`}
+        >
+          {s.toUpperCase()}
+        </button>
+      ))}
+    </div> */}
 
-            <div className="flex bg-white rounded-full overflow-hidden mt-4 sm:mt-6">
-              {(["small", "medium", "large"] as const).map((s) => (
-                <button
-                  key={s}
-                  // onClick={() => setSize(s)}
-                  onClick={() => {
-                    const selectedPrice = item.prices[s] ?? 0;
-                    if (selectedPrice === 0) {
-                      toast.error("Size not available");
-                      return;
-                    }
-                    setSize(s);
-                  }}
-                  className={`px-4 sm:px-6 py-2 text-sm font-bold transition-all cursor-pointer ${size === s
-                      ? "bg-orange-500 text-white"
-                      : "text-black hover:text-orange-500"
-                    }`}
-                >
-                  {s === "small"
-                    ? "SMALL (250 ml)"
-                    : s === "medium"
-                      ? "MEDIUM (350 ml)"
-                      : "LARGE (400 ml)"}{" "}
-                </button>
-              ))}
-            </div>
+    <button
+      onClick={handleAddToCart}
+      className="bg-black text-white py-2 px-6 mt-4 text-sm hover:bg-gray-900 cursor-pointer"
+    >
+      ADD TO CART – INR {sizePrice}
+    </button>
+  </div>
+) : isSide ? (
+  // 🍟 SIDES FLOW
+  <div className="bg-[#fff3e6] p-4 sm:p-8 text-center flex flex-col items-center">
+    <Image src={item.image} alt={item.name} width={220} height={220} />
+    <h2 className="text-xl sm:text-2xl font-bold uppercase">{item.name}</h2>
+    <p className="text-gray-600 text-sm mt-2">{item.description}</p>
 
-            <button
-              onClick={() => {
-                if (sizePrice <= 0) {
-                  toast.error("Please select size");
-                  return;
-                }
-                handleAddToCart();
-              }}
-              className="bg-black text-white py-2 px-4 sm:px-6 mt-4 sm:mt-6 text-sm hover:bg-gray-900 cursor-pointer"
-            >
-              ADD TO CART – INR {sizePrice}
-            </button>
-          </div>
-        ) : (
+    <button
+      onClick={handleAddToCart}
+      className="bg-black text-white py-2 px-6 mt-4 text-sm hover:bg-gray-900 cursor-pointer"
+    >
+      ADD TO CART – INR {item.prices.small}
+    </button>
+  </div>
+) : isPasta ? (
+  // 🍝 PASTAS FLOW
+  <div className="bg-[#f7f0ff] p-4 sm:p-8 text-center flex flex-col items-center">
+    <Image src={item.image} alt={item.name} width={250} height={250} />
+    <h2 className="text-xl sm:text-2xl font-bold uppercase">{item.name}</h2>
+    <p className="text-gray-600 text-sm mt-2">{item.description}</p>
+
+    <button
+      onClick={handleAddToCart}
+      className="bg-black text-white py-2 px-6 mt-4 text-sm hover:bg-gray-900 cursor-pointer"
+    >
+      ADD TO CART – INR {item.prices.small}
+    </button>
+  </div>
+) : (
           <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-[1400px] mx-auto">
             {/* Left Image */}
             <div className="bg-[#fde8dc] flex flex-col justify-between items-center sm:pt-6 relative min-h-[420px] sm:min-h-[480px] md:min-h-[520px]">
@@ -393,13 +366,13 @@ const OrderModal: React.FC<OrderModalProps> = ({
                   </button>
                 ))}
               </div>
-                {/* Crust Selection */}
+              {/* Crust Selection */}
               <div className="flex bg-orange-100 rounded-full overflow-hidden w-full text-xs sm:text-sm md:text-base">
                 <button
                   onClick={() => setCrust("garlic")}
                   className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "garlic"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
+                    ? "bg-orange-500 text-white"
+                    : "text-black"
                     }`}
                 >
                   Garlic Crust
@@ -407,8 +380,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
                 <button
                   onClick={() => setCrust("original")}
                   className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "original"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
+                    ? "bg-orange-500 text-white"
+                    : "text-black"
                     }`}
                 >
                   Original Crust
@@ -416,8 +389,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
                 <button
                   onClick={() => setCrust("jain")}
                   className={`w-full py-1 font-semibold uppercase cursor-pointer ${crust === "jain"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
+                    ? "bg-orange-500 text-white"
+                    : "text-black"
                     }`}
                 >
                   Jain Crust
@@ -429,8 +402,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
                 <button
                   onClick={() => setDough("pan style")}
                   className={`w-full py-1 font-semibold uppercase cursor-pointer ${dough === "pan style"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
+                    ? "bg-orange-500 text-white"
+                    : "text-black"
                     }`}
                 >
                   Pan Style
@@ -438,15 +411,15 @@ const OrderModal: React.FC<OrderModalProps> = ({
                 <button
                   onClick={() => setDough("thin style")}
                   className={`w-full py-1 font-semibold uppercase cursor-pointer ${dough === "thin style"
-                      ? "bg-orange-500 text-white"
-                      : "text-black"
+                    ? "bg-orange-500 text-white"
+                    : "text-black"
                     }`}
                 >
                   Thin Style
                 </button>
               </div>
 
-            
+
 
               {/* Toppings */}
               <div className="min-h-[120px] flex flex-col">
@@ -473,8 +446,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
                         <div
                           key={topping.id}
                           className={`w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 flex-shrink-0 flex flex-col items-center justify-center text-center border-2 rounded-lg p-1 transition-all ${toppings.includes(topping.name)
-                              ? "border-orange-500"
-                              : "border-transparent"
+                            ? "border-orange-500"
+                            : "border-transparent"
                             } ${sizePrice <= 0
                               ? "pointer-events-none opacity-50"
                               : "cursor-pointer"
