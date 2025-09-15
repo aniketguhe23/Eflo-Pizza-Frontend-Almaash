@@ -51,7 +51,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
   const [toppingData, setToppingData] = useState<Record<string, any[]> | null>(
     null
   );
-  const [size, setSize] = useState<"small" | "medium" | "large">("small");
+  const [size, setSize] = useState<"small" | "medium" | "large">("medium");
   const [dough, setDough] = useState<"pan style" | "thin style">("pan style");
   const [crust, setCrust] = useState<"garlic" | "original" | "jain">("original");
   const [toppings, setToppings] = useState<string[]>([]);

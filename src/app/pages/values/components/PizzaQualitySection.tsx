@@ -20,8 +20,7 @@ const PizzaQualitySection = () => {
           </h3>
 
           <p className="text-lg font-semibold pt-4 pb-5">
-            {valueData?.best_pizza_title ??
-              "Best Pizza In Bhopal Means…Our Pizza, Your Rules"}
+            {valueData?.best_pizza_title ?? "Best Pizza In Bhopal Means…Our Pizza, Your Rules"}
           </p>
 
           <p className="text-sm text-gray-700 font-semibold leading-relaxed [font-family:'Nunito_Sans',Helvetica]">
@@ -33,13 +32,13 @@ const PizzaQualitySection = () => {
         {/* Right Column: Image & CTA */}
         <div className="flex flex-col items-center justify-center gap-16">
           <Link href="/pages/menu">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-8 rounded shadow transition-all duration-200 cursor-pointer ml-10">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-8 rounded shadow transition-all duration-200 cursor-pointer mx-auto md:ml-10">
               ORDER NOW
             </button>
           </Link>
 
-          <div className="relative w-[220px] h-[220px] ml-32">
-            {/* Background Image - larger & moved left */}
+          <div className="relative w-[220px] h-[220px] mx-auto md:ml-32">
+            {/* Background Image */}
             <div className="absolute top-1/2 left-1/2 w-[250px] h-[250px] -translate-x-[65%] -translate-y-1/2 z-0">
               <Image
                 src={valueData?.best_pizza_img1 ?? "qualitySection2.png"}
@@ -50,11 +49,10 @@ const PizzaQualitySection = () => {
               />
             </div>
 
-            {/* Foreground Image (Pizza) */}
+            {/* Foreground Pizza Image */}
             <div className="absolute top-1/2 left-1/2 w-[190px] h-[190px] -translate-x-1/2 -translate-y-1/2 z-10 border rounded-full overflow-hidden shadow-lg">
               <Image
                 src={valueData?.best_pizza_img2 ?? "pizzacopy.png"}
-                // src="/pizzacopy.png"
                 alt="Specialty Pizza"
                 fill
                 style={{ objectFit: "cover" }}
