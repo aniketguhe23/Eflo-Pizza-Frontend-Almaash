@@ -32,18 +32,21 @@ export default function MenuItemCard({
 }: MenuItemCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const formatPrices = () => {
-    const parts = [];
-    if (item.prices.small) parts.push(`INR ${item.prices.small}`);
-    if (item.prices.medium) parts.push(`${item.prices.medium}`);
-    if (item.prices.large) parts.push(`${item.prices.large}`);
-    return parts.join(" / ");
-  };
+const formatPrices = () => {
+  const prices: number[] = [];
+
+  if (item.prices.small) prices.push(item.prices.small);
+  if (item.prices.medium) prices.push(item.prices.medium);
+  if (item.prices.large) prices.push(item.prices.large);
+
+  if (prices.length === 0) return ""; // no prices available
+
+  return `INR ${prices.join(" / ")}`;
+};
+
 
   const isDisabled = !item.is_available;
 
-
-  // console.log(item?.category,"item====================>")
 
   return (
     <>
