@@ -205,7 +205,7 @@ export default function Header() {
                   onClick={() => setShowLoginModal(true)}
                   className="text-white font-semibold flex items-center gap-1 text-base lg:text-sm cursor-pointer hover:underline"
                 >
-                  <CircleUserRound className="h-8 w-8 lg:h-6 lg:w-6" /> SignIn
+                  <CircleUserRound className="h-8 w-8 lg:h-6 lg:w-6" /> Sign In
                 </button>
               )}
             </div>
