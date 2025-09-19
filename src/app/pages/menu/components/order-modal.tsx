@@ -77,7 +77,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
   useEffect(() => {
     // Default to "small" bread
     const defaultBread = breadSize.find(
-      (b: any) => b.name.toLowerCase() === "small"
+      (b: any) => b.name.toLowerCase() === "medium"
     );
     setSelectedBread(defaultBread || null);
   }, [breadSize]);
@@ -119,8 +119,8 @@ const OrderModal: React.FC<OrderModalProps> = ({
     const orderDetails: OrderItem = {
       id: uuidv4(),
       name: item.name,
-      size: isDessert ? "small" : size,
-      price: isDessert ? item.prices.small : isDrink ? sizePrice : totalPrice,
+      size: isDessert ? "medium" : size,
+      price: isDessert ? item.prices.medium : isDrink ? sizePrice : totalPrice,
       quantity: 1,
       image: item.image,
       dough: !isDessert && !isDrink ? dough : undefined,
@@ -134,6 +134,33 @@ const OrderModal: React.FC<OrderModalProps> = ({
     onClose();
     toast.success(`${item.name} added to cart`);
   };
+
+// const handleAddToCart = () => {
+//   const orderDetails: OrderItem = {
+//     id: uuidv4(),
+//     name: item.name,
+//     size:
+//       isDessert || isSide || isPasta || isDrink ? "medium" : size, // ✅ fixed
+//     price:
+//       isDessert || isSide || isPasta || isDrink
+//         ? item.prices.medium ?? 0 // ✅ use medium price
+//         : totalPrice,
+//     quantity: 1,
+//     image: item.image,
+//     dough: !isDessert && !isDrink && !isSide && !isPasta ? dough : undefined,
+//     crust: !isDessert && !isDrink && !isSide && !isPasta ? crust : undefined,
+//     toppings: !isDessert && !isDrink && !isSide && !isPasta ? toppings : [],
+//     suggestions:
+//       !isDessert && !isDrink && !isSide && !isPasta ? suggestions : [],
+//   };
+
+//   setRestaurantNo(searchResturanNo);
+//   setRestaurantAddress(searchResturanName);
+//   addItem(orderDetails);
+//   onClose();
+//   toast.success(`${item.name} added to cart`);
+// };
+
 
   useEffect(() => {
     const fetchToppings = async () => {
@@ -225,7 +252,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
       onClick={handleAddToCart}
       className="bg-black text-white py-2 px-6 text-sm hover:bg-gray-900 cursor-pointer"
     >
-      ADD TO CART – INR {item.prices.small}
+      ADD TO CART – INR {sizePrice}
     </button>
   </div>
 ) : isDrink ? (
@@ -267,7 +294,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
       onClick={handleAddToCart}
       className="bg-black text-white py-2 px-6 mt-4 text-sm hover:bg-gray-900 cursor-pointer"
     >
-      ADD TO CART – INR {item.prices.small}
+     ADD TO CART – INR {sizePrice}
     </button>
   </div>
 ) : isPasta ? (
@@ -281,7 +308,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
       onClick={handleAddToCart}
       className="bg-black text-white py-2 px-6 mt-4 text-sm hover:bg-gray-900 cursor-pointer"
     >
-      ADD TO CART – INR {item.prices.small}
+      ADD TO CART – INR {sizePrice}
     </button>
   </div>
 ) : (
