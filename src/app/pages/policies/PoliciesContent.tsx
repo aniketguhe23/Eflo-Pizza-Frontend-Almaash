@@ -116,6 +116,7 @@ export default function PoliciesContent() {
   > = {
     termsConditions: {
       label: "Terms & Conditions",
+      content: policies.terms_conditions,
       pdf: policies.terms_conditions_pdf,
       images: policies.policy_images,
     },
@@ -153,12 +154,15 @@ export default function PoliciesContent() {
 
   return (
     <div
-      className="relative min-h-screen flex items-center justify-center 
-    bg-[url('/elephantPointers.png')] bg-cover bg-center
-    before:absolute before:inset-0 
-    before:bg-gradient-to-br before:from-orange-50 before:via-orange-100 before:opacity-80 
-    px-6"
+      className="relative min-h-screen w-full flex items-center justify-center
+  bg-[url('/elephantPointers.png')] bg-cover bg-center
+  before:absolute before:inset-0 
+  before:bg-gradient-to-br before:from-orange-50 before:via-orange-100 before:opacity-80 
+  px-6 pb-12 overflow-y-auto"
+      style={{ paddingTop: "var(--navbar-height, 112px)" }}
     >
+
+
       {/* 🍕 scattered pizzas layer */}
       {/* <PizzaScatterBG /> */}
 
@@ -200,7 +204,7 @@ export default function PoliciesContent() {
           </div>
         ) : (
           <p className="text-center text-orange-700">
-            Please select a policy type from the query params.
+            Please select options from Legal footer
           </p>
         )}
       </div>
